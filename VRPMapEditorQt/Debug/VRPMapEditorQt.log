@@ -1,0 +1,65 @@
+﻿Build started 10/19/2011 12:52:22 AM.
+     1>Project "D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt\VRPMapEditorQt.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\VRPMapEditorQt.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         All outputs are up-to-date.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I.\GeneratedFiles /ID:\QtSDK\QtSources\4.7.2src\include /I.\GeneratedFiles\Debug /ID:\QtSDK\QtSources\4.7.2src\include\qtmain /ID:\QtSDK\QtSources\4.7.2src\include\QtCore /ID:\QtSDK\QtSources\4.7.2src\include\QtGui /ID:\QtSDK\QtSources\4.7.2src\include\QtOpenGL /I.\ /Zi /nologo /W1 /WX- /Od /Oy- /D UNICODE /D WIN32 /D QT_LARGEFILE_SUPPORT /D QT_CORE_LIB /D QT_GUI_LIB /D QT_OPENGL_LIB /Gm- /EHsc /MDd /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Classes\AppMapEdit\RoutesGenerator\ORoutesGenerator.cpp
+         ORoutesGenerator.cpp
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\WorkNew2011\VRP\VRPMapEditorQt\\VRPMapEditorQt.exe" /NOLOGO /LIBPATH:D:\QtSDK\QtSources\4.7.2src\lib qtmaind.lib QtCored4.lib QtGuid4.lib QtOpenGLd4.lib opengl32.lib glu32.lib curllib.lib IL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\VRPMapEditorQt.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt.lib" /MACHINE:X86 Debug\VRPMapEditorQt.res
+         Debug\ccentralwidget.obj
+         Debug\AppBaseState.obj
+         Debug\AppMapEdit.obj
+         Debug\GraphAlgorithm.obj
+         Debug\GraphMap.obj
+         Debug\GraphNode.obj
+         Debug\GraphRoute.obj
+         Debug\InputMapEdit.obj
+         Debug\MapOperations.obj
+         Debug\MapOperationsGraphics.obj
+         Debug\MapOperationsIAccess.obj
+         Debug\MapOperationsInput.obj
+         Debug\OMapEvent.obj
+         Debug\ORoutesGenerator.obj
+         Debug\OVehicleRoute.obj
+         Debug\Draw2D.obj
+         Debug\GLCamera.obj
+         Debug\InputBaseState.obj
+         Debug\InputMgr.obj
+         Debug\Matrix4x4.obj
+         Debug\Quaternion.obj
+         Debug\Vector3.obj
+         Debug\Vector4.obj
+         Debug\math_utils.obj
+         Debug\OTextures.obj
+         Debug\VariousObjects.obj
+         Debug\moc_ccentralwidget.obj
+         Debug\moc_GenerateRoutesUi.obj
+         Debug\moc_GLWidget.obj
+         Debug\moc_MapOperations.obj
+         Debug\moc_MapOperationsGraphics.obj
+         Debug\moc_MapOperationsIAccess.obj
+         Debug\moc_MapOperationsInput.obj
+         Debug\moc_vrpmapeditorqt.obj
+         Debug\qrc_vrpmapeditorqt.obj
+         Debug\GenerateRoutesUi.obj
+         Debug\GLWidget.obj
+         Debug\main.obj
+         Debug\NodeViewDialog.obj
+         Debug\vrpmapeditorqt.obj
+         VRPMapEditorQt.vcxproj -> D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\WorkNew2011\VRP\VRPMapEditorQt\\VRPMapEditorQt.exe;#1" /manifest Debug\VRPMapEditorQt.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Debug\VRPMapEditorQt.unsuccessfulbuild".
+         Touching "Debug\VRPMapEditorQt.lastbuildstate".
+     1>Done Building Project "D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt\VRPMapEditorQt.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.08

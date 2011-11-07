@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/VRPMapEditorQt">
+        <file>Resources/down.png</file>
+        <file>Resources/left.png</file>
+        <file>Resources/right.png</file>
+        <file>Resources/up.png</file>
+        <file>Resources/cinf.png</file>
+        <file>Resources/client.png</file>
+        <file>Resources/connection.png</file>
+        <file>Resources/depot.png</file>
+        <file>Resources/erase.png</file>
+        <file>Resources/inf.png</file>
+        <file>Resources/start.png</file>
+        <file>Resources/transfer.png</file>
+        <file>Resources/move.png</file>
+        <file>Resources/wait.png</file>
+    </qresource>
+</RCC>

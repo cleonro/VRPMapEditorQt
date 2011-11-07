@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="OGraphAlgorithm" Collapsed="true">
+    <Position X="19" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAIgAAAAAIAAABEAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphAlgorithms\GraphAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMapEvent" Collapsed="true">
+    <Position X="19" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAABCAAAAAAAAAAAABAAAAAABgAAQABAAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\OMapEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ORoutesGenerator" Collapsed="true">
+    <Position X="13.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ZEJAUADxCBMoAEAgBEIgQCEAIEAAIgIIAAAKQBCoJQU=</HashCode>
+      <FileName>Classes\AppMapEdit\RoutesGenerator\ORoutesGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OVehicleRoute" Collapsed="true">
+    <Position X="12" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAEKQAA=</HashCode>
+      <FileName>Classes\AppMapEdit\RoutesGenerator\OVehicleRoute.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNodeViewDialog" Collapsed="true">
+    <Position X="17.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAAAAAACAAAQEAAAACBAABAAgAAAgAAAQAgAAAAAAAA=</HashCode>
+      <FileName>NodeViewDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OAppBaseState" Collapsed="true">
+    <Position X="9.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAQAAAAAAAgAAIAQAIAAABAAAEAAABAACAAAAAAA=</HashCode>
+      <FileName>Classes\AppBaseState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OAppManager" Collapsed="true">
+    <Position X="13.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEQAAAAABAAAACAAAAAABAAAEAAAAgBAgAAAAAA=</HashCode>
+      <FileName>Classes\AppBaseState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OAppMapEdit" Collapsed="true">
+    <Position X="9.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQACQAAACAAAgAAAAAAAAAABAAAEAAAAABCIAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\AppMapEdit.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OGraphMap" Collapsed="true">
+    <Position X="12" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAiAAkCAAAAAAhAMEAEAAAAAAAAAAABIIAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphMap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OGraphNode" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAApAACAASAAkgACAAjAAIAACABgAAWUACAIQgAEJAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphNode.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OGraphRoute" Collapsed="true">
+    <Position X="15.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAEAEiAEIAAABAAAAEAAAAAMUCAgwkAgBEA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphRoute.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OInputMapEdit" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAACAACAAAAAAAAAABAAAAQAAAAAAACABAA=</HashCode>
+      <FileName>Classes\AppMapEdit\InputMapEdit.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ODraw2D" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAQAAAAAAAAAcgAhBRAAAEAAEgAAAAEAAA=</HashCode>
+      <FileName>Classes\Draw2D.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OGL3DCamera" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAABJYAAEiJAAAEIACAiIIgAAAEQEoEQIABEEgAAAII=</HashCode>
+      <FileName>Classes\GLCamera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OInputBaseState" Collapsed="true">
+    <Position X="0.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAACAACAAAAAAAACABAAAAQAAAAAAACAAAA=</HashCode>
+      <FileName>Classes\InputBaseState.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OInputMgr" Collapsed="true">
+    <Position X="17.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAABACEAAAAAABABBAAAACEAAAAAAAwBAA=</HashCode>
+      <FileName>Classes\InputMgr.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMatrix4x4" Collapsed="true">
+    <Position X="12" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAEAAAQBAAACAECAQAAAAAAAAAAAIAAAiAAgEAAE=</HashCode>
+      <FileName>Classes\Math\Matrix4x4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OQuaternion" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAEAEAQAAAAAAAAAAAAAAAAAAAIAAAAAgAAgAAAA=</HashCode>
+      <FileName>Classes\Math\Quaternion.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OVector3" Collapsed="true">
+    <Position X="19" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAACAEAAAAAAAEgQQAFYAE=</HashCode>
+      <FileName>Classes\Math\Vector3.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OVector4" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAACAEAAAAAQAEgQQANYAE=</HashCode>
+      <FileName>Classes\Math\Vector4.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OTextures" Collapsed="true">
+    <Position X="15.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Utils\OTextures.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OVariousObjects" Collapsed="true">
+    <Position X="17.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADQAAAAAACACAQEBAAAAAAAABAAAEAAAAQABQAAAiAA=</HashCode>
+      <FileName>Classes\VariousObjects.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VRPMapEditorQt" Collapsed="true">
+    <Position X="13.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAIAIAAFhBAMBEQQAAAAABBCAAAAAAAQBQBAAAAAAA=</HashCode>
+      <FileName>vrpmapeditorqt.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CVehicleCostUi" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BABAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GenerateRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGenerateRoutesUi" Collapsed="true">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAEAAAACAAAAAAAAAAIEAAAAAAAAAAkAA=</HashCode>
+      <FileName>GenerateRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CUiCustomRoutes" Collapsed="true">
+    <Position X="19" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAQAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GenerateRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCentralWidget" Collapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAEAAAAAAAACIAAAEAAgAEgAgAABACAAA=</HashCode>
+      <FileName>ccentralwidget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMapOperations" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAkACACAQAQCkAIAAAAABCCQgAAERIABAEgABAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\MapOperations.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMapOperationsGraphics" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IUCAAABAAAAQCgQAAAAAQAAgAQQAEBQAAIACAAABIAA=</HashCode>
+      <FileName>Classes\AppMapEdit\MapOperationsGraphics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMapOperationsIAccess" Collapsed="true">
+    <Position X="0.5" Y="2" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAACgAAAAAAAgAAAAAAgABRAAAAAAABAGAAAAoAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\MapOperationsIAccess.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OMapOperationsInput" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AGQABAAACAAIAAAAEEBAAkBCFAAAAABEQAAAQEAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\MapOperationsInput.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGLWidget" Collapsed="true">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYMAIAAAHBACAACAGAAAABIAACQAMoBAAAAAgBAgAA=</HashCode>
+      <FileName>GLWidget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_CustomRoutesUi" Collapsed="true">
+    <Position X="6.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YgAAAIAAAAAAIBAAAAAAAAAAAAQAIAAAAAAAAMAABAA=</HashCode>
+      <FileName>GeneratedFiles\ui_CustomRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_FindNodeDlg" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAABAAAAAAAAAAEAQgMAAAAAAAAEAABAA=</HashCode>
+      <FileName>GeneratedFiles\ui_FindNodeUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_GenerateRoutesUi" Collapsed="true">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgEAIIAAAAAAADAwCAAwAgAAAIQAIAAAAAAAAEAAJAA=</HashCode>
+      <FileName>GeneratedFiles\ui_GenerateRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_VehicleCostDlg" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>5wAAAAAEAACAAJBAAAAAAAAAEQwgMAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_VehicleCostUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_CCentralWidget" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4AAAAIANCIAAgDAAKABQEAAAAwQAIAgAAKgAAEBABAg=</HashCode>
+      <FileName>GeneratedFiles\ui_ccentralwidget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_NodeViewDialog" Collapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>oQABACACCgQASABEBAQAACAAUwYgsAAAECAIAAAAEAA=</HashCode>
+      <FileName>GeneratedFiles\ui_nodeviewdialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui_VRPMapEditorQtClass" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQABAAISBAEBQAAAAAgAAIAggAwAIIAwiCCAAgIAgkk=</HashCode>
+      <FileName>GeneratedFiles\ui_vrpmapeditorqt.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::CustomRoutesUi" Collapsed="true">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_CustomRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::FindNodeDlg" Collapsed="true">
+    <Position X="3.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_FindNodeUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::GenerateRoutesUi" Collapsed="true">
+    <Position X="6.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_GenerateRoutesUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::VehicleCostDlg" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_VehicleCostUi.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::CCentralWidget" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_ccentralwidget.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::NodeViewDialog" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_nodeviewdialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ui::VRPMapEditorQtClass" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GeneratedFiles\ui_vrpmapeditorqt.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="tLoadXml" Collapsed="true">
+    <Position X="13.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\MapOperations.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tDjikstraNodeInf" Collapsed="true">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAEACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphAlgorithms\GraphAlgorithm.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tVehicleType" Collapsed="true">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgIAAAAAAAAAAAEAAMQAAAAAIAA=</HashCode>
+      <FileName>Classes\AppMapEdit\RoutesGenerator\ORoutesGenerator.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tNodeInf" Collapsed="true">
+    <Position X="15.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphNode.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tRouteInf" Collapsed="true">
+    <Position X="19" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphRoute.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tRouteNodes" Collapsed="true">
+    <Position X="12" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphRoute.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="tRouteAddr" Collapsed="true">
+    <Position X="17.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggAAAAAA=</HashCode>
+      <FileName>Classes\AppMapEdit\GraphMap\GraphRoute.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="ePolyType" Collapsed="true">
+    <Position X="13.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACQAAAAAAAAAAAAAAACAAIAA=</HashCode>
+      <FileName>Classes\Draw2D.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="eInputStates" Collapsed="true">
+    <Position X="12" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Classes\InputMgr.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

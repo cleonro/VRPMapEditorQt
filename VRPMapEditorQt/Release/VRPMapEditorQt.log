@@ -1,0 +1,22 @@
+﻿Build started 10/19/2011 12:52:04 AM.
+     1>Project "D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt\VRPMapEditorQt.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\VRPMapEditorQt.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       CustomBuild:
+         All outputs are up-to-date.
+       ClCompile:
+         All outputs are up-to-date.
+         All outputs are up-to-date.
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         VRPMapEditorQt.vcxproj -> D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\VRPMapEditorQt.unsuccessfulbuild".
+         Touching "Release\VRPMapEditorQt.lastbuildstate".
+     1>Done Building Project "D:\WorkNew2011\VRP\VRPMapEditorQt\VRPMapEditorQt\VRPMapEditorQt.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.20

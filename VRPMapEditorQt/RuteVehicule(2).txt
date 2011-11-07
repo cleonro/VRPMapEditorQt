@@ -1,0 +1,157 @@
+LUNI
+TIP4: Sf.Gheorghe -> Bita -> Reci -> Comlau; Distanta 23.67; Timp 7.28333; Cost 249.451 | 
+TIP4: Sf.Gheorghe -> Calnic -> Valea Crisului; Distanta 12.1; Timp 7.29033; Cost 203.32 | 
+TIP3: Sf.Gheorghe -> Iaras -> Haghig; Distanta 33.55; Timp 7.7085; Cost 298.006 | 
+TIP6: Sf.Gheorghe -> Dobârlau -> Dobârlau Vale -> Marcus -> Lunca Marcus; Distanta 37.32; Timp 8.774; Cost 335.728 | 
+TIP2: Sf.Gheorghe -> Padureni -> Moacsa; Distanta 24.2; Timp 5.97683; Cost 223.808 | 
+TIP4: Sf.Gheorghe -> Aita Medie -> Aita Mare; Distanta 30.6; Timp 6.4285; Cost 259.006 | 
+TIP1: Sf.Gheorghe -> Belin Vale -> Belin; Distanta 38.85; Timp 8.61617; Cost 338.494 | 
+TIP5: Bixad -> Zagon -> Sf.Gheorghe -> Zagon -> Sf.Gheorghe; Distanta 207.43; Timp 19.1845; Cost 1237.39 | 
+TIP5: Ghelinta -> Ojdula -> Tg.Secuiesc; Distanta 23.33; Timp 10.6382; Cost 319.381 | 
+TIP5: Bixad -> Sf.Gheorghe -> Malnas Sat -> Malnas Bai -> Sf.Gheorghe; Distanta 70.81; Timp 5.623; Cost 402.729 | 
+MARTI
+TIP4: Sf.Gheorghe -> Tufalau -> Saciova -> Aninoasa -> Sf.Gheorghe -> Zalan; Distanta 65.15; Timp 5.49633; Cost 377.397 | 
+TIP4: Sf.Gheorghe -> Olteni -> Arcus; Distanta 26.23; Timp 7.99533; Cost 274.821 | 
+TIP3: Sf.Gheorghe -> Ariusd -> Araci -> Vâlcele; Distanta 42.54; Timp 8.78317; Cost 356.802 | 
+TIP6: Sf.Gheorghe -> Vârghis; Distanta 53.28; Timp 8.42267; Cost 392.102 | 
+TIP2: Sf.Gheorghe -> Comandau; Distanta 52.49; Timp 5.21867; Cost 320.857 | 
+TIP4: Sf.Gheorghe -> Doboseni -> Talisoara; Distanta 58.34; Timp 7.97667; Cost 402.864 | 
+TIP5: Bixad -> Zagon -> Sf.Gheorghe -> Papauti -> Sf.Gheorghe; Distanta 196.55; Timp 13.5488; Cost 1074.11 | 
+TIP5: Ghelinta -> Surcea -> Tamasfalau -> Peteni -> Sf.Gheorghe; Distanta 75.62; Timp 4.7355; Cost 403.109 | 
+TIP5: Bixad -> Micfalau -> Sf.Gheorghe; Distanta 29.77; Timp 9.74733; Cost 326.211 | 
+MIERCURI
+TIP4: Sf.Gheorghe -> Zoltan -> Ghidfalau; Distanta 14.03; Timp 3.68117; Cost 134.345 | 
+TIP4: Sf.Gheorghe -> Dobolii de Jos -> Ilieni -> Sâncraiu; Distanta 20.31; Timp 7.3995; Cost 238.479 | 
+TIP3: Sf.Gheorghe -> Ozun; Distanta 10.16; Timp 8.21167; Cost 215.138 | 
+TIP6: Sf.Gheorghe -> Filia -> Bradut -> Zoltan; Distanta 103.22; Timp 9.28817; Cost 610.254 | 
+TIP2: Sf.Gheorghe -> Dobolii de Sus -> Borosneu Mare; Distanta 31.49; Timp 5.65017; Cost 246.026 | 
+TIP4: Sf.Gheorghe -> Oituz -> Martanus -> Tg.Secuiesc -> Bretcu; Distanta 89.96; Timp 12.027; Cost 615.414 | 
+TIP5: Bixad -> Catalina -> Sf.Gheorghe; Distanta 75.83; Timp 5.62033; Cost 422.752 | 
+TIP5: Ghelinta -> Sf.Gheorghe; Distanta 43.88; Timp 0.831667; Cost 193.193 | 
+TIP5: Bixad -> Marcusa -> Imeni -> Martineni -> Hatuica -> Sf.Gheorghe; Distanta 107.92; Timp 7.52867; Cost 591.664 | 
+TIP5: Bixad -> Brates -> Telechia -> Pachia -> Sf.Gheorghe; Distanta 89.77; Timp 11.184; Cost 596.74 | 
+JOI
+TIP4: Sf.Gheorghe -> Fotos -> Anghelus; Distanta 13.06; Timp 2.14783; Cost 97.8815 | 
+TIP4: Sf.Gheorghe -> Coseni -> Chilieni; Distanta 11.92; Timp 6.25717; Cost 180.645 | 
+TIP3: Sf.Gheorghe -> Lunca Ozunului -> Magherus -> Sântionlunca; Distanta 42.12; Timp 7.3205; Cost 324.041 | 
+TIP6: Sf.Gheorghe -> Herculian -> Batanii Mici -> Ozunca Bai; Distanta 67.65; Timp 5.87317; Cost 395.405 | 
+TIP2: Sf.Gheorghe -> Valea Mare -> Borosneu Mic; Distanta 27.42; Timp 6.1305; Cost 239.953 | 
+TIP4: Sf.Gheorghe -> Lutoasa -> Mereni; Distanta 53.2; Timp 6.98633; Cost 361.26 | 
+TIP5: Bixad -> Poian -> Belani -> Tg.Secuiesc -> Petriceni -> Valea Seaca -> Casinu Mic -> Tg.Secuiesc; Distanta 87.53; Timp 15.2087; Cost 673.304 | 
+TIP5: Ghelinta -> Sf.Gheorghe; Distanta 43.88; Timp 0.831667; Cost 193.193 | 
+TIP5: Bixad -> Turia -> Tg.Secuiesc; Distanta 35.43; Timp 10.568; Cost 366.29 | 
+VINERI
+TIP4: Sf.Gheorghe -> Bodoc; Distanta 10.95; Timp 2.78283; Cost 102.935 | 
+TIP4: Sf.Gheorghe -> Bacel -> Chichis; Distanta 24.58; Timp 6.708; Cost 240.865 | 
+TIP3: Sf.Gheorghe -> Bicfalau -> Lisnau Vale -> Lisnau; Distanta 30.03; Timp 6.81683; Cost 264.978 | 
+TIP6: Sf.Gheorghe -> Valea Zalanului -> Aita Seaca -> Batanii Mari; Distanta 37.54; Timp 8.15117; Cost 323.372 | 
+TIP2: Sf.Gheorghe -> Dalnic -> Let; Distanta 34.07; Timp 7.1125; Cost 287.421 | 
+TIP4: Sf.Gheorghe -> Lemnia; Distanta 49.22; Timp 7.89; Cost 364.543 | 
+TIP5: Bixad -> Sânzieni -> Tg.Secuiesc -> Sânzieni -> Tg.Secuiesc; Distanta 52.63; Timp 12.5582; Cost 477.381 | 
+TIP5: Ghelinta -> Zabala -> Sf.Gheorghe; Distanta 45.56; Timp 7.73; Cost 346.503 | 
+TIP5: Bixad -> Balvanyos -> Turia -> Tg.Secuiesc; Distanta 35.43; Timp 10.568; Cost 366.29 | 
+
+Cantitati ramase
+1. Reci   0  (16.07)  (1)
+2. Bita   0  (3.12)  (0)
+3. Comlau   0  (1.17)  (0)
+4. Tufalau   0  (2.01)  (0)
+5. Aninoasa   0  (4.46)  (1)
+6. Saciova   0  (1.22)  (2)
+7. Zalan   0  (6.52)  (0)
+8. Zoltan   0  (4.83)  (0)
+9. Ghidfalau   0  (12.4)  (2)
+10. Fotos   0  (4.12)  (1)
+11. Anghelus   0  (7.67)  (1)
+12. Bodoc   0  (12.83)  (0)
+13. Calnic   0  (3.51)  (0)
+14. Valea Crisului   0  (10.01)  (0)
+15. Olteni   0  (8.05)  (1)
+16. Dobolii de Jos   0  (5.77)  (1)
+17. Ilieni   0  (9.93)  (0)
+18. Sâncraiu   0  (3.1)  (0)
+19. Chilieni   0  (6.91)  (0)
+20. Coseni   0  (5.36)  (1)
+21. Bacel   0  (4.26)  (1)
+22. Chichis   0  (7.6)  (0)
+23. Iaras   0  (4.55)  (2)
+24. Haghig   0  (15.69)  (3)
+25. Ariusd   0  (4.92)  (2)
+26. Araci   0  (12.44)  (1)
+27. Vâlcele   0  (8.81)  (0)
+28. Ozun   32.3  (32.3)  (-1)
+29. Lunca Ozunului   0  (1.77)  (0)
+30. Magherus   0  (0.77)  (2)
+31. Sântionlunca   0  (9.57)  (0)
+32. Bicfalau   0  (4.21)  (1)
+33. Lisnau   0  (5.08)  (1)
+34. Lisnau Vale   0  (5.08)  (1)
+35. Dobârlau   0  (9.95)  (1)
+36. Lunca Marcus   0  (3.62)  (1)
+37. Marcus   0  (3.98)  (1)
+38. Dobârlau Vale   0  (3.04)  (2)
+39. Vârghis   17.06  (17.06)  (-1)
+40. Filia   0  (7.88)  (4)
+41. Bradut   0  (5.96)  (4)
+42. Herculian   0  (8.44)  (3)
+43. Batanii Mici   0  (3.99)  (3)
+44. Ozunca Bai   0  (0.33)  (3)
+45. Aita Seaca   0  (6.36)  (2)
+46. Valea Zalanului   0  (1.35)  (2)
+47. Batanii Mari   0  (14.03)  (4)
+48. Padureni   0  (2.66)  (0)
+49. Moacsa   0  (7.63)  (1)
+50. Comandau   0  (6.5)  (4)
+51. Dobolii de Sus   0  (2.16)  (1)
+52. Borosneu Mare   0  (11.68)  (1)
+53. Valea Mare   0  (5.64)  (2)
+54. Borosneu Mic   0  (3.22)  (1)
+55. Dalnic   0  (5.94)  (2)
+56. Let   0  (5.13)  (0)
+57. Aita Mare   0  (5.84)  (2)
+58. Aita Medie   0  (5.16)  (2)
+59. Doboseni   11.2  (11.2)  (-1)
+60. Talisoara   0  (4.82)  (4)
+61. Martanus   0  (4.03)  (4)
+62. Bretcu   13.46  (13.46)  (-1)
+63. Oituz   0  (1.52)  (3)
+64. Lutoasa   0  (3.9)  (4)
+65. Mereni   0  (8.43)  (4)
+66. Lemnia   10.65  (10.65)  (-1)
+67. Belin   0  (7.29)  (3)
+68. Belin Vale   0  (6.81)  (3)
+69. Bixad   0  (6.77)  (2)
+70. Zagon   27.65  (27.65)  (-1)
+71. Papauti   0  (8.63)  (3)
+72. Catalina   0  (16.14)  (4)
+73. Belani   0  (5.03)  (3)
+74. Poian   13.64  (13.64)  (-1)
+75. Casinu Mic   0  (1.99)  (3)
+76. Petriceni   0  (6.8)  (3)
+77. Valea Seaca   0  (4.34)  (3)
+78. Sânzieni   0  (19.27)  (4)
+79. Ghelinta   58  (58)  (-1)
+80. Ojdula   28.71  (28.71)  (-1)
+81. Tamasfalau   0  (5.32)  (2)
+82. Surcea   0  (6.52)  (1)
+83. Peteni   0  (1.9)  (3)
+84. Zabala   33.17  (33.17)  (-1)
+85. Malnas Bai   0  (4.93)  (2)
+86. Malnas Sat   0  (5.39)  (1)
+87. Micfalau   15.87  (15.87)  (-1)
+88. Marcusa   0  (7.09)  (1)
+89. Imeni   0  (3.33)  (3)
+90. Martineni   0  (6.13)  (2)
+91. Hatuica   0  (4.98)  (2)
+92. Balvanyos   0  (0)  (-1)
+93. Turia   30.7  (30.7)  (-1)
+94. Turia de Jos   0  (0)  (-1)
+95. Telechia   0  (5.48)  (2)
+96. Brates   0  (5.53)  (2)
+97. Pachia   0  (2.87)  (2)
+98. Arcus   0  (11.44)  (1)
+99. Alungeni   0  (2.18)  (3)
+100. Harale   0  (4.47)  (3)
+101. Hilib   0  (2.58)  (3)
+
+ Distanta totala 2390.62

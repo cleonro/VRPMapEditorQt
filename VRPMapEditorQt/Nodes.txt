@@ -1,0 +1,104 @@
+1.sf.gheorghe
+2.reci
+3.bita
+4.comlau
+5.tufalau
+6.aninoasa
+7.saciova
+8.zalan
+9.zoltan
+10.ghidfalau
+11.fotos
+12.anghelus
+13.bodoc
+14.calnic
+15.valea crisului
+16.olteni
+17.dobolii de jos
+18.ilieni
+19.sâncraiu
+20.chilieni
+21.coseni
+22.bacel
+23.chichis
+24.iaras
+25.haghig
+26.ariusd
+27.araci
+28.vâlcele
+29.ozun
+30.lunca ozunului
+31.magherus
+32.sântionlunca
+33.bicfalau
+34.lisnau
+35.lisnau vale
+36.dobârlau
+37.lunca marcus
+38.marcus
+39.dobârlau vale
+40.vârghis
+41.filia
+42.bradut
+43.herculian
+44.batanii mici
+45.ozunca bai
+46.aita seaca
+47.valea zalanului
+48.batanii mari
+49.padureni
+50.moacsa
+51.comandau
+52.dobolii de sus
+53.borosneu mare
+54.valea mare
+55.borosneu mic
+56.dalnic
+57.let
+58.aita mare
+59.aita medie
+60.doboseni
+61.talisoara
+62.martanus
+63.bretcu
+64.oituz
+65.lutoasa
+66.mereni
+67.lemnia
+68.belin
+69.belin vale
+70.bixad
+71.zagon
+72.papauti
+73.catalina
+74.belani
+75.poian
+76.casinu mic
+77.petriceni
+78.valea seaca
+79.sânzieni
+80.ghelinta
+81.ojdula
+82.tamasfalau
+83.surcea
+84.peteni
+85.zabala
+86.malnas bai
+87.malnas sat
+88.micfalau
+89.marcusa
+90.imeni
+91.martineni
+92.hatuica
+93.balvanyos
+94.turia
+95.turia de jos
+96.telechia
+97.brates
+98.pachia
+99.arcus
+100.alungeni
+101.harale
+102.hilib
+103.moacsa 
+104.tg.secuiesc
