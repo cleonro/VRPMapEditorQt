@@ -54,6 +54,8 @@ public:
 
 protected:
 	void DecodeVehicleTypesText(char vehicle_types[]);
+	void DecodeVehicleCostsText(char vehicle_costs[]);
+	void EncodeVehicleCosts(char* vehicles_costs);
 
 	OGraphMap* p_graph_map_;//?
 	bool initialized_;

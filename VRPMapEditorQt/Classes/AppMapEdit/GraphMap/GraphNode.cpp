@@ -12,6 +12,10 @@ QDataStream& operator<<(QDataStream& ar, const OGraphNode& node)
 	ar<<node.type_<<node.latitude_<<node.longitude_<<str_name;
 	if(node.type_ == OGraphNode::N_START) {
 		QString str_vehicles(node.vehicles_);
+		if(strcmp(node.vehicles_cost_, "") != 0) {
+			str_vehicles += " | ";
+			str_vehicles += node.vehicles_cost_;
+		}
 		ar<<str_vehicles;
 	} else {
 		ar<<node.waiting_time_<<node.quantity_;
@@ -49,7 +53,19 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 	if(node.type_ == OGraphNode::N_START) {
 		QString str_vehicles;
 		ar>>str_vehicles;
-		strncpy(node.vehicles_, str_vehicles.toAscii().data(), 200);
+		//str_vehicles = nb_vehtip1 name_tip1 cap_tip1 ... | [costs_veh1]...
+		//"|" separates vehicle types from vehicle costs
+		char* costs = strrchr(str_vehicles.toAscii().data(), '|');
+		char* vehicles = str_vehicles.toAscii().data(); 
+		if(costs != NULL) {
+			costs[0] = '\0';
+			costs++;
+			strncpy(node.vehicles_cost_, costs, 500);
+		} else {
+			strcpy(node.vehicles_cost_, "");
+		}
+		strncpy(node.vehicles_, vehicles, 500);
+		
 	} else {
 		ar>>node.waiting_time_>>node.quantity_;
 	}
@@ -70,6 +86,7 @@ OGraphNode::OGraphNode()
 
 	//vehicles_.reserve(10);
 	strcpy_s(vehicles_, "");
+	strcpy_s(vehicles_cost_, "");
 
 	accesib_index_ = 1.0;
 	locals_ = 100;

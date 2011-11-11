@@ -192,6 +192,52 @@ void ORoutesGenerator::DecodeVehicleTypesText(char vehicle_types[])
 	}
 }
 
+void ORoutesGenerator::DecodeVehicleCostsText(char vehicle_costs[])
+{
+	int i = 0;
+	int n = strlen(vehicle_costs);
+	char* ctemp = new char[n + 1];
+	strcpy(ctemp, vehicle_costs);
+	float cost_gas_idle; //gas cos for idle time / (hour)
+	float cost_gas;//gas cost / kilometer
+	float cost_maint;//maintenance cost / (hour)
+	float cost_equip;//equipment cost / (hour)
+	float cost_sal;//personnel sallaries cost / (hour)
+	char* c = strchr(ctemp, '[');
+	char* cd;
+	while(c != NULL && i < vehicles_.size()) {
+		c++;
+		cd = strchr(c, ']');
+		if(cd == NULL) {
+			break;
+		}
+		*cd = '\0';
+		cd++;
+
+		sscanf(c, "%f %f %f %f %f", &cost_gas_idle, &cost_gas, &cost_maint, &cost_equip, &cost_sal);
+		vehicles_[i].cost_gas_idle_ = cost_gas_idle;
+		vehicles_[i].cost_gas_ = cost_gas;
+		vehicles_[i].cost_maint_ = cost_maint;
+		vehicles_[i].cost_equip_ = cost_equip;
+		vehicles_[i].cost_sal_ = cost_sal;
+
+		c = strchr(cd, '[');
+		i++;
+	}
+
+	delete [] ctemp;
+}
+
+void ORoutesGenerator::EncodeVehicleCosts(char* vehicles_costs)
+{
+	char temp[70];
+	for(int i = 0; i < vehicles_.size(); i++) {
+		sprintf(temp, " [%.2f %.2f %.2f %.2f %.2f] ", vehicles_[i].cost_gas_idle_, vehicles_[i].cost_gas_,
+												vehicles_[i].cost_maint_, vehicles_[i].cost_equip_, vehicles_[i].cost_sal_);
+		strcat(vehicles_costs, temp);
+	}
+}
+
 void ORoutesGenerator::InitDaysQuantities()
 {
 	const int N = p_graph_map_->GetSize();
@@ -256,7 +302,9 @@ void ORoutesGenerator::Init(OGraphMap& graph_map)
 
 	if(start_node_ >= 0) {
 		char* vh = graph_map.GetNode(start_node_)->Vehicles();
+		char* vhc = graph_map.GetNode(start_node_)->VehiclesCost();
 		DecodeVehicleTypesText(vh);
+		DecodeVehicleCostsText(vhc);
 	}
 
 	//init all_routes_

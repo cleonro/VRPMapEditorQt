@@ -50,6 +50,7 @@ public:
 	tNodeInf GetNodeInf();
 	inline char* GetName() {return name_;}
 	inline char* Vehicles() {return vehicles_;}
+	inline char* VehiclesCost() {return vehicles_cost_;}
 
 	virtual void Draw(float transparency = 0.7);
 
@@ -82,7 +83,8 @@ protected:
 					//or capacity for a depot/transit node
 	//start node information
 	//std::vector<tVehicleType> vehicles_;
-	char vehicles_[200];
+	char vehicles_[500];
+	char vehicles_cost_[500];
 	
 	//node "special" informations
 	float accesib_index_;//accesibility index
