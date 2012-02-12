@@ -5,6 +5,7 @@
 #include "GraphAlgorithms/GraphAlgorithm.h"
 #include <math.h>
 #include "../AppBaseState.h"
+#include "../../UiModels.h"
 
 #include <fstream>
 #include <iostream>
@@ -208,6 +209,7 @@ void OMapOperationsInput::OnClick(int x, int y)
 	if(i >= 0 && action_state_ == MAP_DEL) {
 
 		//delete a node
+		UIMDLS.UpdateItemInCListModel(graph_.GetNode(i), true);
 		graph_.DeleteNode(i);
 		emit mapChanged();
 	}
@@ -242,27 +244,28 @@ void OMapOperationsInput::OnClick(int x, int y)
 	node_[0] = new OGraphNode;
 	node_[0]->SetCoordinates(lat, longit);
 	switch(action_state_) {
-	case MAP_ADD_NODE_CL:
-		node_[0]->SetType(OGraphNode::N_CLIENT);
-		opf = true;
-		break;
-	case MAP_ADD_NODE_ST:
-		node_[0]->SetType(OGraphNode::N_START);
-		opf = true;
-		break;
-	case MAP_ADD_NODE_DP:
-		node_[0]->SetType(OGraphNode::N_DEPOT);
-		opf = true;
-		break;
-	case MAP_ADD_NODE_TR:
-		node_[0]->SetType(OGraphNode::N_TRANSIT);
-		opf = true;
-		break;
-	default:
-		break;
+		case MAP_ADD_NODE_CL:
+			node_[0]->SetType(OGraphNode::N_CLIENT);
+			opf = true;
+			break;
+		case MAP_ADD_NODE_ST:
+			node_[0]->SetType(OGraphNode::N_START);
+			opf = true;
+			break;
+		case MAP_ADD_NODE_DP:
+			node_[0]->SetType(OGraphNode::N_DEPOT);
+			opf = true;
+			break;
+		case MAP_ADD_NODE_TR:
+			node_[0]->SetType(OGraphNode::N_TRANSIT);
+			opf = true;
+			break;
+		default:
+			break;
 	}
 	if(opf) {
 		graph_.AddNode(node_[0]);
+		UIMDLS.AddItemToClistModel(node_[0]);
 		emit mapChanged();
 		return;
 	}
@@ -296,7 +299,7 @@ void OMapOperationsInput::EditNodeInf()
 	node_dialog.mName = node_[0]->GetName();
 	node_dialog.mTime =  node_info.waiting_time_;
 	node_dialog.mQuantity = node_info.quantity_;
-	node_dialog.mVehicles = node_[0]->Vehicles();
+	node_dialog.mVehicles = node_[0]->Vehicles().c_str();
 
 	node_dialog.mAccessibility = node_[0]->Accesibility();
 	node_dialog.mHabitants = node_[0]->Locals();
@@ -314,12 +317,14 @@ void OMapOperationsInput::EditNodeInf()
 
 		node_[0]->SetNodeInf(node_info);
 
-		strncpy(node_[0]->Vehicles(), node_dialog.mVehicles.toAscii().data(), 200);
+		//strncpy(node_[0]->Vehicles(), node_dialog.mVehicles.toAscii().data(), 200);
+		node_[0]->Vehicles() = node_dialog.mVehicles.toAscii().data();
 
 		node_[0]->Accesibility() = node_dialog.mAccessibility;
 		node_[0]->Locals() = node_dialog.mHabitants;
 		node_[0]->Contracts() = node_dialog.mContracts;
 		node_[0]->Price() = node_dialog.mPrice;
+		UIMDLS.UpdateItemInCListModel(node_[0]);
 		emit mapChanged();
 	}
 }
@@ -481,16 +486,16 @@ void OMapOperationsInput::SetMapType(char mtp[])
 	GetImageFromGoogle();
 }
 
-void OMapOperationsInput::TestGenerator()
-{
-	printf("\nTest Custom Routes...\n");
-	generator_.Init(graph_);
-	generator_.ParseCustomRoutesFile("Rute_existente.txt");
-	//return;
-	generator_.InitDaysQuantities();
-	generator_.FindRoutes();
-	generator_.PrintRoutes();
-}
+// void OMapOperationsInput::TestGenerator()
+// {
+// 	printf("\nTest Custom Routes...\n");
+// 	generator_.Init(graph_);
+// 	generator_.ParseCustomRoutesFile("Rute_existente.txt");
+// 	//return;
+// 	generator_.InitDaysQuantities();
+// 	generator_.FindRoutes();
+// 	generator_.PrintRoutes();
+// }
 
 void OMapOperationsInput::FindNode(const char* name, int index)
 {

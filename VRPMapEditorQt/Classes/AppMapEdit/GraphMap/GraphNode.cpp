@@ -11,11 +11,11 @@ QDataStream& operator<<(QDataStream& ar, const OGraphNode& node)
 	QString str_name = QString(node.name_);
 	ar<<node.type_<<node.latitude_<<node.longitude_<<str_name;
 	if(node.type_ == OGraphNode::N_START) {
-		QString str_vehicles(node.vehicles_);
-		if(strcmp(node.vehicles_cost_, "") != 0) {
-			str_vehicles += " | ";
-			str_vehicles += node.vehicles_cost_;
-		}
+		QString str_vehicles(node.vehicles_.c_str());
+// 		if(strcmp(node.vehicles_cost_, "") != 0) {
+// 			str_vehicles += " | ";
+// 			str_vehicles += node.vehicles_cost_;
+// 		}
 		ar<<str_vehicles;
 	} else {
 		ar<<node.waiting_time_<<node.quantity_;
@@ -53,18 +53,22 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 	if(node.type_ == OGraphNode::N_START) {
 		QString str_vehicles;
 		ar>>str_vehicles;
+		node.vehicles_ = str_vehicles.toAscii().constData();
 		//str_vehicles = nb_vehtip1 name_tip1 cap_tip1 ... | [costs_veh1]...
 		//"|" separates vehicle types from vehicle costs
-		char* costs = strrchr(str_vehicles.toAscii().data(), '|');
-		char* vehicles = str_vehicles.toAscii().data(); 
-		if(costs != NULL) {
-			costs[0] = '\0';
-			costs++;
-			strncpy(node.vehicles_cost_, costs, 500);
-		} else {
-			strcpy(node.vehicles_cost_, "");
-		}
-		strncpy(node.vehicles_, vehicles, 500);
+		
+// 		char vehicles[500];
+// 		strncpy(vehicles, str_vehicles.toAscii().data(), 500);
+// 		char* costs = strrchr(vehicles, '|');
+// 		 
+// 		if(costs != NULL) {
+// 			costs[0] = '\0';
+// 			costs++;
+// 			strncpy(node.vehicles_cost_, costs, 500);
+// 		} else {
+// 			strcpy(node.vehicles_cost_, "");
+// 		}
+// 		strncpy(node.vehicles_, vehicles, 500);
 		
 	} else {
 		ar>>node.waiting_time_>>node.quantity_;
@@ -85,8 +89,9 @@ OGraphNode::OGraphNode()
 	quantity_ = 0.0;
 
 	//vehicles_.reserve(10);
-	strcpy_s(vehicles_, "");
-	strcpy_s(vehicles_cost_, "");
+	//strcpy_s(vehicles_, "");
+	//strcpy_s(vehicles_cost_, "");
+	vehicles_ = "";
 
 	accesib_index_ = 1.0;
 	locals_ = 100;
@@ -209,7 +214,7 @@ void OGraphNode::ToXml(rapidxml::xml_document<>& doc, rapidxml::xml_node<>*& nod
 	str = doc.allocate_string(buff, 20);
 	rapidxml::xml_node<>* nxtimequant = doc.allocate_node(rapidxml::node_element, "TIME_QUANT", str);
 	//vehicles
-	str = doc.allocate_string(vehicles_, 200);
+	str = doc.allocate_string(vehicles_.c_str(), vehicles_.size() + 1);
 	rapidxml::xml_node<>* nxveh = doc.allocate_node(rapidxml::node_element, "VEHICLES", str);
 	//special informations
 	char nbuff[30];
@@ -239,7 +244,9 @@ void OGraphNode::FromXml(rapidxml::xml_node<>* node)
 	//waiting time & quantity
 	r = sscanf(node->first_node("TIME_QUANT")->value(), "%f %f", &waiting_time_, &quantity_);
 	//vehicles
-	strcpy(vehicles_, node->first_node("VEHICLES")->value());
+	//strcpy(vehicles_, node->first_node("VEHICLES")->value());
+	vehicles_ = node->first_node("VEHICLES")->value();
+
 	//special informations
 	r = sscanf(node->first_node("SPECIAL_INF")->value(), "%f %d %d %f", &accesib_index_, &locals_, &contracts_, &price_);
 }

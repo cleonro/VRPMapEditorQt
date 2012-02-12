@@ -4,17 +4,18 @@
 #include <process.h>
 #include <QFileDialog>
 #include <fstream>
+#include "UiModels.h"
 
 CGenerateRoutesUi::CGenerateRoutesUi(QWidget* parent) : QDialog(parent)
 {
 	ui_.setupUi(this);
 
-	ui_.treeView->setModel(MAPOPP.GetGenerator().GetUiModel());
+	//ui_.treeView->setModel(MAPOPP.GetGenerator().GetUiModel());
+	UIMDLS.SetUiForRoutesModel(ui_.treeView);
 	ui_.treeView->expandAll();
 	if(!MAPOPP.GetGenerator().Initialized()) {
 		ui_.toolButtonAll->setDisabled(true);
 		ui_.toolButtonOne->setDisabled(true);
-		ui_.toolButtonCost->setDisabled(true);
 		ui_.toolButtonSave->setDisabled(true);
 		ui_.toolButtonReset->setDisabled(true);
 	} else {
@@ -23,8 +24,9 @@ CGenerateRoutesUi::CGenerateRoutesUi(QWidget* parent) : QDialog(parent)
 	ui_.progressBarInitializing->hide();
 	ui_.labelInitializing->hide();
 
-	connect(ui_.treeView, SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
-						this, SLOT(OnCurrentChanged(const QModelIndex&, const QModelIndex&)));
+// 	QItemSelectionModel* sel_model = ui_.treeView->selectionModel();
+// 	connect(sel_model, SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
+// 			this, SLOT(OnCurrentChanged(const QModelIndex&, const QModelIndex&)));
 }
 
 
@@ -35,7 +37,7 @@ CGenerateRoutesUi::~CGenerateRoutesUi()
 
 void CGenerateRoutesUi::Show()
 {
-	ui_.treeView->setModel(MAPOPP.GetGenerator().GetUiModel());
+	//ui_.treeView->setModel(MAPOPP.GetGenerator().GetUiModel());
 	this->show();
 }
 
@@ -131,7 +133,6 @@ void CGenerateRoutesUi::OnButtonInit()
 
 	 dlg->ui_.toolButtonAll->setEnabled(true);
 	 dlg->ui_.toolButtonOne->setEnabled(true);
-	 dlg->ui_.toolButtonCost->setDisabled(false);
 	 dlg->ui_.toolButtonSave->setDisabled(false);
 	 dlg->ui_.toolButtonReset->setDisabled(false);
  }
@@ -142,86 +143,29 @@ void CGenerateRoutesUi::OnButtonInit()
 
 	 this->ui_.toolButtonAll->setEnabled(false);
 	 this->ui_.toolButtonOne->setEnabled(false);
-	 this->ui_.toolButtonCost->setDisabled(true);
 	 this->ui_.toolButtonSave->setDisabled(true);
 	 this->ui_.toolButtonReset->setDisabled(true);
 
 	 emit showRead(false);
-
-	 ui_.treeView->setModel( MAPOPP.GetGenerator().GetUiModel());
+	 UIMDLS.ClearRoutesModel();
+	 //ui_.treeView->setModel( MAPOPP.GetGenerator().GetUiModel());
  }
-
- void CGenerateRoutesUi::OnButtonCost()
- {
-	 CVehicleCostUi dlg;
-	 dlg.exec();
- }
- 
+  
  void CGenerateRoutesUi::OnCurrentChanged(const QModelIndex& current, const QModelIndex& previous)
  {
 	printf("\n OnCurrentChanged\n");
  }
-
- //class CVehicleCostUi
-
- CVehicleCostUi::CVehicleCostUi(QWidget* parent) : QDialog(parent)
- {
-	 ui_.setupUi(this);
-	 ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	 for(int i = 0; i < generator.vehicles_.size(); i++) {
-		ui_.comboVehType->addItem(generator.vehicles_[i].name_);
-	 }
- }
-
-CVehicleCostUi::~CVehicleCostUi()
-{
-
-}
-
-void CVehicleCostUi::OnButtonMem()
-{
-	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	int idx = ui_.comboVehType->currentIndex();
-	float cost_idle = atof(ui_.lineIdle->text().toAscii().data());
-	float cost_gas = atof(ui_.lineGas->text().toAscii().data());
-	float cost_maint = atof(ui_.lineMaint->text().toAscii().data());
-	float cost_equip = atof(ui_.lineEquip->text().toAscii().data());
-	float cost_sal = atof(ui_.lineSal->text().toAscii().data());
-	if(cost_idle > 0) {
-		generator.vehicles_[idx].cost_gas_idle_ = cost_idle;
-	}
-	if(cost_gas > 0) {
-		generator.vehicles_[idx].cost_gas_ = cost_gas;
-	}
-	if(cost_maint > 0) {
-		generator.vehicles_[idx].cost_maint_ = cost_maint;
-	}
-	if(cost_equip > 0) {
-		generator.vehicles_[idx].cost_equip_ = cost_equip;
-	}
-	if(cost_sal > 0) {
-		generator.vehicles_[idx].cost_sal_ = cost_sal;
-	}
-}
-
-void CVehicleCostUi::OnIndexChanged(int idx)
-{
-	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	ui_.lineIdle->setText(QString("%1").arg(generator.vehicles_[idx].cost_gas_idle_));
-	ui_.lineGas->setText(QString("%1").arg(generator.vehicles_[idx].cost_gas_));
-	ui_.lineMaint->setText(QString("%1").arg(generator.vehicles_[idx].cost_maint_));
-	ui_.lineEquip->setText(QString("%1").arg(generator.vehicles_[idx].cost_equip_));
-	ui_.lineSal->setText(QString("%1").arg(generator.vehicles_[idx].cost_sal_));
-}
-
+ 
 //class CUiCustomRoutes
 CUiCustomRoutes::CUiCustomRoutes(QWidget* parent) : QDialog(parent)
 {
 	ORoutesGenerator& generator = MAPOPP.GetGenerator();
 	ui_.setupUi(this);
-	ui_.treeView->setModel(generator.customRoutesUiModel_);
+	//ui_.treeView->setModel(generator.customRoutesUiModel_);
+	UIMDLS.SetUiForRoutesModel(ui_.treeView, 1);
 	ui_.treeView->expandAll();
-	ui_.listView->setModel(generator.unidentifiedNodesUiModel_);
+	//ui_.listView->setModel(generator.unidentified_nodes_ui_model_);
+	UIMDLS.SetUiForUnidentifiedNodesModel(ui_.listView);
 
 	ui_.pushButton->setEnabled(false);
 	ui_.toolButton->setEnabled(false);
@@ -234,8 +178,8 @@ CUiCustomRoutes::~CUiCustomRoutes()
 
 void CUiCustomRoutes::Show()
 {
-	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	ui_.treeView->setModel(generator.customRoutesUiModel_);
+	//ORoutesGenerator& generator = MAPOPP.GetGenerator();
+	//ui_.treeView->setModel(generator.customRoutesUiModel_);
 	this->show();
 }
 
@@ -244,8 +188,8 @@ void CUiCustomRoutes::ShowRead(bool show)
 	ui_.pushButton->setEnabled(show);
 	ui_.toolButton->setEnabled(show);
 
-	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	ui_.treeView->setModel(generator.customRoutesUiModel_);
+	//ORoutesGenerator& generator = MAPOPP.GetGenerator();
+	//ui_.treeView->setModel(generator.customRoutesUiModel_);
 }
 
 void CUiCustomRoutes::Clear()
@@ -263,7 +207,8 @@ void CUiCustomRoutes::OnReadFileButton()
 	ORoutesGenerator& generator = MAPOPP.GetGenerator();
 	
 	generator.ClearCustomRoutes();
- 	ui_.treeView->setModel(generator.customRoutesUiModel_);
+	UIMDLS.ClearRoutesModel(1);
+// 	ui_.treeView->setModel(generator.customRoutesUiModel_);
 
 	generator.InitDaysQuantities();
 	generator.ParseCustomRoutesFile(file_name.toAscii().data());

@@ -47,58 +47,56 @@
 47.valea zalanului
 48.batanii mari
 49.padureni
-50.moacsa
-51.comandau
-52.dobolii de sus
-53.borosneu mare
-54.valea mare
-55.borosneu mic
-56.dalnic
-57.let
-58.aita mare
-59.aita medie
-60.doboseni
-61.talisoara
-62.martanus
-63.bretcu
-64.oituz
-65.lutoasa
-66.mereni
-67.lemnia
-68.belin
-69.belin vale
-70.bixad
-71.zagon
-72.papauti
-73.catalina
-74.belani
-75.poian
-76.casinu mic
-77.petriceni
-78.valea seaca
-79.sânzieni
-80.ghelinta
-81.ojdula
-82.tamasfalau
-83.surcea
-84.peteni
-85.zabala
-86.malnas bai
-87.malnas sat
-88.micfalau
-89.marcusa
-90.imeni
-91.martineni
-92.hatuica
-93.balvanyos
-94.turia
-95.turia de jos
-96.telechia
-97.brates
-98.pachia
-99.arcus
-100.alungeni
-101.harale
-102.hilib
-103.moacsa 
-104.tg.secuiesc
+50.comandau
+51.dobolii de sus
+52.borosneu mare
+53.valea mare
+54.borosneu mic
+55.dalnic
+56.let
+57.aita mare
+58.aita medie
+59.doboseni
+60.talisoara
+61.martanus
+62.bretcu
+63.oituz
+64.lutoasa
+65.mereni
+66.lemnia
+67.belin
+68.belin vale
+69.bixad
+70.zagon
+71.papauti
+72.catalina
+73.belani
+74.poian
+75.casinu mic
+76.petriceni
+77.valea seaca
+78.sânzieni
+79.ghelinta
+80.ojdula
+81.tamasfalau
+82.surcea
+83.peteni
+84.zabala
+85.malnas bai
+86.malnas sat
+87.micfalau
+88.marcusa
+89.imeni
+90.martineni
+91.hatuica
+92.balvanyos
+93.turia
+94.telechia
+95.brates
+96.pachia
+97.arcus
+98.alungeni
+99.harale
+100.hilib
+101.sf.gheorghe_dep
+102.tg.secuiesc

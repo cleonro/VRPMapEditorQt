@@ -44,7 +44,7 @@ public:
 	void SetMapType(char mtp[]);
 
 	//test routes generator
-	void TestGenerator();
+	//void TestGenerator();
 	inline ORoutesGenerator& GetGenerator() {return generator_;}
 
 	//find nodes with name

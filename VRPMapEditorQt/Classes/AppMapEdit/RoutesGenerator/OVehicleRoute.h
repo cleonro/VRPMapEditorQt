@@ -15,6 +15,9 @@ public:
 	~OVehicleRoute();
 	inline std::vector</*tRouteNode*/int>& Sequence(){return sequence_;}
 	inline int& VehicleType(){return vehicle_type_;}
+
+	//void Select(bool sel = true);
+
 protected:
 	std::vector</*tRouteNode*/int> sequence_;//sequences of the graph nodes forming the route
 	int vehicle_type_;//type of the vehicle assigned on the route;

@@ -5,6 +5,7 @@
 
 class CNodeViewDialog : public QDialog
 {
+	Q_OBJECT
 public:
 	CNodeViewDialog(QWidget* parent = 0);
 	~CNodeViewDialog();
@@ -22,5 +23,8 @@ public:
 	float mPrice;
 
 	void DataExchange(bool set = true);
+
+protected slots:
+	void ShowVehiclesWidget();
 };
 

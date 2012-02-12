@@ -26,7 +26,7 @@ protected slots:
 
 protected:
 	void closeEvent(QCloseEvent * event);
-
+	static void StartThreadGenerateConnections(void* param);
 private:
 	Ui::VRPMapEditorQtClass ui;
 	QVector<QAction*> actions_;
@@ -47,6 +47,7 @@ private:
 	void GenerateRoutes();
 	void FindNode();
 	void CustomRoutes();
+	void GenereazaConexiuni();
 };
 
 #endif // VRPMAPEDITORQT_H

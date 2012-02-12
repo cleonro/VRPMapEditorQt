@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>VehicleCostsWidget</class>
+ <widget class="QDialog" name="VehicleCostsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>460</width>
+    <height>245</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>460</width>
+    <height>245</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>460</width>
+    <height>245</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Costuri Vehicule</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>200</y>
+     <width>441</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+    <item>
+     <spacer>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>131</width>
+        <height>31</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="cancelButton">
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="okButton">
+      <property name="text">
+       <string>OK</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>40</y>
+     <width>443</width>
+     <height>153</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string/>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>429</width>
+      <height>152</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Nume Tip Vehicul</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineTip">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Capacitate ( &gt; 0)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineCap">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Nr. Vehicule ( &gt; 0)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineNrVeh">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Memoreaza Vehicul</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="buttonMem">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Mem</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Sterge Vehicul</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="buttonDel">
+         <property name="minimumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Del</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QFormLayout" name="formLayout_2">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Cost Combustibil ( / km ) &gt;= 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineCostComb">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Cost mentenanta ( / ora ) &gt;= 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineCostMent">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Cost echipamente ( / ora ) &gt;= 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineCostEquip">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Cost salarii ( / ora ) &gt;= 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineCostSal">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Cost stationare ( / ora ) &gt;= 0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineCostStat">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QComboBox" name="combo">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>10</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VehicleCostsWidget</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>448</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>96</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>VehicleCostsWidget</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>367</x>
+     <y>208</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>179</x>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonMem</sender>
+   <signal>clicked()</signal>
+   <receiver>VehicleCostsWidget</receiver>
+   <slot>OnMem()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>42</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonDel</sender>
+   <signal>clicked()</signal>
+   <receiver>VehicleCostsWidget</receiver>
+   <slot>OnDel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>125</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>188</x>
+     <y>204</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>combo</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>VehicleCostsWidget</receiver>
+   <slot>OnIndexChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>396</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>239</x>
+     <y>14</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>OnMem()</slot>
+  <slot>OnDel()</slot>
+  <slot>OnIndexChanged(int)</slot>
+ </slots>
+</ui>

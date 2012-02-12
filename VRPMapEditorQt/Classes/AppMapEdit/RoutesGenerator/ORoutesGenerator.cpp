@@ -12,6 +12,8 @@
 
 #include "../../xml/rapidxml.hpp"
 #include "../../xml/rapidxml_print.hpp"
+#include "../../../VehicleCostsWidget.h"
+#include "../../../UiModels.h"
 
 ORoutesGenerator::ORoutesGenerator()
 {
@@ -20,7 +22,7 @@ ORoutesGenerator::ORoutesGenerator()
 	initialized_ = false;
 	start_node_ = -1;
 	//
-	SetModel(routesUiModel_);
+	//SetModel(routes_ui_model_);
 
 	for(int i = 0; i < 5; i++) {
 		nodes_[i] = 0; cnodes_[i] = 0;
@@ -30,22 +32,25 @@ ORoutesGenerator::ORoutesGenerator()
 	}
 
 	//
-	SetModel(customRoutesUiModel_);
-	unidentifiedNodesUiModel_ = new QStandardItemModel();
+	//SetModel(customRoutesUiModel_);
+	//unidentified_nodes_ui_model_ = new QStandardItemModel();
 }
 
 void ORoutesGenerator::Clear()
 {
-	routesUiModel_->clear();
-	customRoutesUiModel_->clear();
-	unidentifiedNodesUiModel_->clear();
+	//routes_ui_model_->clear();
+	//customRoutesUiModel_->clear();
+	UIMDLS.ClearRoutesModel();
+	UIMDLS.ClearRoutesModel(1);
+
+	//unidentified_nodes_ui_model_->clear();
 
 	max_time_ = 8.0;
 	temp_day_ = 0;
 	initialized_ = false;
 	start_node_ = -1;
 	//
-	SetModel(routesUiModel_);
+	//SetModel(routes_ui_model_);
 
 	for(int i = 0; i < 5; i++) {
 		nodes_[i] = 0; cnodes_[i] = 0;
@@ -54,7 +59,7 @@ void ORoutesGenerator::Clear()
 		cost_[i] = 0.0; ncost_[i] = 0.0;
 	}
 
-	SetModel(customRoutesUiModel_);
+	//SetModel(customRoutesUiModel_);
 }
 
 void ORoutesGenerator::ClearCustomRoutes()
@@ -73,170 +78,180 @@ void ORoutesGenerator::ClearCustomRoutes()
 		custom_routes_[i].reserve(nvh + 2);
 	}
 
-	customRoutesUiModel_->clear();
-	SetModel(customRoutesUiModel_);
+	//customRoutesUiModel_->clear();
+	//SetModel(customRoutesUiModel_);
+	UIMDLS.ClearRoutesModel(1);
 }
 
-void ORoutesGenerator::SetModel(QStandardItemModel*& model_)
-{
-	model_ = new QStandardItemModel();
-	model_->setColumnCount(5);
-	model_->setHorizontalHeaderItem(0, new QStandardItem("Nume / Tip Veh."));
-	model_->setHorizontalHeaderItem(1, new QStandardItem("Noduri"));
-	model_->setHorizontalHeaderItem(2, new QStandardItem("Distanta"));
-	model_->setHorizontalHeaderItem(3, new QStandardItem("Timp"));
-	model_->setHorizontalHeaderItem(4, new QStandardItem("Cost"));
-
-	QStandardItem* day1 = new QStandardItem("Luni");
-	QList<QStandardItem*> day1List;
-	day1List.append(day1);
-	QStandardItem* day1Nodes = new QStandardItem();
-	QStandardItem* day1Distance = new QStandardItem();
-	QStandardItem* day1Time = new QStandardItem();
-	QStandardItem* day1Cost = new QStandardItem();
-	day1List.append(day1Nodes);
-	day1List.append(day1Distance);
-	day1List.append(day1Time);
-	day1List.append(day1Cost);
-	model_->appendRow(day1List);
-
-	QStandardItem* day2 = new QStandardItem("Marti");
-	QList<QStandardItem*> day2List;
-	day2List.append(day2);
-	QStandardItem* day2Nodes = new QStandardItem();
-	QStandardItem* day2Distance = new QStandardItem();
-	QStandardItem* day2Time = new QStandardItem();
-	QStandardItem* day2Cost = new QStandardItem();
-	day2List.append(day2Nodes);
-	day2List.append(day2Distance);
-	day2List.append(day2Time);
-	day2List.append(day2Cost);
-	model_->appendRow(day2List);
-	QStandardItem* day3 = new QStandardItem("Miercuri");
-	QList<QStandardItem*> day3List;
-	day3List.append(day3);
-	QStandardItem* day3Nodes = new QStandardItem();
-	QStandardItem* day3Distance = new QStandardItem();
-	QStandardItem* day3Time = new QStandardItem();
-	QStandardItem* day3Cost = new QStandardItem();
-	day3List.append(day3Nodes);
-	day3List.append(day3Distance);
-	day3List.append(day3Time);
-	day3List.append(day3Cost);
-	model_->appendRow(day3List);
-	QStandardItem* day4 = new QStandardItem("Joi");
-	QList<QStandardItem*> day4List;
-	day4List.append(day4);
-	QStandardItem* day4Nodes = new QStandardItem();
-	QStandardItem* day4Distance = new QStandardItem();
-	QStandardItem* day4Time = new QStandardItem();
-	QStandardItem* day4Cost = new QStandardItem();
-	day4List.append(day4Nodes);
-	day4List.append(day4Distance);
-	day4List.append(day4Time);
-	day4List.append(day4Cost);
-	model_->appendRow(day4List);
-	QStandardItem* day5 = new QStandardItem("Vineri");
-	QList<QStandardItem*> day5List;
-	day5List.append(day5);
-	QStandardItem* day5Nodes = new QStandardItem();
-	QStandardItem* day5Distance = new QStandardItem();
-	QStandardItem* day5Time = new QStandardItem();
-	QStandardItem* day5Cost = new QStandardItem();
-	day5List.append(day5Nodes);
-	day5List.append(day5Distance);
-	day5List.append(day5Time);
-	day5List.append(day5Cost);
-	model_->appendRow(day5List);
-
-	QStandardItem* total = new QStandardItem("Total");
-	QList<QStandardItem*> totalList;
-	totalList.append(total);
-	QStandardItem* totalNodes = new QStandardItem();
-	QStandardItem* totalDistance = new QStandardItem();
-	QStandardItem* totalTime = new QStandardItem();
-	QStandardItem* totalCost = new QStandardItem();
-	totalList.append(totalNodes);
-	totalList.append(totalDistance);
-	totalList.append(totalTime);
-	totalList.append(totalCost);
-	model_->appendRow(totalList);
-}
+// void ORoutesGenerator::SetModel(QStandardItemModel*& model_)
+// {
+// 	model_ = new QStandardItemModel();
+// 	model_->setColumnCount(5);
+// 	model_->setHorizontalHeaderItem(0, new QStandardItem("Nume / Tip Veh."));
+// 	model_->setHorizontalHeaderItem(1, new QStandardItem("Noduri"));
+// 	model_->setHorizontalHeaderItem(2, new QStandardItem("Distanta"));
+// 	model_->setHorizontalHeaderItem(3, new QStandardItem("Timp"));
+// 	model_->setHorizontalHeaderItem(4, new QStandardItem("Cost"));
+// 
+// 	QStandardItem* day1 = new QStandardItem("Luni");
+// 	QList<QStandardItem*> day1List;
+// 	day1List.append(day1);
+// 	QStandardItem* day1Nodes = new QStandardItem();
+// 	QStandardItem* day1Distance = new QStandardItem();
+// 	QStandardItem* day1Time = new QStandardItem();
+// 	QStandardItem* day1Cost = new QStandardItem();
+// 	day1List.append(day1Nodes);
+// 	day1List.append(day1Distance);
+// 	day1List.append(day1Time);
+// 	day1List.append(day1Cost);
+// 	model_->appendRow(day1List);
+// 
+// 	QStandardItem* day2 = new QStandardItem("Marti");
+// 	QList<QStandardItem*> day2List;
+// 	day2List.append(day2);
+// 	QStandardItem* day2Nodes = new QStandardItem();
+// 	QStandardItem* day2Distance = new QStandardItem();
+// 	QStandardItem* day2Time = new QStandardItem();
+// 	QStandardItem* day2Cost = new QStandardItem();
+// 	day2List.append(day2Nodes);
+// 	day2List.append(day2Distance);
+// 	day2List.append(day2Time);
+// 	day2List.append(day2Cost);
+// 	model_->appendRow(day2List);
+// 	
+// 	QStandardItem* day3 = new QStandardItem("Miercuri");
+// 	QList<QStandardItem*> day3List;
+// 	day3List.append(day3);
+// 	QStandardItem* day3Nodes = new QStandardItem();
+// 	QStandardItem* day3Distance = new QStandardItem();
+// 	QStandardItem* day3Time = new QStandardItem();
+// 	QStandardItem* day3Cost = new QStandardItem();
+// 	day3List.append(day3Nodes);
+// 	day3List.append(day3Distance);
+// 	day3List.append(day3Time);
+// 	day3List.append(day3Cost);
+// 	model_->appendRow(day3List);
+// 	
+// 	QStandardItem* day4 = new QStandardItem("Joi");
+// 	QList<QStandardItem*> day4List;
+// 	day4List.append(day4);
+// 	QStandardItem* day4Nodes = new QStandardItem();
+// 	QStandardItem* day4Distance = new QStandardItem();
+// 	QStandardItem* day4Time = new QStandardItem();
+// 	QStandardItem* day4Cost = new QStandardItem();
+// 	day4List.append(day4Nodes);
+// 	day4List.append(day4Distance);
+// 	day4List.append(day4Time);
+// 	day4List.append(day4Cost);
+// 	model_->appendRow(day4List);
+// 	
+// 	QStandardItem* day5 = new QStandardItem("Vineri");
+// 	QList<QStandardItem*> day5List;
+// 	day5List.append(day5);
+// 	QStandardItem* day5Nodes = new QStandardItem();
+// 	QStandardItem* day5Distance = new QStandardItem();
+// 	QStandardItem* day5Time = new QStandardItem();
+// 	QStandardItem* day5Cost = new QStandardItem();
+// 	day5List.append(day5Nodes);
+// 	day5List.append(day5Distance);
+// 	day5List.append(day5Time);
+// 	day5List.append(day5Cost);
+// 	model_->appendRow(day5List);
+// 
+// 	QStandardItem* total = new QStandardItem("Total");
+// 	QList<QStandardItem*> totalList;
+// 	totalList.append(total);
+// 	QStandardItem* totalNodes = new QStandardItem();
+// 	QStandardItem* totalDistance = new QStandardItem();
+// 	QStandardItem* totalTime = new QStandardItem();
+// 	QStandardItem* totalCost = new QStandardItem();
+// 	totalList.append(totalNodes);
+// 	totalList.append(totalDistance);
+// 	totalList.append(totalTime);
+// 	totalList.append(totalCost);
+// 	model_->appendRow(totalList);
+// }
 
 ORoutesGenerator::~ORoutesGenerator()
 {
 
 }
 
-void ORoutesGenerator::DecodeVehicleTypesText(char vehicle_types[])
+void ORoutesGenerator::DecodeVehicleTypesText(std::string vehicle_types)
 {
-	int nc;
-	int nb;
-	sscanf(vehicle_types, "%d %n", &nb, &nc);//read number of vehicle types in nb
-	                                      //nc is number of characters read from vehicle_types
-	int tc = nc;//position in the char* vehicle_types
-	tVehicleType tp;
-	vehicles_.clear();
-	vehicles_.reserve(nb);
-	for(int i = 0; i < nb; i++) {
-		sscanf(&vehicle_types[tc], "%s %f %d %n", &tp.name_, &tp.capacity_, &tp.number_, &nc);
-		tc += nc;
+	xml_document<> doc;
+	doc.parse<0>((char*)vehicle_types.c_str());
+	CVehicleCostsWidget::FromXml(doc, vehicles_);
 
-		tp.cost_gas_idle_ = 4.0;
-		tp.cost_gas_ = 4.0;
-		tp.cost_maint_ = 2.0;
-		tp.cost_equip_ = 2.0;
-		tp.cost_sal_ = 20.0;
+// 	int nc;
+// 	int nb;
 
-		vehicles_.push_back(tp);
-	}
+// 	sscanf(vehicle_types, "%d %n", &nb, &nc);//read number of vehicle types in nb
+// 	                                      //nc is number of characters read from vehicle_types
+// 	int tc = nc;//position in the char* vehicle_types
+// 	tVehicleType tp;
+// 	vehicles_.clear();
+// 	vehicles_.reserve(nb);
+// 	for(int i = 0; i < nb; i++) {
+// 		sscanf(&vehicle_types[tc], "%s %f %d %n", &tp.name_, &tp.capacity_, &tp.number_, &nc);
+// 		tc += nc;
+// 
+// 		tp.cost_gas_idle_ = 4.0;
+// 		tp.cost_gas_ = 4.0;
+// 		tp.cost_maint_ = 2.0;
+// 		tp.cost_equip_ = 2.0;
+// 		tp.cost_sal_ = 20.0;
+// 
+// 		vehicles_.push_back(tp);
+// 	}
+
 }
 
-void ORoutesGenerator::DecodeVehicleCostsText(char vehicle_costs[])
-{
-	int i = 0;
-	int n = strlen(vehicle_costs);
-	char* ctemp = new char[n + 1];
-	strcpy(ctemp, vehicle_costs);
-	float cost_gas_idle; //gas cos for idle time / (hour)
-	float cost_gas;//gas cost / kilometer
-	float cost_maint;//maintenance cost / (hour)
-	float cost_equip;//equipment cost / (hour)
-	float cost_sal;//personnel sallaries cost / (hour)
-	char* c = strchr(ctemp, '[');
-	char* cd;
-	while(c != NULL && i < vehicles_.size()) {
-		c++;
-		cd = strchr(c, ']');
-		if(cd == NULL) {
-			break;
-		}
-		*cd = '\0';
-		cd++;
+// void ORoutesGenerator::DecodeVehicleCostsText(char vehicle_costs[])
+// {
+// 	int i = 0;
+// 	int n = strlen(vehicle_costs);
+// 	char* ctemp = new char[n + 1];
+// 	strcpy(ctemp, vehicle_costs);
+// 	float cost_gas_idle; //gas cos for idle time / (hour)
+// 	float cost_gas;//gas cost / kilometer
+// 	float cost_maint;//maintenance cost / (hour)
+// 	float cost_equip;//equipment cost / (hour)
+// 	float cost_sal;//personnel sallaries cost / (hour)
+// 	char* c = strchr(ctemp, '[');
+// 	char* cd;
+// 	while(c != NULL && i < vehicles_.size()) {
+// 		c++;
+// 		cd = strchr(c, ']');
+// 		if(cd == NULL) {
+// 			break;
+// 		}
+// 		*cd = '\0';
+// 		cd++;
+// 
+// 		sscanf(c, "%f %f %f %f %f", &cost_gas_idle, &cost_gas, &cost_maint, &cost_equip, &cost_sal);
+// 		vehicles_[i].cost_gas_idle_ = cost_gas_idle;
+// 		vehicles_[i].cost_gas_ = cost_gas;
+// 		vehicles_[i].cost_maint_ = cost_maint;
+// 		vehicles_[i].cost_equip_ = cost_equip;
+// 		vehicles_[i].cost_sal_ = cost_sal;
+// 
+// 		c = strchr(cd, '[');
+// 		i++;
+// 	}
+// 
+// 	delete [] ctemp;
+// }
 
-		sscanf(c, "%f %f %f %f %f", &cost_gas_idle, &cost_gas, &cost_maint, &cost_equip, &cost_sal);
-		vehicles_[i].cost_gas_idle_ = cost_gas_idle;
-		vehicles_[i].cost_gas_ = cost_gas;
-		vehicles_[i].cost_maint_ = cost_maint;
-		vehicles_[i].cost_equip_ = cost_equip;
-		vehicles_[i].cost_sal_ = cost_sal;
-
-		c = strchr(cd, '[');
-		i++;
-	}
-
-	delete [] ctemp;
-}
-
-void ORoutesGenerator::EncodeVehicleCosts(char* vehicles_costs)
-{
-	char temp[70];
-	for(int i = 0; i < vehicles_.size(); i++) {
-		sprintf(temp, " [%.2f %.2f %.2f %.2f %.2f] ", vehicles_[i].cost_gas_idle_, vehicles_[i].cost_gas_,
-												vehicles_[i].cost_maint_, vehicles_[i].cost_equip_, vehicles_[i].cost_sal_);
-		strcat(vehicles_costs, temp);
-	}
-}
+// void ORoutesGenerator::EncodeVehicleCosts(char* vehicles_costs)
+// {
+// 	char temp[70];
+// 	for(int i = 0; i < vehicles_.size(); i++) {
+// 		sprintf(temp, " [%.2f %.2f %.2f %.2f %.2f] ", vehicles_[i].cost_gas_idle_, vehicles_[i].cost_gas_,
+// 												vehicles_[i].cost_maint_, vehicles_[i].cost_equip_, vehicles_[i].cost_sal_);
+// 		strcat(vehicles_costs, temp);
+// 	}
+// }
 
 void ORoutesGenerator::InitDaysQuantities()
 {
@@ -301,10 +316,10 @@ void ORoutesGenerator::Init(OGraphMap& graph_map)
 	}
 
 	if(start_node_ >= 0) {
-		char* vh = graph_map.GetNode(start_node_)->Vehicles();
-		char* vhc = graph_map.GetNode(start_node_)->VehiclesCost();
+		std::string vh = graph_map.GetNode(start_node_)->Vehicles();
+		//char* vhc = graph_map.GetNode(start_node_)->VehiclesCost();
 		DecodeVehicleTypesText(vh);
-		DecodeVehicleCostsText(vhc);
+		//DecodeVehicleCostsText(vhc);
 	}
 
 	//init all_routes_
@@ -572,6 +587,7 @@ void ORoutesGenerator::FindRouteForOneVehicle(int vtype, int day, OVehicleRoute&
 
 float ORoutesGenerator::GetRouteTime(OVehicleRoute route)
 {
+	//minutes
 	float r = 0;
 	for(int i = 1; i < route.Sequence().size(); i++) {
 		int i1 = route.Sequence()[i - 1];
@@ -585,6 +601,7 @@ float ORoutesGenerator::GetRouteTime(OVehicleRoute route)
 
 float ORoutesGenerator::GetRouteIdleTime(OVehicleRoute route)
 {
+	//minutes
 	float r = 0;
 	for(int i = 1; i < route.Sequence().size(); i++) {
 		int i1 = route.Sequence()[i - 1];
@@ -793,14 +810,19 @@ void ORoutesGenerator::PrintRoutesXml(char* filepath, int sel)
 {
 	char *str;
 	char *str2;
-	QStandardItemModel* model;
-	if(sel == 0) {
-		model = routesUiModel_;
-	}
-	if(sel == 1) {
-		model = customRoutesUiModel_;
-	}
+	QStandardItemModel* model = NULL;
+// 	if(sel == 0) {
+// 		model = routes_ui_model_;
+// 	}
+// 	if(sel == 1) {
+// 		model = customRoutesUiModel_;
+// 	}
 	
+	model = UIMDLS.RoutesModel(sel);
+	if(model == 0) {
+		return;
+	}
+
 	xml_document<> doc;
 	
 	//header
@@ -893,7 +915,7 @@ void ORoutesGenerator::ParseCustomRoutesFile(char *filename)
 	if(!fl.is_open()) {
 		return;
 	}
-	std::fstream fln("Nodes.txt", std::ios::out);
+	
 	std::map<std::string, int> days;
 	days["luni"] = 1;
 	days["marti"] = 2;
@@ -905,7 +927,6 @@ void ORoutesGenerator::ParseCustomRoutesFile(char *filename)
 	int i = 1;
 	for(int j = 0; j < p_graph_map_->GetSize(); j++) {
 		nodes[ToLower(p_graph_map_->GetNode(j)->GetName())] = i;
-		fln<<i<<"."<<ToLower(p_graph_map_->GetNode(j)->GetName())<<std::endl;
 		i++;
 	}
 
@@ -960,7 +981,8 @@ void ORoutesGenerator::ParseCustomRoutesFile(char *filename)
 						std::cout<<"(warning)";
 						//add inf in qt model
 						QStandardItem* item = new QStandardItem(wrd.c_str());
-						unidentifiedNodesUiModel_->appendRow(item);
+						//unidentified_nodes_ui_model_->appendRow(item);
+						UIMDLS.UnidentifiedNodesModel()->appendRow(item);
 						//
 					} else {
 						route.Sequence().push_back(idx - 1);
@@ -980,19 +1002,26 @@ void ORoutesGenerator::ParseCustomRoutesFile(char *filename)
 		std::cout<<std::endl;
 	}
 	fl.close();
-	fln.close();
 	//PrintRoutes(1);
 }
 
 void ORoutesGenerator::AddRouteToQtModel(OVehicleRoute& vroute, int day, int sel)
 {
-	QStandardItemModel* model;
-	if(sel == 0) {
-		model = routesUiModel_;
+	//day item has data -2
+	//vehicle type (route) item has data -1
+	//node item has data the node index in graph 
+
+	QStandardItemModel* model = UIMDLS.RoutesModel(sel);
+	if(model == NULL) {
+		return;
 	}
-	if(sel == 1) {
-		model = customRoutesUiModel_;
-	}
+	
+// 	if(sel == 0) {
+// 		model = routes_ui_model_;
+// 	}
+// 	if(sel == 1) {
+// 		model = customRoutesUiModel_;
+// 	}
 	QList<QStandardItem*> itemList;
 	int vehtype = vroute.VehicleType();
 	int nodes = vroute.Sequence().size();
@@ -1002,7 +1031,7 @@ void ORoutesGenerator::AddRouteToQtModel(OVehicleRoute& vroute, int day, int sel
 
 	QStandardItem* item_vehtype;
 	if(vehtype >= 0) {
-		item_vehtype = new QStandardItem(vehicles_[vehtype].name_);
+		item_vehtype = new QStandardItem(vehicles_[vehtype].name_.c_str());
 	} else {
 		item_vehtype = new QStandardItem("unidentified");
 	}
@@ -1011,21 +1040,31 @@ void ORoutesGenerator::AddRouteToQtModel(OVehicleRoute& vroute, int day, int sel
 		QStandardItem* item_node = new QStandardItem();
 		int idx = vroute.Sequence()[i];
 		item_node->setText(p_graph_map_->GetNode(idx)->GetName());
+		item_node->setData(idx);
+		item_node->setEditable(false);
 		item_vehtype->appendRow(item_node);
 	}
+	item_vehtype->setData(-1);
+	item_vehtype->setEditable(false);
 	itemList.append(item_vehtype);
 
 	QStandardItem* item_nodes = new QStandardItem(QString("%1").arg(nodes));
+	item_nodes->setEditable(false);
 	itemList.append(item_nodes);
 	
-	itemList.append(new QStandardItem(QString("%1").arg(distance)));
-	itemList.append(new QStandardItem(QString("%1").arg(vtime / 60.0)));
+	QStandardItem* itt;
+	itemList.append((itt = new QStandardItem(QString("%1").arg(distance))));
+	itt->setEditable(false);
+	itemList.append((itt = new QStandardItem(QString("%1").arg(vtime / 60.0))));
+	itt->setEditable(false);
 
 	float cost = 0.0;
 	if(vehtype >= 0) {
 		cost = GetRouteCost(vroute);
 	}
-	itemList.append(new QStandardItem(QString("%1").arg(cost)));
+	QStandardItem* item_cost = new QStandardItem(QString("%1").arg(cost));
+	item_cost->setEditable(false);
+	itemList.append(item_cost);
 
 	QModelIndex index = model->index(day, 0);
 	QStandardItem* item = model->itemFromIndex(index);

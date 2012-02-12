@@ -15,6 +15,8 @@ public:
 public slots:
 	void EnableThreadControls(bool enable);
 
+	void StartTimer(bool show = true);
+	void StopTimer();
 private:
 	Ui::CCentralWidget ui;
 	

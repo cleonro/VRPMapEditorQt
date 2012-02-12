@@ -1,4 +1,6 @@
 #include "vrpmapeditorqt.h"
+
+#include <process.h>
 #include <QDataStream>
 #include <QFile>
 #include <QFileDialog>
@@ -7,6 +9,7 @@
 #include "ui_FindNodeUi.h"
 #include "Classes\AppBaseState.h"
 #include "Classes\AppMapEdit\AppMapEdit.h"
+#include "UiModels.h"
 
 VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -105,6 +108,11 @@ void VRPMapEditorQt::ActionTriggered(QAction* act)
 
 	if(act == ui.actionRute_externe) {
 		CustomRoutes();
+		return;
+	}
+
+	if(act == ui.actionGenereaza_muchii) {
+		//GenereazaConexiuni();
 		return;
 	}
 
@@ -224,6 +232,10 @@ void VRPMapEditorQt::New()
 
 	MAPOPP.Clear();
 	emit clearGenRoutesDlg();
+	UIMDLS.ClearCListModel();
+
+	documentName_ = "untitled";
+	this->setWindowTitle(appName_ + " - " + documentName_);
 }
 
 void VRPMapEditorQt::Open()
@@ -248,6 +260,7 @@ void VRPMapEditorQt::Open()
 		return;
 	}
 
+	UIMDLS.ClearCListModel();
 	MAPOPP.Clear();
 	emit clearGenRoutesDlg();
 
@@ -256,8 +269,13 @@ void VRPMapEditorQt::Open()
 	QDataStream in(&file);
 	in>>MAPOPP;
 	documentName_ = file.fileName();
+	documentFilePath_ = documentName_;
 	this->setWindowTitle(appName_ + " - " + documentName_);
 	saved_ = true;
+
+	for(int i = 0; i < MAPOPP.graph_.GetSize(); i++) {
+		UIMDLS.AddItemToClistModel(MAPOPP.graph_.GetNode(i));
+	}
 }
 
 void VRPMapEditorQt::ImportXml()
@@ -315,4 +333,20 @@ void VRPMapEditorQt::FindNode()
 void VRPMapEditorQt::CustomRoutes()
 {
 	dlgCustomRoutes_->Show();
+}
+
+void VRPMapEditorQt::GenereazaConexiuni()
+{
+	CCentralWidget* cw = (CCentralWidget*)this->centralWidget();
+	cw->StartTimer();
+
+	void *param = (void*)cw;
+	_beginthread(VRPMapEditorQt::StartThreadGenerateConnections, 0, param);
+}
+
+void VRPMapEditorQt::StartThreadGenerateConnections(void* param)
+{
+	CCentralWidget* cw = (CCentralWidget*)param;
+	MAPOPP.GenerateRoutes();
+	cw->StopTimer();
 }

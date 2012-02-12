@@ -8,7 +8,8 @@
 
 struct tVehicleType
 {
-	char name_[10];
+	//char name_[10];
+	std::string name_;
 	float capacity_;//capacity in cube meters
 	int number_;//number of vehicles of this type
 
@@ -27,8 +28,9 @@ struct tVehicleType
 class ORoutesGenerator
 {
 	friend class CGenerateRoutesUi;
-	friend class CVehicleCostUi;
 	friend class CUiCustomRoutes;
+	friend class CUiModels;
+
 public:
 	ORoutesGenerator();
 	~ORoutesGenerator();
@@ -48,14 +50,14 @@ public:
 	void PrintRoutesXml(char* filepath, int sel = 0);
 
 	void ParseCustomRoutesFile(char *filename);
-	inline QStandardItemModel* GetUiModel() {return routesUiModel_;}
+	//inline QStandardItemModel* GetUiModel() {return routes_ui_model_;}
 	inline bool& Initialized() {return initialized_;}
 	void ClearCustomRoutes();
 
 protected:
-	void DecodeVehicleTypesText(char vehicle_types[]);
-	void DecodeVehicleCostsText(char vehicle_costs[]);
-	void EncodeVehicleCosts(char* vehicles_costs);
+	void DecodeVehicleTypesText(std::string vehicle_types);
+	//void DecodeVehicleCostsText(char vehicle_costs[]);
+	//void EncodeVehicleCosts(char* vehicles_costs);
 
 	OGraphMap* p_graph_map_;//?
 	bool initialized_;
@@ -71,10 +73,10 @@ protected:
 	std::vector<OVehicleRoute> custom_routes_[NDAYS];
 
 	//qt interface model
-	QStandardItemModel* routesUiModel_;
-	QStandardItemModel* customRoutesUiModel_;
-	QStandardItemModel* unidentifiedNodesUiModel_;
-	void SetModel(QStandardItemModel*&);
+	//QStandardItemModel* routes_ui_model_;
+	//QStandardItemModel* customRoutesUiModel_;
+	//QStandardItemModel* unidentified_nodes_ui_model_;
+	//void SetModel(QStandardItemModel*&);
 
 	//informations and functions necessary to find routes
 	std::vector<float> quantities_;//quantities remained to be collected in each node

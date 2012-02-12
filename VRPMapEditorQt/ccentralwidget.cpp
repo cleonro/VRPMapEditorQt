@@ -1,5 +1,6 @@
 #include "ccentralwidget.h"
 #include "Classes\AppMapEdit\MapOperationsInput.h"
+#include "UiModels.h"
 
 CCentralWidget::CCentralWidget(QWidget *parent)
 	: QWidget(parent)
@@ -13,6 +14,8 @@ CCentralWidget::CCentralWidget(QWidget *parent)
 
 	
 	ui.glwidget->mParent = this;
+
+	UIMDLS.SetUiForCListModel(ui.treeView);
 }
 
 CCentralWidget::~CCentralWidget()
@@ -92,4 +95,14 @@ void CCentralWidget::LineWidthChanged(int value)
 {
 	MAPOPP.LineWidth() = value;
 	ui.glwidget->updateGL();
+}
+
+void CCentralWidget::StartTimer(bool show)
+{
+	ui.glwidget->StartTimer(show);
+}
+
+void CCentralWidget::StopTimer()
+{
+	ui.glwidget->StopTimer();
 }

@@ -20,13 +20,6 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QToolButton" name="toolButtonCost">
-       <property name="text">
-        <string>COST</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QToolButton" name="toolButtonInit">
        <property name="text">
         <string>INIT</string>
@@ -195,22 +188,6 @@
     <hint type="destinationlabel">
      <x>46</x>
      <y>0</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>toolButtonCost</sender>
-   <signal>clicked()</signal>
-   <receiver>GenerateRoutesUi</receiver>
-   <slot>OnButtonCost()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>32</x>
-     <y>18</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>4</x>
-     <y>27</y>
     </hint>
    </hints>
   </connection>

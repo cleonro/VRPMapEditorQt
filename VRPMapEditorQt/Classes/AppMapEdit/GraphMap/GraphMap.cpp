@@ -1,6 +1,5 @@
 #include "GraphMap.h"
 
-
 QDataStream& operator<<(QDataStream& ar, const OGraphMap& graphm)
 {
 	ar<<graphm.nodes_.size();

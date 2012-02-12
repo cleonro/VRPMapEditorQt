@@ -1,21 +1,7 @@
 #pragma once
 #include <QDialog>
 #include "ui_GenerateRoutesUi.h"
-#include "ui_VehicleCostUi.h"
 #include "ui_CustomRoutesUi.h"
-
-class CVehicleCostUi : public QDialog
-{
-	Q_OBJECT
-public:
-	CVehicleCostUi(QWidget* parent = 0);
-	~CVehicleCostUi();
-protected:
-	 Ui_VehicleCostDlg ui_; 
-protected slots:
-	void OnButtonMem();
-	void OnIndexChanged(int idx);
-};
 
 class CGenerateRoutesUi : public QDialog
 {
@@ -38,7 +24,6 @@ protected slots:
 	void OnButtonOne();
 	void OnButtonAll();
 	void OnButtonInit();
-	void OnButtonCost();
 	void OnButtonSave();
 	void OnButtonReset();
 	void Clear();
