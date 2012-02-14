@@ -21,15 +21,20 @@
     <Filter Include="Generated Files">
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>moc;h;cpp</Extensions>
-      <SourceControlFiles>False</SourceControlFiles>
+      <ParseFiles>true</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{37f7525d-6919-4b6d-883d-85ac25969a10}</UniqueIdentifier>
+      <UniqueIdentifier>{7a3ad2f9-78e4-442a-9d2d-eee851834de1}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{d391f61f-c55f-43d1-89df-4bfbe382a2e1}</UniqueIdentifier>
+      <UniqueIdentifier>{b9814bae-cc5c-45bd-9682-73773c0e3ad8}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\debug-64">
+      <UniqueIdentifier>{ab7b659d-3aec-4ba9-8b28-ac25b2758b4f}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -40,27 +45,6 @@
     </ClCompile>
     <ClCompile Include="vrpmapeditorqt.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_vrpmapeditorqt.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_vrpmapeditorqt.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_vrpmapeditorqt.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GLWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ccentralwidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ccentralwidget.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ccentralwidget.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Classes\Math\Matrix4x4.cpp">
       <Filter>Source Files</Filter>
@@ -104,18 +88,6 @@
     <ClCompile Include="Classes\AppMapEdit\InputMapEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Classes\AppMapEdit\MapOperations.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\AppMapEdit\MapOperationsGraphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\AppMapEdit\MapOperationsIAccess.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Classes\AppMapEdit\MapOperationsInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\AppMapEdit\GraphMap\GraphMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -137,20 +109,32 @@
     <ClCompile Include="Classes\AppMapEdit\RoutesGenerator\OVehicleRoute.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_GLWidget.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_GLWidget.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Classes\AppMapEdit\OMapEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_MapOperationsInput.cpp">
+    <ClCompile Include="GenerateRoutesUi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VehicleCostsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UiModels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ccentralwidget.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_MapOperationsInput.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_ccentralwidget.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_ccentralwidget.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="ccentralwidget.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_MapOperations.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -158,11 +142,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MapOperations.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_MapOperationsIAccess.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_MapOperationsIAccess.cpp">
-      <Filter>Generated Files\Release</Filter>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_MapOperations.cpp">
+      <Filter>Generated Files\debug-64</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_MapOperationsGraphics.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -170,7 +151,37 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MapOperationsGraphics.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GenerateRoutesUi.cpp">
+    <ClCompile Include="GeneratedFiles\debug-64\moc_MapOperationsGraphics.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MapOperationsIAccess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MapOperationsIAccess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_MapOperationsIAccess.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MapOperationsInput.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MapOperationsInput.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_MapOperationsInput.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\AppMapEdit\MapOperations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\AppMapEdit\MapOperationsGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\AppMapEdit\MapOperationsIAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Classes\AppMapEdit\MapOperationsInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_GenerateRoutesUi.cpp">
@@ -179,14 +190,17 @@
     <ClCompile Include="GeneratedFiles\Release\moc_GenerateRoutesUi.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="VehicleCostsWidget.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_GenerateRoutesUi.cpp">
+      <Filter>Generated Files\debug-64</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_VehicleCostsWidget.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_GLWidget.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_VehicleCostsWidget.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_GLWidget.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_GLWidget.cpp">
+      <Filter>Generated Files\debug-64</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_NodeViewDialog.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -194,8 +208,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_NodeViewDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="UiModels.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_NodeViewDialog.cpp">
+      <Filter>Generated Files\debug-64</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_UiModels.cpp">
       <Filter>Generated Files\Debug</Filter>
@@ -203,19 +217,34 @@
     <ClCompile Include="GeneratedFiles\Release\moc_UiModels.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_UiModels.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_VehicleCostsWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_VehicleCostsWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_VehicleCostsWidget.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_vrpmapeditorqt.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_vrpmapeditorqt.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\debug-64\moc_vrpmapeditorqt.cpp">
+      <Filter>Generated Files\debug-64</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_vrpmapeditorqt.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="vrpmapeditorqt.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="vrpmapeditorqt.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="vrpmapeditorqt.qrc">
-      <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ccentralwidget.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="ccentralwidget.ui">
       <Filter>Form Files</Filter>
@@ -223,26 +252,8 @@
     <CustomBuild Include="nodeviewdialog.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="GLWidget.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Classes\AppMapEdit\MapOperations.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Classes\AppMapEdit\MapOperationsInput.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Classes\AppMapEdit\MapOperationsIAccess.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Classes\AppMapEdit\MapOperationsGraphics.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="GenerateRoutesUi.ui">
       <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="GenerateRoutesUi.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="FindNodeUi.ui">
       <Filter>Form Files</Filter>
@@ -253,7 +264,25 @@
     <CustomBuild Include="VehicleCostsWidget.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="VehicleCostsWidget.h">
+    <CustomBuild Include="ccentralwidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Classes\AppMapEdit\MapOperations.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Classes\AppMapEdit\MapOperationsGraphics.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Classes\AppMapEdit\MapOperationsIAccess.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Classes\AppMapEdit\MapOperationsInput.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GenerateRoutesUi.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GLWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="NodeViewDialog.h">
@@ -262,14 +291,17 @@
     <CustomBuild Include="UiModels.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="VehicleCostsWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="vrpmapeditorqt.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="vrpmapeditorqt.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_vrpmapeditorqt.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_ccentralwidget.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\Math\Matrix4x4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -321,9 +353,6 @@
     <ClInclude Include="Classes\AppMapEdit\GraphMap\GraphRoute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_nodeviewdialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="Classes\AppMapEdit\GraphAlgorithms\GraphAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -336,23 +365,53 @@
     <ClInclude Include="Classes\AppMapEdit\OMapEvent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_GenerateRoutesUi.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_FindNodeUi.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_CustomRoutesUi.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_VehicleCostsWidget.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="VRPMapEditorQt.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="Resources\down.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\left.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\right.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\up.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\cinf.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\client.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\connection.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\depot.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\erase.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\inf.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\start.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\transfer.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\move.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\wait.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
