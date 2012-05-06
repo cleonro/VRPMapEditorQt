@@ -11,7 +11,7 @@ QDataStream& operator<<(QDataStream& ar, const OGraphNode& node)
 	QString str_name = QString(node.name_);
 	ar<<node.type_<<node.latitude_<<node.longitude_<<str_name;
 	if(node.type_ == OGraphNode::N_START) {
-		QString str_vehicles(node.vehicles_.c_str());
+		QString str_vehicles(node.special_info_.c_str());
 // 		if(strcmp(node.vehicles_cost_, "") != 0) {
 // 			str_vehicles += " | ";
 // 			str_vehicles += node.vehicles_cost_;
@@ -53,7 +53,7 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 	if(node.type_ == OGraphNode::N_START) {
 		QString str_vehicles;
 		ar>>str_vehicles;
-		node.vehicles_ = str_vehicles.toAscii().constData();
+		node.special_info_ = str_vehicles.toAscii().constData();
 		//str_vehicles = nb_vehtip1 name_tip1 cap_tip1 ... | [costs_veh1]...
 		//"|" separates vehicle types from vehicle costs
 		
@@ -91,7 +91,7 @@ OGraphNode::OGraphNode()
 	//vehicles_.reserve(10);
 	//strcpy_s(vehicles_, "");
 	//strcpy_s(vehicles_cost_, "");
-	vehicles_ = "";
+	special_info_ = "";
 
 	accesib_index_ = 1.0;
 	locals_ = 100;
@@ -214,7 +214,7 @@ void OGraphNode::ToXml(rapidxml::xml_document<>& doc, rapidxml::xml_node<>*& nod
 	str = doc.allocate_string(buff, 20);
 	rapidxml::xml_node<>* nxtimequant = doc.allocate_node(rapidxml::node_element, "TIME_QUANT", str);
 	//vehicles
-	str = doc.allocate_string(vehicles_.c_str(), vehicles_.size() + 1);
+	str = doc.allocate_string(special_info_.c_str(), special_info_.size() + 1);
 	rapidxml::xml_node<>* nxveh = doc.allocate_node(rapidxml::node_element, "VEHICLES", str);
 	//special informations
 	char nbuff[30];
@@ -245,7 +245,7 @@ void OGraphNode::FromXml(rapidxml::xml_node<>* node)
 	r = sscanf(node->first_node("TIME_QUANT")->value(), "%f %f", &waiting_time_, &quantity_);
 	//vehicles
 	//strcpy(vehicles_, node->first_node("VEHICLES")->value());
-	vehicles_ = node->first_node("VEHICLES")->value();
+	special_info_ = node->first_node("VEHICLES")->value();
 
 	//special informations
 	r = sscanf(node->first_node("SPECIAL_INF")->value(), "%f %d %d %f", &accesib_index_, &locals_, &contracts_, &price_);

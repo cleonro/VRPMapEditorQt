@@ -32,7 +32,8 @@ public:
 		N_START = 0,
 		N_CLIENT,
 		N_DEPOT,
-		N_TRANSIT
+		N_TRANSIT,
+		N_INFO_NODE
 	};
 
 	OGraphNode();
@@ -49,7 +50,7 @@ public:
 	void SetNodeInf(tNodeInf node_info);
 	tNodeInf GetNodeInf();
 	inline char* GetName() {return name_;}
-	inline std::string& Vehicles() {return vehicles_;}
+	inline std::string& SpecialInfoString() {return special_info_;}
 	
 	//inline char* VehiclesCost() {return vehicles_cost_;}
 
@@ -87,7 +88,7 @@ protected:
 	
 	//char vehicles_[500];
 	//char vehicles_cost_[500];
-	std::string vehicles_;
+	std::string special_info_;//special informations (vehicles for the start node)
 	
 	//node "special" informations
 	float accesib_index_;//accesibility index

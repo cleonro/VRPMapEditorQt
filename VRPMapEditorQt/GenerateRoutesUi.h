@@ -18,7 +18,6 @@ protected:
 	Ui_GenerateRoutesUi ui_;
 
 	static void InitializeThread(void* data);
-	void InitiliazeVehicles();
 
 protected slots:
 	void OnButtonOne();

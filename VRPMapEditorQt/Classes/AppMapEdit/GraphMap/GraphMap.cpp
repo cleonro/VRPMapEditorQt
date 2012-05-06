@@ -1,8 +1,18 @@
 #include "GraphMap.h"
+#include <sstream>
 
 QDataStream& operator<<(QDataStream& ar, const OGraphMap& graphm)
 {
-	ar<<graphm.nodes_.size();
+	int graph_size = graphm.nodes_.size();
+	//check if info_node can be saved
+	if(graphm.info_node_ != NULL && strcmp(graphm.info_node_->GetName(), INFO_NODE_NAME) == 0) {
+		graph_size += 1;
+	}
+	ar<<graph_size;
+	//save info_node
+	if(graph_size > graphm.nodes_.size()) {
+		ar<<*graphm.info_node_;
+	}
 	//save nodes
 	for(int i = 0; i < graphm.nodes_.size(); i++) {
 		ar<<*(graphm.nodes_[i]);
@@ -30,13 +40,25 @@ QDataStream& operator>>(QDataStream& ar, OGraphMap& graphm)
 	graphm.nodes_.erase(graphm.nodes_.begin(), graphm.nodes_.end());
 	graphm.routes_.erase(graphm.routes_.begin(), graphm.routes_.end());
 
+	//load info node
+	if(k > 0) {
+		graphm.info_node_ = new OGraphNode;
+		if(graphm.info_node_->GetType() != OGraphNode::N_INFO_NODE) {
+			//not an info node
+			graphm.nodes_.push_back(graphm.info_node_);
+			delete graphm.info_node_;
+			graphm.info_node_ = NULL;
+		}
+	}
+
 	//load nodes
 	OGraphNode* node;
-	for(int i = 0; i < k; i++) {
+	for(int i = 1; i < k; i++) {
 		node = new OGraphNode;
 		ar>>*node;
 		graphm.nodes_.push_back(node);
 	}
+	//load info node
 
 	//load routes
 	OGraphRoute* p_route;
@@ -69,6 +91,8 @@ OGraphMap::OGraphMap()
 	routes_.reserve(104);
 
 	block_arc_draw_ = false;
+	
+	info_node_ = NULL;
 }
 
 
@@ -109,6 +133,8 @@ void OGraphMap::Clear()
 		}
 	}
 	routes_.clear();
+	delete info_node_;
+	info_node_ = NULL;
 }
 
 void OGraphMap::AddNode(OGraphNode* node)
@@ -277,4 +303,15 @@ void OGraphMap::Draw(float transparency, float line_width)
 			routes_[i]->Draw(transparency, line_width);
 		}
 	}
+}
+
+void OGraphMap::SetInfoNode(int Ig, int Jg)
+{
+	if(info_node_ != NULL) {
+		delete info_node_;
+	}
+
+	info_node_ = new OGraphNode;
+	info_node_->SetType(OGraphNode::N_INFO_NODE);
+	info_node_->Na
 }

@@ -112,7 +112,7 @@ void VRPMapEditorQt::ActionTriggered(QAction* act)
 	}
 
 	if(act == ui.actionGenereaza_muchii) {
-		//GenereazaConexiuni();
+		GenereazaConexiuni();
 		return;
 	}
 
@@ -337,6 +337,15 @@ void VRPMapEditorQt::CustomRoutes()
 
 void VRPMapEditorQt::GenereazaConexiuni()
 {
+	QMessageBox msgBox;
+	msgBox.setText(tr("This operation will erase all the existing graph connexions."));
+	msgBox.setInformativeText(tr("Do you want to continue?"));
+	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	msgBox.setDefaultButton(QMessageBox::Save);
+	int ret = msgBox.exec();
+	if(ret == QMessageBox::No) {
+		return;
+	}
 	CCentralWidget* cw = (CCentralWidget*)this->centralWidget();
 	cw->StartTimer();
 

@@ -316,7 +316,7 @@ void ORoutesGenerator::Init(OGraphMap& graph_map)
 	}
 
 	if(start_node_ >= 0) {
-		std::string vh = graph_map.GetNode(start_node_)->Vehicles();
+		std::string vh = graph_map.GetNode(start_node_)->SpecialInfoString();
 		//char* vhc = graph_map.GetNode(start_node_)->VehiclesCost();
 		DecodeVehicleTypesText(vh);
 		//DecodeVehicleCostsText(vhc);

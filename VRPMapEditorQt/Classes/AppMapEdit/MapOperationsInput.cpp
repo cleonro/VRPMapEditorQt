@@ -32,6 +32,9 @@ OMapOperationsInput::OMapOperationsInput()
 	intrrt_ = false;
 
 	std::fstream tmpfile("temp_genroutes.txt", std::ios::in);
+	if(!tmpfile.is_open()) {
+		return;
+	}
 	int ig, jg;
 	tmpfile>>ig>>jg;
 	if( ig > 1 && jg > 0) {
@@ -56,6 +59,9 @@ void OMapOperationsInput::Clear()
 	intrrt_ = false;
 
 	std::fstream tmpfile("temp_genroutes.txt", std::ios::in);
+	if(!tmpfile.is_open()) {
+		return;
+	}
 	int ig, jg;
 	tmpfile>>ig>>jg;
 	if( ig > 1 && jg > 0) {
@@ -299,7 +305,7 @@ void OMapOperationsInput::EditNodeInf()
 	node_dialog.mName = node_[0]->GetName();
 	node_dialog.mTime =  node_info.waiting_time_;
 	node_dialog.mQuantity = node_info.quantity_;
-	node_dialog.mVehicles = node_[0]->Vehicles().c_str();
+	node_dialog.mVehicles = node_[0]->SpecialInfoString().c_str();
 
 	node_dialog.mAccessibility = node_[0]->Accesibility();
 	node_dialog.mHabitants = node_[0]->Locals();
@@ -318,7 +324,7 @@ void OMapOperationsInput::EditNodeInf()
 		node_[0]->SetNodeInf(node_info);
 
 		//strncpy(node_[0]->Vehicles(), node_dialog.mVehicles.toAscii().data(), 200);
-		node_[0]->Vehicles() = node_dialog.mVehicles.toAscii().data();
+		node_[0]->SpecialInfoString() = node_dialog.mVehicles.toAscii().data();
 
 		node_[0]->Accesibility() = node_dialog.mAccessibility;
 		node_[0]->Locals() = node_dialog.mHabitants;
