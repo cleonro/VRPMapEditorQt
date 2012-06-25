@@ -813,11 +813,19 @@ char xml_file_header[] = "<?xml version=\"1.0\"?> \n\
 						xmlns:x=\"urn:schemas-microsoft-com:office:excel\" \n\
 						xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" \n\
 						xmlns:html=\"http://www.w3.org/TR/REC-html40\"> \n\
-						<Worksheet ss:Name=\"Sheet1\"> \n\
+						<Worksheet ss:Name=\"Rute\"> \n\
 						<Table >\n\
 							<Column ss:AutoFitWidth=\"0\" ss:Width=\"89.25\"/>\n\
 							<Column ss:AutoFitWidth=\"0\" ss:Width=\"65.25\"/>\n\
 							<Column ss:AutoFitWidth=\"0\" ss:Width=\"72\"/>\n";
+
+char xml_file_header_2[] = "</Table> \
+							</Worksheet> \n\
+						   <Worksheet ss:Name=\"Cantitati necolectate\"> \n\
+						   <Table >\n\
+						   <Column ss:AutoFitWidth=\"0\" ss:Width=\"89.25\"/>\n\
+						   <Column ss:AutoFitWidth=\"0\" ss:Width=\"65.25\"/>\n\
+							";
 
 char xml_file_end[] = "\n</Table> \
 						</Worksheet> \
@@ -839,9 +847,11 @@ void ORoutesGenerator::PrintRoutesXml(char* filepath, int sel)
 		return;
 	}
 
-	xml_document<> doc;
-	
-	//header
+	QStandardItemModel* all_nodes = UIMDLS.CListModel();
+
+	xml_document<> doc;	//rute
+	xml_document<> doc2;//cantitati necolectate
+	//header - rute
 	xml_node<>* header = doc.allocate_node(node_element, "Row");
 	header->append_node(AllocateCellNode(doc, "ZI"));
 	header->append_node(AllocateCellNode(doc, "TIP VEHICUL"));
@@ -890,9 +900,28 @@ void ORoutesGenerator::PrintRoutesXml(char* filepath, int sel)
 		}
 	}
 
+	//cantitati necolectate
+	xml_node<>* header2 = doc2.allocate_node(node_element, "Row");
+	header2->append_node(AllocateCellNode(doc2, "NODURI"));
+	header2->append_node(AllocateCellNode(doc2, "CANTITATI NECOLECTATE"));
+	doc2.append_node(header2);
+
+	for(int i = 0; i < p_graph_map_->GetSize(); i++) {
+		xml_node<>* row = doc2.allocate_node(node_element, "Row");
+		QString node_name = p_graph_map_->GetNode(i)->GetName();
+		row->append_node(AllocateCellNode(doc2, node_name.toUtf8().data()));
+		std::ostringstream quant;
+		quant << quantities_[i];
+		row->append_node(AllocateCellNode(doc2, quant.str().c_str()));
+		doc2.append_node(row);
+	}
+
+
 	std::fstream fl(filepath, std::ios::out);
 	fl << xml_file_header;
 	fl << doc;
+	fl << xml_file_header_2;
+	fl << doc2;
 	fl << xml_file_end;
 	fl.close();
 }

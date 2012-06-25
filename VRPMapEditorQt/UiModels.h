@@ -22,6 +22,7 @@ public:
 	void AddItemToClistModel(OGraphNode*);
 	void UpdateItemInCListModel(OGraphNode*, bool delete_item = false);
 	void ClearCListModel();
+	QStandardItemModel* CListModel() {return clist_model_;}
 
 	//routes_ui_model access functions, sel = 0 routes_ui_model_, sel = 1 croutes_ui_model_
 	QStandardItemModel* RoutesModel(int sel = 0);
