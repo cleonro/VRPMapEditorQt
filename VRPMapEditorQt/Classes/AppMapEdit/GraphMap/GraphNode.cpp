@@ -10,13 +10,13 @@ QDataStream& operator<<(QDataStream& ar, const OGraphNode& node)
 {
 	QString str_name = QString(node.name_);
 	ar<<node.type_<<node.latitude_<<node.longitude_<<str_name;
-	if(node.type_ == OGraphNode::N_START) {
-		QString str_vehicles(node.special_info_.c_str());
+	if(node.type_ == OGraphNode::N_START || node.type_ == OGraphNode::N_INFO_NODE) {
+		QString str_special_info(node.special_info_.c_str());
 // 		if(strcmp(node.vehicles_cost_, "") != 0) {
 // 			str_vehicles += " | ";
 // 			str_vehicles += node.vehicles_cost_;
 // 		}
-		ar<<str_vehicles;
+		ar<<str_special_info;
 	} else {
 		ar<<node.waiting_time_<<node.quantity_;
 	}
@@ -46,14 +46,17 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 		case 3:
 			node.type_ = OGraphNode::N_TRANSIT;
 			break;
+		case 4:
+			node.type_ = OGraphNode::N_INFO_NODE;
+			break;
 		default:
 			node.type_ = OGraphNode::N_START;
 			break;
 	}
-	if(node.type_ == OGraphNode::N_START) {
-		QString str_vehicles;
-		ar>>str_vehicles;
-		node.special_info_ = str_vehicles.toAscii().constData();
+	if(node.type_ == OGraphNode::N_START || node.type_ == OGraphNode::N_INFO_NODE) {
+		QString str_special_info;
+		ar>>str_special_info;
+		node.special_info_ = str_special_info.toAscii().constData();
 		//str_vehicles = nb_vehtip1 name_tip1 cap_tip1 ... | [costs_veh1]...
 		//"|" separates vehicle types from vehicle costs
 		

@@ -8,7 +8,9 @@ public:
 	enum eMapEvents {
 		E_MAP_START_TIMER = 0,
 		E_MAP_STOP_TIMER,
-		E_MAP_TEXTURE_READY
+		E_MAP_TEXTURE_READY,
+		E_MAP_GEN_STOP,			//connections generation was stopped
+		E_MAP_GEN_SUCCESS		//connections generation was successful
 	};
 public:
 	OMapEvent();

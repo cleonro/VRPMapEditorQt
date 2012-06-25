@@ -241,6 +241,9 @@
     <ClCompile Include="GeneratedFiles\qrc_vrpmapeditorqt.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Classes\xml\XmlDoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="vrpmapeditorqt.ui">
@@ -363,6 +366,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Classes\AppMapEdit\OMapEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Classes\xml\XmlDoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

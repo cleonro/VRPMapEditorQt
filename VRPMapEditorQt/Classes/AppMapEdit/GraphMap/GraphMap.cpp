@@ -1,13 +1,15 @@
 #include "GraphMap.h"
+#include "xml/XmlDoc.h"
 #include <sstream>
 
 QDataStream& operator<<(QDataStream& ar, const OGraphMap& graphm)
 {
 	int graph_size = graphm.nodes_.size();
 	//check if info_node can be saved
-	if(graphm.info_node_ != NULL && strcmp(graphm.info_node_->GetName(), INFO_NODE_NAME) == 0) {
+	if(graphm.info_node_ != NULL && graphm.info_node_->GetType() == OGraphNode::N_INFO_NODE) {
 		graph_size += 1;
 	}
+	
 	ar<<graph_size;
 	//save info_node
 	if(graph_size > graphm.nodes_.size()) {
@@ -40,26 +42,27 @@ QDataStream& operator>>(QDataStream& ar, OGraphMap& graphm)
 	graphm.nodes_.erase(graphm.nodes_.begin(), graphm.nodes_.end());
 	graphm.routes_.erase(graphm.routes_.begin(), graphm.routes_.end());
 
+	OGraphNode* node;
 	//load info node
 	if(k > 0) {
-		graphm.info_node_ = new OGraphNode;
-		if(graphm.info_node_->GetType() != OGraphNode::N_INFO_NODE) {
+		node = new OGraphNode;
+		ar >> *node;
+		if(node->GetType() != OGraphNode::N_INFO_NODE) {
 			//not an info node
-			graphm.nodes_.push_back(graphm.info_node_);
-			delete graphm.info_node_;
+			graphm.nodes_.push_back(node);
 			graphm.info_node_ = NULL;
+		} else {
+			graphm.info_node_ = node;
 		}
 	}
 
 	//load nodes
-	OGraphNode* node;
 	for(int i = 1; i < k; i++) {
 		node = new OGraphNode;
 		ar>>*node;
 		graphm.nodes_.push_back(node);
 	}
-	//load info node
-
+	
 	//load routes
 	OGraphRoute* p_route;
 	int r, i, j;
@@ -313,5 +316,28 @@ void OGraphMap::SetInfoNode(int Ig, int Jg)
 
 	info_node_ = new OGraphNode;
 	info_node_->SetType(OGraphNode::N_INFO_NODE);
-	info_node_->Na
+	
+	OXmlDoc xml_doc;
+	xml_doc.AddSimpleNode<int>("Ig", Ig);
+	xml_doc.AddSimpleNode<int>("Jg", Jg);
+
+	std::string xml_string = xml_doc.ToString();
+	info_node_->SpecialInfoString() = xml_string;
+}
+
+void OGraphMap::GetInfoNode(int& Ig, int& Jg)
+{
+	if(info_node_ == NULL) {
+		return;
+	}
+	OXmlDoc xml_doc;
+	xml_doc.FromString(info_node_->SpecialInfoString());
+	xml_doc.GetSimpleNodeValue<int>("Ig", Ig);
+	xml_doc.GetSimpleNodeValue<int>("Jg", Jg);
+}
+
+void OGraphMap::DeleteInfoNode()
+{
+	delete info_node_;
+	info_node_ = NULL;
 }

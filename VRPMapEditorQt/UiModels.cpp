@@ -15,8 +15,9 @@
 CUiModels::CUiModels()
 {
 	clist_model_ = new QStandardItemModel();
-	clist_model_->setColumnCount(1);
+	clist_model_->setColumnCount(2);
 	clist_model_->setHorizontalHeaderItem(0, new QStandardItem("Noduri"));
+	clist_model_->setHorizontalHeaderItem(1, new QStandardItem("Cantitati necolectate"));
 
 	QStandardItemModel** models[2] = {
 		&routes_ui_model_,
@@ -69,7 +70,12 @@ void CUiModels::AddItemToClistModel(OGraphNode* node)
 	if(node == NULL) {
 		return;
 	}
+	QList<QStandardItem*> it_list;
 	QStandardItem* it = new QStandardItem(node->GetName());
+	
+	float quant = node->GetNodeInf().quantity_;
+
+	QStandardItem* it_quant = new QStandardItem(QString("%1").arg(quant)); 
 	void *p = node;
 	QVariant dt = qVariantFromValue(p);;
 	//dt.fromValue<void*>(p);
@@ -93,18 +99,26 @@ void CUiModels::AddItemToClistModel(OGraphNode* node)
 		it->setData(QVariant(im.scaled(16, 16)),Qt::DecorationRole);
 	}
 	it->setEditable(false);
-	clist_model_->appendRow(it);
+
+	it_list.append(it);
+	it_list.append(it_quant);
+	//clist_model_->appendRow(it);
+	clist_model_->appendRow(it_list);
 }
 
 void CUiModels::UpdateItemInCListModel(OGraphNode* node, bool delete_item)
 {
 	bool found = false;
 	QModelIndex idx;
+	QModelIndex idx2;
 	QStandardItem* it;
+	QStandardItem* it2;
 	QVariant dt;
 	for(int i = 0; i < clist_model_->rowCount(); i++) {
 		idx = clist_model_->index(i, 0);
+		idx2 = clist_model_->index(i, 1);
 		it = clist_model_->itemFromIndex(idx);
+		it2 = clist_model_->itemFromIndex(idx2);
 		dt = it->data();
 		void *p = dt.value<void*>();
 		if(p == node) {
@@ -117,6 +131,8 @@ void CUiModels::UpdateItemInCListModel(OGraphNode* node, bool delete_item)
 	}
 	if(found && !delete_item) {
 		it->setText(node->GetName());
+		float quant = node->GetNodeInf().quantity_;
+		it2->setText(QString("%1").arg(quant));
 	}
 }
 

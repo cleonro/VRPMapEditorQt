@@ -38,7 +38,9 @@ public:
 
 	inline bool&		BlockArcDraw() {return block_arc_draw_;}
 	inline OGraphNode&	InfoNode() {return *info_node_;}
-	void				SetInfoNode(int Ig, int Jg);//partial connections generation information
+	void				SetInfoNode(int Ig, int Jg);	//add partial connections generation information to graph info node
+	void				GetInfoNode(int& Ig, int& Jg); //retrieve partial connections generation information from graph info node 
+	void				DeleteInfoNode();
 
 protected:
 	std::vector<OGraphNode*> nodes_;

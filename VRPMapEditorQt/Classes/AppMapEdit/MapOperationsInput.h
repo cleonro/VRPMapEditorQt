@@ -50,6 +50,8 @@ public:
 	//find nodes with name
 	void FindNode(const char* name, int indx);
 
+	inline void MappChanged() {emit mapChanged();}
+
 	//clear graph map and routes generator
 	void Clear();
 

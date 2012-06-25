@@ -27,6 +27,7 @@ public:
 	static void ImportGraphFromXmlThread(void* data);
 
 	void SetView(CGLWidget* glview);
+	inline CGLWidget* View() {return view_;}
 
 signals:
 	void mapChanged();

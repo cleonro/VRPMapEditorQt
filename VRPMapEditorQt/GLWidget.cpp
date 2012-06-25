@@ -1,5 +1,6 @@
 #include "GLWidget.h"
 #include <QMouseEvent>
+#include <QMessageBox>
 
 #include "Classes\AppBaseState.h"
 #include "Classes\InputMgr.h"
@@ -76,6 +77,15 @@ bool CGLWidget::event(QEvent* e)
 		}
 		if(ev->Type() == OMapEvent::E_MAP_TEXTURE_READY) {
 			LoadTexture(ev->Data());
+		}
+		if(ev->Type() == OMapEvent::E_MAP_GEN_STOP) {
+			MAPOPP.MappChanged();
+			QMessageBox::warning(mParent, tr("Google maps error"),
+				tr("Connections generation was stopped. Save the map and try again later..."));
+		}
+		if(ev->Type() == OMapEvent::E_MAP_GEN_SUCCESS) {
+			MAPOPP.MappChanged();
+			QMessageBox::information(mParent, tr("Operation ended!"), tr("Connections were generated successfully..."));
 		}
 		return true;
 	}

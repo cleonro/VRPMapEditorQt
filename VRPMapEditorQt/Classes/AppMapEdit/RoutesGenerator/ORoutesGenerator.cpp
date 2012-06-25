@@ -262,8 +262,11 @@ void ORoutesGenerator::InitDaysQuantities()
 	days_.reserve(N);
 	tNodeInf inf;
 	for(int i = 0; i < N; i++) {
-		inf = p_graph_map_->GetNode(i)->GetNodeInf();
+		OGraphNode* node = p_graph_map_->GetNode(i);
+		inf = node->GetNodeInf();
 		quantities_.push_back(inf.quantity_);
+		//update quantities in Qt clist model
+		UIMDLS.UpdateItemInCListModel(node);
 		days_.push_back(-1);
 	}
 }
@@ -674,6 +677,19 @@ void ORoutesGenerator::FindLRouteForOneVehicle(int vtype, int day, OVehicleRoute
 				route.Sequence().push_back(nroute.Sequence()[i]);
 			}
 		}
+	}
+
+	//update Qt clist model quantities (find another place for this?)
+	for(unsigned int i = 0; i < route.Sequence().size(); i++) {
+		int idx = route.Sequence()[i];
+		OGraphNode* node = p_graph_map_->GetNode(idx);
+		tNodeInf inf = node->GetNodeInf();
+		float tempquant = inf.quantity_;
+		inf.quantity_ = quantities_[idx];
+		node->SetNodeInf(inf);
+		UIMDLS.UpdateItemInCListModel(node);
+		inf.quantity_ = tempquant;
+		node->SetNodeInf(inf);
 	}
 }
 

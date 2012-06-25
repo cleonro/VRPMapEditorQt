@@ -10,6 +10,7 @@
 #include "Classes\AppBaseState.h"
 #include "Classes\AppMapEdit\AppMapEdit.h"
 #include "UiModels.h"
+#include "AppMapEdit/OMapEvent.h"
 
 VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags)
@@ -338,7 +339,7 @@ void VRPMapEditorQt::CustomRoutes()
 void VRPMapEditorQt::GenereazaConexiuni()
 {
 	QMessageBox msgBox;
-	msgBox.setText(tr("This operation will erase all the existing graph connexions."));
+	msgBox.setText(tr("This operation could erase all the existing graph connections."));
 	msgBox.setInformativeText(tr("Do you want to continue?"));
 	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	msgBox.setDefaultButton(QMessageBox::Save);
@@ -357,5 +358,8 @@ void VRPMapEditorQt::StartThreadGenerateConnections(void* param)
 {
 	CCentralWidget* cw = (CCentralWidget*)param;
 	MAPOPP.GenerateRoutes();
-	cw->StopTimer();
+	//cw->StopTimer();
+	OMapEvent* event = new OMapEvent();
+	event->Type() = OMapEvent::E_MAP_STOP_TIMER;
+	QApplication::postEvent(MAPOPP.View(), event);
 }
