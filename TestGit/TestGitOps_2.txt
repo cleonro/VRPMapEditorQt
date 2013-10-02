@@ -1,2 +1,3 @@
 2. Test branches
 3. Test smartgit
+4. test local merge
