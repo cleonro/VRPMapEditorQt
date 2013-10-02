@@ -1,1 +1,2 @@
 2. Test branches
+3. Test smartgit
