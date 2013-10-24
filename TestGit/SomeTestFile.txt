@@ -1,1 +1,2 @@
-First modification, will be commited on master branch.
+1. First modification, will be commited on master branch.
+2. Other changes (same, commited on master branch).
