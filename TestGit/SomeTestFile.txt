@@ -5,4 +5,5 @@
 		1. First modification on ATestBranch
 		2. Second modification on ATestBranch
 
-		
+4. Another change on master...
+5. ...master is changed...
