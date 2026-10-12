@@ -1,6 +1,6 @@
 #pragma once
 
-#include "..\InputBaseState.h"
+#include "../InputBaseState.h"
 #include <QPoint>
 
 class OInputMapEdit : public OInputBaseState

@@ -5,7 +5,7 @@
 
 QDataStream& operator<<(QDataStream& ar, const OGraphRoute& route)
 {
-	ar<<route.path_.size();
+	ar << static_cast<qint32>(route.path_.size());
 	for(int i = 0; i < route.path_.size(); i++) {
 		ar<<route.path_[i];
 	}
@@ -30,8 +30,8 @@ QDataStream& operator>>(QDataStream& ar, OGraphRoute& route)
 	QString start_adr;
 	QString end_addr;
 	ar>>start_adr>>end_addr;
-	strncpy(route.start_address_, start_adr.toAscii().data(), 50);
-	strncpy(route.end_address_, end_addr.toAscii().data(), 50);
+	qstrncpy(route.start_address_, start_adr.toUtf8().data(), sizeof(route.start_address_));
+	qstrncpy(route.end_address_, end_addr.toUtf8().data(), sizeof(route.end_address_));
 
 	return ar;
 }
@@ -80,15 +80,15 @@ tRouteNodes OGraphRoute::GetRouteNodes()
 // set/get start and end route adresses
 void OGraphRoute::SetRouteAddr(tRouteAddr route_addr)
 {
-	strcpy_s(start_address_, route_addr.start_address_);
-	strcpy_s(end_address_, route_addr.end_address_);
+	qstrncpy(start_address_, route_addr.start_address_, sizeof(start_address_));
+	qstrncpy(end_address_, route_addr.end_address_, sizeof(end_address_));
 }
 
 tRouteAddr OGraphRoute::GetRouteAddr()
 {
 	tRouteAddr route_addr;
-	strcpy_s(route_addr.start_address_, start_address_);
-	strcpy_s(route_addr.end_address_, end_address_);
+	qstrncpy(route_addr.start_address_, start_address_, sizeof(route_addr.start_address_));
+	qstrncpy(route_addr.end_address_, end_address_, sizeof(route_addr.end_address_));
 	return route_addr;
 }
 

@@ -1,20 +1,20 @@
 #include "vrpmapeditorqt.h"
-#include <QtGui/QApplication>
+#include <QApplication>
+#include <QSurfaceFormat>
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+    // The existing renderer uses the fixed-function desktop OpenGL API.
+    QSurfaceFormat format;
+    format.setRenderableType(QSurfaceFormat::OpenGL);
+    format.setVersion(2, 1);
+    format.setProfile(QSurfaceFormat::NoProfile);
+    format.setDepthBufferSize(24);
+    QSurfaceFormat::setDefaultFormat(format);
 
-	FILE *str;
-	AllocConsole();
-	freopen_s(&str,"CONOUT$", "w", stdout );
-
-	VRPMapEditorQt w;
-	
-	
-	w.resize(QSize(1024, 768));
-
-	w.show();
-	
-	return a.exec();
+    QApplication application(argc, argv);
+    VRPMapEditorQt window;
+    window.resize(1024, 768);
+    window.show();
+    return application.exec();
 }

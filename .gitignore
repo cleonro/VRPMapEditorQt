@@ -6,3 +6,7 @@
 /VRPMapEditorQt.sln
 /VRPMapEditorQt.suo
 /*.opensdf
+/build/
+/build-*/
+/CMakeUserPresets.json
+/VRPMapEditorQt/GeneratedFiles/

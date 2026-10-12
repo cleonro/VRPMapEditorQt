@@ -474,7 +474,7 @@
   <customwidget>
    <class>CGLWidget</class>
    <extends>QWidget</extends>
-   <header>GLwidget.h</header>
+   <header>GLWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -580,7 +580,7 @@
   </connection>
   <connection>
    <sender>mapType</sender>
-   <signal>currentIndexChanged(QString)</signal>
+   <signal>currentTextChanged(QString)</signal>
    <receiver>CCentralWidget</receiver>
    <slot>ComboBoxIndexChanged(QString)</slot>
    <hints>

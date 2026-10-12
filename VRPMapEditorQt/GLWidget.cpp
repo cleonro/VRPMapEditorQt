@@ -2,15 +2,16 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 
-#include "Classes\AppBaseState.h"
-#include "Classes\InputMgr.h"
-#include "Classes\Draw2D.h"
-#include <QGLContext>
+#include "Classes/AppBaseState.h"
+#include "Classes/InputMgr.h"
+#include "Classes/Draw2D.h"
+#include <QOpenGLContext>
+#include <QImage>
 #include "ccentralwidget.h"
-#include "Classes\AppMapEdit\AppMapEdit.h"
-#include "Classes\AppMapEdit\OMapEvent.h"
+#include "Classes/AppMapEdit/AppMapEdit.h"
+#include "Classes/AppMapEdit/OMapEvent.h"
 
-CGLWidget::CGLWidget(QWidget *parent) : QGLWidget(parent)
+CGLWidget::CGLWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
 	this->setMouseTracking(true);
 	cx = 0;
@@ -22,7 +23,6 @@ CGLWidget::CGLWidget(QWidget *parent) : QGLWidget(parent)
 	showGrid = false;
 	timerImage.load(":/VRPMapEditorQt/Resources/wait.png", "png");
 	timerImageId = 0;
-	hiddenWidget = NULL;
 	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(OnTimer()));
 }
@@ -30,37 +30,42 @@ CGLWidget::CGLWidget(QWidget *parent) : QGLWidget(parent)
 
 CGLWidget::~CGLWidget()
 {
-	delete timer;
-	if(hiddenWidget) {
-		delete hiddenWidget;
-		hiddenWidget = NULL;
-	}
+    MAPOPP.StopWorkers();
+    CleanupGL();
 }
 
-void CGLWidget::LoadTexture(void* data) 
+void CGLWidget::CleanupGL()
 {
-	OMapOperationsGraphics::tTextureData* tdata = (OMapOperationsGraphics::tTextureData*)data;
-	if(data == NULL) {
-		return;
-	}
-	QImage cpixmap;
-	if(*(tdata->texid_) == 0) {
-		cpixmap = tdata->pixmap_->convertToFormat(QImage::Format_RGB32);
-		*(tdata->texid_) = this->bindTexture(cpixmap);
-	} else {
+    if (!context() || !isValid()) { return; }
+    disconnect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CGLWidget::CleanupGL);
+    makeCurrent();
+    glDeleteTextures(1, &timerImageId);
+    timerImageId = 0;
+    MAPOPP.ReleaseTextures();
+    doneCurrent();
+}
 
-		cpixmap = this->convertToGLFormat(*(tdata->pixmap_));
+static GLuint UploadTexture(const QImage& image, GLuint id = 0)
+{
+    if (image.isNull()) { return id; }
+    const QImage rgba = image.convertToFormat(QImage::Format_RGBA8888).flipped(Qt::Vertical);
+    if (!id) { glGenTextures(1, &id); }
+    glBindTexture(GL_TEXTURE_2D, id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rgba.width(), rgba.height(),
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, rgba.constBits());
+    return id;
+}
 
-		const unsigned int w = cpixmap.width();
-		const unsigned int h = cpixmap.height();
-
-		glBindTexture(GL_TEXTURE_2D, *(tdata->texid_));
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, 
-			GL_RGBA, GL_UNSIGNED_BYTE, cpixmap.bits());
-	}
-	delete tdata;
+void CGLWidget::LoadTexture(void* data)
+{
+    const auto* texture = static_cast<OMapOperationsGraphics::tTextureData*>(data);
+    if (texture) {
+        // Upload only in paintGL(), where the widget's context is current.
+        pendingTextures.append({texture->pixmap_, texture->texid_});
+        update();
+    }
 }
 
 bool CGLWidget::event(QEvent* e)
@@ -71,7 +76,10 @@ bool CGLWidget::event(QEvent* e)
 		if(ev->Type() == OMapEvent::E_MAP_START_TIMER) {
 			StartTimer();
 		}
-		if(ev->Type() == OMapEvent::E_MAP_STOP_TIMER) {
+		if(ev->Type() == OMapEvent::E_MAP_IMAGES_READY) {
+            MAPOPP.ImagesReady();
+        }
+		if(ev->Type() == OMapEvent::E_MAP_STOP_TIMER || ev->Type() == OMapEvent::E_MAP_IMAGES_READY) {
 			StopTimer();
 			mParent->EnableThreadControls(true);
 		}
@@ -90,12 +98,12 @@ bool CGLWidget::event(QEvent* e)
 		return true;
 	}
 
-	return QGLWidget::event(e);
+	return QOpenGLWidget::event(e);
 }
 
 void CGLWidget::OnTimer()
 {
-	updateGL();
+	update();
 	angle -= (360.0 / (3.0 * 60.0));
 }
 
@@ -127,6 +135,8 @@ void CGLWidget::DrawTimer()
 	glRotatef(angle, 0.0, 0.0, 1.0);
 	glDrawArrays(GL_QUADS, 0, 4);
 	glPopMatrix();
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void CGLWidget::StartTimer(bool show)
@@ -134,17 +144,18 @@ void CGLWidget::StartTimer(bool show)
 	timerCounter++;
 	if(timerCounter == 1) {
 		showWaiting = show;
-		timer->start(1000.0 / 60.0);
+		timer->start(16);
 	}
 }
 
 void CGLWidget::StopTimer()
 {
+	if (timerCounter == 0) { return; }
 	timerCounter--;
 	if(timerCounter == 0) {
 		showWaiting = false;
 		timer->stop();
-		updateGL();
+		update();
 	}
 }
 
@@ -160,7 +171,8 @@ QSize CGLWidget::sizeHint() const
 
 void CGLWidget::initializeGL()
 {
-	timerImageId = this->bindTexture(timerImage.toImage());
+	connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &CGLWidget::CleanupGL, Qt::DirectConnection);
+    timerImageId = UploadTexture(timerImage.toImage());
 
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
@@ -171,15 +183,6 @@ void CGLWidget::initializeGL()
 	glEnable(GL_TEXTURE_2D);
 
 	glPixelZoom(1.0,1.0);
-
-	QGLFormat format = this->context()->format();
-	hiddenWidget = new QGLWidget(/*format,*/ NULL, this);
-	
-	//init own stuff
-// 	APPMNGR.ChangeState(OAppManager::APP_BASE_STATE);
-// 	float aspect = 0.7;
-// 	APPMNGR.GetState()->Init(&aspect);
-// 	INPUTMGR->ChangeState(INPUT_BASE);
 
 	APPMNGR.ChangeState(OAppManager::APP_MAP_EDIT);
 	APPMNGR.GetState()->Init(this);
@@ -192,10 +195,13 @@ void CGLWidget::paintGL()
 	glClearColor(0.5f, 0.6f, 0.7f, 1.0f);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	
-	//APPMNGR.GetState()->Update();
+    for (const PendingTexture& texture : pendingTextures) {
+        *texture.id = UploadTexture(texture.image, *texture.id);
+    }
+    pendingTextures.clear();
+    glViewport(0, 0, qRound(width() * devicePixelRatioF()), qRound(height() * devicePixelRatioF()));
 	((OAppMapEdit*)APPMNGR.GetState())->Draw(transparency_);
 
-	//this->renderText(0, 0, 0, "Test text");
 
 	if(showGrid) {
 		DrawGrid();
@@ -212,20 +218,14 @@ void CGLWidget::resizeGL(int width, int height)
 
 	glViewport( 0, 0, cx, cy); 
 
-	//3d camera
-	OGL3DCamera* camera = &(APPMNGR.GetState()->GetCamera());
-	OVector4 persp = camera->GetPerspective();
-	persp[3] = (cx + 0.0f) / (cy + 0.0f);
-	camera->SetPerspective(persp);
-
-	 //
-	camera->SwitchToOrthoProjection(OVector4(-cx / 2, cx / 2, -cy / 2, cy / 2));
+    OGL3DCamera* camera = &(APPMNGR.GetState()->GetCamera());
+    camera->SwitchToOrthoProjection(OVector4(-cx / 2.0f, cx / 2.0f, -cy / 2.0f, cy / 2.0f));
 }
 
 void CGLWidget::mousePressEvent(QMouseEvent *event)
 {
 	if(event->button() == Qt::LeftButton) {
-		QPoint point = event->pos();
+		QPoint point = event->position().toPoint();
 		
 		int y = (-(cy + 0.0f) / (cy- 1.0f) * (point.y() + 0.0f) + (cy + 0.0f) / 2.0f);
 		int x = ((cx + 0.0f) / (cx- 1.0f) * (point.x() + 0.0f) - (cx + 0.0f) / 2.0f);
@@ -242,7 +242,7 @@ void CGLWidget::mousePressEvent(QMouseEvent *event)
 
 void CGLWidget::mouseMoveEvent(QMouseEvent *event)
 {
-	QPoint point = event->pos();
+	QPoint point = event->position().toPoint();
 
 	int y = (-(cy + 0.0f) / (cy- 1.0f) * (point.y() + 0.0f) + (cy + 0.0f) / 2.0f);
 	int x = ((cx + 0.0f) / (cx- 1.0f) * (point.x() + 0.0f) - (cx + 0.0f) / 2.0f);
@@ -250,13 +250,13 @@ void CGLWidget::mouseMoveEvent(QMouseEvent *event)
 	point.setX(x);
 
 	INPUTMGR->OnMouseMove(point);
-	updateGL();
+	update();
 }
 
 void CGLWidget::mouseReleaseEvent(QMouseEvent *event)
 {
 	if(event->button() == Qt::LeftButton) {
-		QPoint point = event->pos();
+		QPoint point = event->position().toPoint();
 
 		int y = (-(cy + 0.0f) / (cy- 1.0f) * (point.y() + 0.0f) + (cy + 0.0f) / 2.0f);
 		int x = ((cx + 0.0f) / (cx- 1.0f) * (point.x() + 0.0f) - (cx + 0.0f) / 2.0f);
@@ -269,18 +269,18 @@ void CGLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void CGLWidget::wheelEvent(QWheelEvent *event)
 {
-	QPoint point = event->pos();
+	QPoint point = event->position().toPoint();
 
 	int y = (-(cy + 0.0f) / (cy- 1.0f) * (point.y() + 0.0f) + (cy + 0.0f) / 2.0f);
 	int x = ((cx + 0.0f) / (cx- 1.0f) * (point.x() + 0.0f) - (cx + 0.0f) / 2.0f);
 	point.setY(y);
 	point.setX(x);
 
-	int delta = event->delta();
+	int delta = event->angleDelta().y();
 
 	INPUTMGR->OnMouseWheel( delta, point);
 
-	updateGL();
+	update();
 }
 
 #define DIST 20

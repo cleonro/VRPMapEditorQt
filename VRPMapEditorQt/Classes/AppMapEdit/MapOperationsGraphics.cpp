@@ -3,10 +3,8 @@
 #include "../Utils/OTextures.h"
 #include "../Utils/draw_utils.h"
 
-#include <windows.h>
-#include <process.h>
 #include <QApplication>
-#include "..\..\ccentralwidget.h"
+#include "../../ccentralwidget.h"
 #include "OMapEvent.h"
 
 float patch_center_screen_coordinates[18] = {
@@ -38,7 +36,7 @@ OMapOperationsGraphics::OMapOperationsGraphics()
 
 OMapOperationsGraphics::~OMapOperationsGraphics()
 {
-	::TerminateThread((HANDLE)thread_google_, -1000);
+	StopWorkers();
 }
 
 void OMapOperationsGraphics::Init(void *data)
@@ -47,7 +45,7 @@ void OMapOperationsGraphics::Init(void *data)
 	GetImageFromGoogle();
 }
 
-void OMapOperationsGraphics::GetImageFromGoogleThread2(void* data)
+void OMapOperationsGraphics::GetImageFromGoogleThread(void* data)
 {
 	OMapOperationsGraphics& obj = *((OMapOperationsGraphics*)data);
 
@@ -59,119 +57,43 @@ void OMapOperationsGraphics::GetImageFromGoogleThread2(void* data)
 	double xw, yw;
 	double lat, longit;
 
-	for(int i = 0; i < 9; i++) {
+	for(int i = 0; i < 9 && !QThread::currentThread()->isInterruptionRequested(); i++) {
 		xs = patch_center_screen_coordinates[2 * i];
 		ys = patch_center_screen_coordinates[2 * i + 1];
 		obj.FromScreenCoordToWorldCoord(xs, ys, xw, yw);
 		obj.FromWorldCoordToLatLong(xw, yw, lat, longit);
 
-		char tstr[100];
-		char addr[2000] = "http://maps.google.com/maps/api/staticmap?center=";
-		sprintf_s(tstr, "%.6lf,%.6lf&zoom=%d&", lat, longit, obj.zoom_);
-		strcat_s(addr, tstr);
-		sprintf_s(tstr, "size=%dx%d&", SIZEMAP, SIZEMAP);
-		strcat_s(addr, tstr);
-		sprintf_s(tstr, "maptype=%s&sensor=false", obj.maptype_);
-		strcat_s(addr, tstr);
+		const QByteArray addr = QString("https://maps.googleapis.com/maps/api/staticmap?center=%1,%2&zoom=%3&size=%4x%4&maptype=%5&sensor=false")
+            .arg(lat, 0, 'f', 6).arg(longit, 0, 'f', 6).arg(obj.zoom_)
+            .arg(SIZEMAP).arg(obj.maptype_).toUtf8();
 
-		if(!obj.CallCurl(addr)) {
+		const QByteArray response = obj.FetchUrl(addr.constData());
+        if(response.isEmpty()) {
 			continue;
 		}
 
-		obj.pixmaps_[i].loadFromData(QByteArray(obj.buffer_, size_b_), "png");
+		QImage image;
+        if (!image.loadFromData(response, "png")) {
+            continue;
+        }
 		event = new OMapEvent();
 		event->Type() = OMapEvent::E_MAP_TEXTURE_READY;
 		tTextureData* tdata = new tTextureData;
-		tdata->pixmap_ = &obj.pixmaps_[i];
+		tdata->pixmap_ = image;
 		tdata->texid_ = &obj.texid_[i];
 		event->Data() = (void*)tdata;
 		QApplication::postEvent(obj.view_, event);
 	}
 
-	obj.translate_x_ = 0;
-	obj.translate_y_ = 0;
-
 	event = new OMapEvent();
-	event->Type() = OMapEvent::E_MAP_STOP_TIMER;
-	QApplication::postEvent(obj.view_, event);
-}
-
-void OMapOperationsGraphics::GetImageFromGoogleThread(void* data)
-{
-	
-	OMapOperationsGraphics& obj = *((OMapOperationsGraphics*)data);
-
-	OMapEvent* event = new OMapEvent();
-	event->Type() = OMapEvent::E_MAP_START_TIMER;
-	QApplication::postEvent(obj.view_, event);
-
-	obj.view_->hiddenWidget->makeCurrent();
-
-	double xs, ys;
-	double xw, yw;
-	double lat, longit;
-
-	for(int i = 0; i < 9; i++) {
-
-		xs = patch_center_screen_coordinates[2 * i];
-		ys = patch_center_screen_coordinates[2 * i + 1];
-		obj.FromScreenCoordToWorldCoord(xs, ys, xw, yw);
-		obj.FromWorldCoordToLatLong(xw, yw, lat, longit);
-
-		char tstr[100];
-		char addr[2000] = "http://maps.google.com/maps/api/staticmap?center=";
-		//center=40.702147,-74.015794&zoom=1&size=512x512&maptype=satellite&sensor=false";
-		//sprintf_s(tstr, "%.6lf,%.6lf&zoom=%d&", center_latitude_, center_longitude_, zoom_);
-		sprintf_s(tstr, "%.6lf,%.6lf&zoom=%d&", lat, longit, obj.zoom_);
-		strcat_s(addr, tstr);
-		sprintf_s(tstr, "size=%dx%d&", SIZEMAP, SIZEMAP);
-		strcat_s(addr, tstr);
-		sprintf_s(tstr, "maptype=%s&sensor=false", obj.maptype_);
-		strcat_s(addr, tstr);
-
-		if(!obj.CallCurl(addr)) {
-			continue;
-		}
-
-		QImage pixmap, cpixmap;
-		pixmap.loadFromData(QByteArray(obj.buffer_, size_b_), "png");
-
-		glEnable(GL_TEXTURE_2D);
-
-		if(!obj.texid_[i]) {
-			cpixmap = pixmap.convertToFormat(QImage::Format_RGB32);
-			obj.texid_[i] = obj.view_->bindTexture(cpixmap);
-		} else {
-
-			cpixmap = obj.view_->hiddenWidget->convertToGLFormat(pixmap);
-
-			const unsigned int w = cpixmap.width();
-			const unsigned int h = cpixmap.height();
-
-			glBindTexture(GL_TEXTURE_2D, obj.texid_[i]);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, 
-								GL_RGBA, GL_UNSIGNED_BYTE, cpixmap.bits());
-		}
-	}
-
-	obj.translate_x_ = 0;
-	obj.translate_y_ = 0;
-
-	event = new OMapEvent();
-	event->Type() = OMapEvent::E_MAP_STOP_TIMER;
+	event->Type() = OMapEvent::E_MAP_IMAGES_READY;
 	QApplication::postEvent(obj.view_, event);
 }
 
 bool OMapOperationsGraphics::GetImageFromGoogle()
 {
 	view_->mParent->EnableThreadControls(false);
-#if _USE_INTEL_
-	thread_google_ = _beginthread(OMapOperationsGraphics::GetImageFromGoogleThread2, 0, (void*)this);
-#else
-	thread_google_ = _beginthread(OMapOperationsGraphics::GetImageFromGoogleThread, 0, (void*)this);
-#endif
+	thread_google_.Start(OMapOperationsGraphics::GetImageFromGoogleThread, this);
 	return true;
 }
 
@@ -217,6 +139,7 @@ void OMapOperationsGraphics::DrawMap()
 	glTexCoordPointer(2, GL_FLOAT, 0, tcoord);
 
 	for(int i = 0; i < 9; i++) {
+		if (!texid_[i]) { continue; }
 		glBindTexture(GL_TEXTURE_2D, texid_[i]);
 		glPushMatrix();
 
@@ -227,5 +150,12 @@ void OMapOperationsGraphics::DrawMap()
 		glPopMatrix();
 	}
 
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
 	//VDraws->DrawAxes(sz, 1.0f);
+}
+void OMapOperationsGraphics::ReleaseTextures()
+{
+    glDeleteTextures(9, texid_);
+    for (GLuint& id : texid_) { id = 0; }
 }

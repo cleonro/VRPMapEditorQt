@@ -1,7 +1,6 @@
 #include "GenerateRoutesUi.h"
 #include "Classes/AppMapEdit/MapOperationsInput.h"
 #include "Classes/AppMapEdit/AppMapEdit.h"
-#include <process.h>
 #include <QFileDialog>
 #include <fstream>
 #include "UiModels.h"
@@ -50,7 +49,7 @@ void CGenerateRoutesUi::OnButtonOne()
 
 	float r;
 	QString hours = ui_.lineHours->text();
-	r = atof(hours.toAscii().data());
+	r = atof(hours.toUtf8().data());
 	if(r > 0) {
 		generator.max_time_ = r;
 	}
@@ -82,7 +81,7 @@ void CGenerateRoutesUi::OnButtonAll()
 
 	float r;
 	QString hours = ui_.lineHours->text();
-	r = atof(hours.toAscii().data());
+	r = atof(hours.toUtf8().data());
 	if(r > 0) {
 		generator.max_time_ = r;
 	}
@@ -100,7 +99,7 @@ void CGenerateRoutesUi::OnButtonSave()
 	}
 
 	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	generator.PrintRoutesXml(file_name.toAscii().data());
+	generator.PrintRoutesXml(file_name.toUtf8().data());
 }
 
 void CGenerateRoutesUi::OnButtonReset()
@@ -211,7 +210,7 @@ void CUiCustomRoutes::OnReadFileButton()
 // 	ui_.treeView->setModel(generator.customRoutesUiModel_);
 
 	generator.InitDaysQuantities();
-	generator.ParseCustomRoutesFile(file_name.toAscii().data());
+	generator.ParseCustomRoutesFile(file_name.toUtf8().data());
 	generator.InitDaysQuantities();
 }
 
@@ -229,5 +228,5 @@ void CUiCustomRoutes::OnReadFileButton()
 	}
 
 	ORoutesGenerator& generator = MAPOPP.GetGenerator();
-	generator.PrintRoutesXml(file_name.toAscii().data(), 1);
+	generator.PrintRoutesXml(file_name.toUtf8().data(), 1);
  }

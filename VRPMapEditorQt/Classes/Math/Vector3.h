@@ -5,6 +5,7 @@
 class OVector3
 {
 	friend class OMatrix4x4;
+    friend class OVector4;
 public:
 //constructors
 	OVector3();

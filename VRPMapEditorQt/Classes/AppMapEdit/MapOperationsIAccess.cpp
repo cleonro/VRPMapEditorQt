@@ -1,105 +1,88 @@
 #include "MapOperationsIAccess.h"
 #include "../xml/rapidxml.hpp"
-//#include "../Network/curl/curl.h"
-
-int OMapOperationsIAccess::size_b_ = 0;
-
-//http://code.google.com/apis/maps/documentation/utilities/polylinealgorithm.html
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QEventLoop>
+#include <QTimer>
+#include <QDebug>
+#include <QUrlQuery>
 
 OMapOperationsIAccess::OMapOperationsIAccess()
 {
-	buffer_ = new char[SIZEBUFF];
-	path_ = NULL;
-	route_ = NULL;
-
-// 	CURL *curl;
-// 	CURLcode res;
-	curl = curl_easy_init();
-	if(!curl) {
-		printf("\nCurl not initialized...\n");
-	}
+    path_ = nullptr;
+    route_ = nullptr;
 }
 
 OMapOperationsIAccess::~OMapOperationsIAccess()
 {
-	if(buffer_) {
-		delete [] buffer_;
-	}
-	if(curl) {
-		curl_easy_cleanup(curl);
-	}
 }
 
-unsigned int OMapOperationsIAccess::write_tc(char *in, unsigned int size, unsigned int nmemb, char *out)
+QByteArray OMapOperationsIAccess::FetchUrl(const char* address)
 {
-	unsigned int r;
-	r = size * nmemb;
-
-	memcpy(out + size_b_, in, r);
-
-	size_b_ += r;
-	return r;
-}
-
-bool OMapOperationsIAccess::CallCurl(char addr[])
-{
-// 	CURL *curl;
-// 	CURLcode res;
-// 	curl = curl_easy_init();
-// 	if(!curl) {
-// 		printf("\nCurl not initialized...\n");
-// 		return false;
-// 	}
-
-	CURLcode res;
-
-	char curl_errbuf[CURL_ERROR_SIZE] = "";
-	curl_easy_setopt(curl, CURLOPT_URL, addr);
-	curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, curl_errbuf);
-	curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L); 
-	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, OMapOperationsIAccess::write_tc); 
-	curl_easy_setopt(curl, CURLOPT_WRITEDATA, buffer_); 
-	size_b_ = 0;
-	res = curl_easy_perform(curl);
-	if(res != CURLE_OK) {
-		printf("\n Error calling Curl...\n%s\n", curl_errbuf);
-		//curl_easy_cleanup(curl);
-		return false;
-	}
-
-	//curl_easy_cleanup(curl);
-	return true;
+    // The manager and reply belong to the calling thread, including worker jobs.
+    QNetworkAccessManager manager;
+    QUrl url(QString::fromUtf8(address));
+    if (url.host() == "maps.googleapis.com") {
+        const QString key = qEnvironmentVariable("GOOGLE_MAPS_API_KEY");
+        if (key.isEmpty()) { return {}; }
+        QUrlQuery query(url);
+        query.addQueryItem("key", key);
+        url.setQuery(query);
+    }
+    if (QThread::currentThread()->isInterruptionRequested()) { return {}; }
+    QNetworkRequest request{url};
+    request.setTransferTimeout(30000);
+    QNetworkReply* reply = manager.get(request);
+    reply->setReadBufferSize(SIZEBUFF);
+    QEventLoop loop;
+    QTimer deadline;
+    deadline.setSingleShot(true);
+    QObject::connect(&deadline, &QTimer::timeout, reply, &QNetworkReply::abort);
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    QByteArray response;
+    bool tooLarge = false;
+    const auto read = [&] {
+        const QByteArray chunk = reply->readAll();
+        if (chunk.size() > SIZEBUFF - 1 - response.size()) {
+            tooLarge = true;
+            reply->abort();
+            return;
+        }
+        response.append(chunk);
+    };
+    QObject::connect(reply, &QIODevice::readyRead, &loop, read);
+    QTimer cancellation;
+    QObject::connect(&cancellation, &QTimer::timeout, reply, [reply] {
+        if (QThread::currentThread()->isInterruptionRequested()) { reply->abort(); }
+    });
+    cancellation.start(100);
+    deadline.start(30000);
+    loop.exec();
+    read();
+    const bool ok = !tooLarge && reply->error() == QNetworkReply::NoError;
+    if (!ok) { qWarning() << "Map request failed with network error" << reply->error(); }
+    delete reply;
+    return ok ? response : QByteArray{};
 }
 
 bool OMapOperationsIAccess::FindRoute(double latitude0, double longitude0, double latitude1, double longitude1)
 {
-	//http://maps.googleapis.com/maps/api/directions/json?origin=Boston,MA&destination=Concord,MA&waypoints=Charlestown,MA|Lexington,MA&sensor=false
-	char tstr[100];
-	char addr[2000] = "http://maps.googleapis.com/maps/api/directions/xml?origin=";
-	sprintf_s(tstr, "%.6lf,%.6lf&destination=", latitude0, longitude0);
-	strcat_s(addr, tstr);
-	sprintf_s(tstr, "%.6lf,%.6lf&sensor=false", latitude1, longitude1);
-	strcat_s(addr, tstr);
-
-	if(!CallCurl(addr)) {
-		return false;
-	}
-
-	buffer_[size_b_] = 0;
-	return ParseDirectionsResponseXML();
-	//printf("\n%s\n", buffer_);
-
-	return true;
+    const QByteArray address = QString("https://maps.googleapis.com/maps/api/directions/xml?origin=%1,%2&destination=%3,%4&sensor=false")
+        .arg(latitude0, 0, 'f', 6).arg(longitude0, 0, 'f', 6)
+        .arg(latitude1, 0, 'f', 6).arg(longitude1, 0, 'f', 6).toUtf8();
+    const QByteArray response = FetchUrl(address.constData());
+    if (response.isEmpty()) { return false; }
+    return ParseDirectionsResponseXML(response);
 }
 
 bool OMapOperationsIAccess::FindRoute(int i, int j)
 {
 	int N = graph_.GetSize();
-	if(i < 0 && i >= N) {
+	if(i < 0 || i >= N) {
 		return false;
 	}
-	if(j < 0 && j >= N) {
+	if(j < 0 || j >= N) {
 		return false;
 	}
 
@@ -111,14 +94,17 @@ bool OMapOperationsIAccess::FindRoute(int i, int j)
 	return FindRoute(lat0, longit0, lat1, longit1);
 }
 
-bool OMapOperationsIAccess::ParseDirectionsResponseXML()
+bool OMapOperationsIAccess::ParseDirectionsResponseXML(QByteArray response)
 {
 	rapidxml::xml_document<> doc;
-	doc.parse<0>(buffer_);
-	rapidxml::xml_node<> *direction_response = doc.first_node();
+    try { doc.parse<0>(response.data()); }
+    catch (const rapidxml::parse_error&) { return false; }
+	rapidxml::xml_node<> *direction_response = doc.first_node("DirectionsResponse");
+    if (!direction_response) { return false; }
 
 	rapidxml::xml_node<> *status = direction_response->first_node("status");
 	//rapidxml::xml_attribute<> *status = direction_response->first_attribute();
+	if (!status) { return false; }
 	if(strcmp(status->value(), "OK") != 0) {
 		if(strcmp(status->value(), "OVER_QUERY_LIMIT") == 0) {
 			printf("\nOVER_QUERY_LIMIT reached...\n");
@@ -128,18 +114,23 @@ bool OMapOperationsIAccess::ParseDirectionsResponseXML()
 	//printf("\n%s %s\n", status->name(), status->value());
 
 	rapidxml::xml_node<> *route = direction_response->first_node("route");
+	if (!route) { return false; }
 	rapidxml::xml_node<> *overview_polyline = route->first_node("overview_polyline");
+    if (!overview_polyline) { return false; }
 	rapidxml::xml_node<> *points = overview_polyline->first_node("points");
 	//printf("\n%s\n%s\n", points->name(), points->value());
 
-	PolylineDecoder(points->value(), path_);
+	if (!points || !path_ || !route_) { return false; }
+    PolylineDecoder(points->value(), path_);
 
 	rapidxml::xml_node<> *leg = route->first_node("leg");
-	rapidxml::xml_node<> *duration = leg->first_node("duration")->first_node("value");
-	rapidxml::xml_node<> *distance = leg->first_node("distance")->first_node("value");
+	if (!leg || !leg->first_node("duration") || !leg->first_node("distance")) { return false; }
+    rapidxml::xml_node<> *duration = leg->first_node("duration")->first_node("value");
+    rapidxml::xml_node<> *distance = leg->first_node("distance")->first_node("value");
 	rapidxml::xml_node<> *start_address = leg->first_node("start_address");
 	rapidxml::xml_node<> *end_address = leg->first_node("end_address");
 
+    if (!duration || !distance || !start_address || !end_address) { return false; }
 	printf("\nRoute\nDuration %s\nDistance %s\nStart Address %s\nEnd Address %s\n", duration->value(),
 		distance->value(), start_address->value(), end_address->value());
 
@@ -153,8 +144,8 @@ bool OMapOperationsIAccess::ParseDirectionsResponseXML()
 	route_->SetRouteInf(route_inf);
 
 	tRouteAddr route_addr;
-	strncpy_s(route_addr.start_address_, start_address->value(), 48);
-	strncpy_s(route_addr.end_address_, end_address->value(), 48);
+	qstrncpy(route_addr.start_address_, start_address->value(), sizeof(route_addr.start_address_));
+	qstrncpy(route_addr.end_address_, end_address->value(), sizeof(route_addr.end_address_));
 	route_->SetRouteAddr(route_addr);
 
 	return true;

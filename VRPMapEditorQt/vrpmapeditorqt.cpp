@@ -1,18 +1,17 @@
 #include "vrpmapeditorqt.h"
 
-#include <process.h>
 #include <QDataStream>
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "Classes\AppMapEdit\MapOperationsInput.h"
+#include "Classes/AppMapEdit/MapOperationsInput.h"
 #include "ui_FindNodeUi.h"
-#include "Classes\AppBaseState.h"
-#include "Classes\AppMapEdit\AppMapEdit.h"
+#include "Classes/AppBaseState.h"
+#include "Classes/AppMapEdit/AppMapEdit.h"
 #include "UiModels.h"
 #include "AppMapEdit/OMapEvent.h"
 
-VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WFlags flags)
+VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WindowFlags flags)
 	: QMainWindow(parent, flags)
 {
 	this->setBaseSize(QSize(1024, 768));
@@ -33,7 +32,7 @@ VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WFlags flags)
 	amax_ = 8;
 	documentName_ = "untitled";
 	appName_ = "VRPMapEditorQt";
-	documentFilePath_ = ".\\";
+	documentFilePath_ = "./";
 	saved_ = true;
 	this->setWindowTitle(appName_ + " - " + documentName_);
 	connect(&(MAPOPP), SIGNAL(mapChanged()), this, SLOT(MapChanged()));
@@ -49,6 +48,8 @@ VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WFlags flags)
 
 VRPMapEditorQt::~VRPMapEditorQt()
 {
+	connection_thread_.Stop();
+	MAPOPP.StopWorkers();
 	delete dlgGenerateRoutes_;
 }
 
@@ -188,8 +189,12 @@ void VRPMapEditorQt::Save()
 		documentFilePath_ = file_name;
 	}
 	QFile file(documentFilePath_);
-	file.open(QIODevice::WriteOnly);
-	QDataStream out(&file); 
+	if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, tr("Save failed"), file.errorString());
+        return;
+    }
+	QDataStream out(&file);
+	out.setVersion(QDataStream::Qt_4_8);
 	out << MAPOPP;
 	documentName_ = file.fileName();
 	this->setWindowTitle(appName_ + " - " + documentName_);
@@ -207,8 +212,12 @@ void VRPMapEditorQt::SaveAs()
 		documentFilePath_ = file_name;
 	
 	QFile file(documentFilePath_);
-	file.open(QIODevice::WriteOnly);
-	QDataStream out(&file); 
+	if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, tr("Save failed"), file.errorString());
+        return;
+    }
+	QDataStream out(&file);
+	out.setVersion(QDataStream::Qt_4_8);
 	out << MAPOPP;
 	documentName_ = file.fileName();
 	this->setWindowTitle(appName_ + " - " + documentName_);
@@ -266,8 +275,12 @@ void VRPMapEditorQt::Open()
 	emit clearGenRoutesDlg();
 
 	QFile file(file_name);
-	file.open(QIODevice::ReadOnly);
+	if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Open failed"), file.errorString());
+        return;
+    }
 	QDataStream in(&file);
+	in.setVersion(QDataStream::Qt_4_8);
 	in>>MAPOPP;
 	documentName_ = file.fileName();
 	documentFilePath_ = documentName_;
@@ -301,7 +314,7 @@ void VRPMapEditorQt::ImportXml()
 		return;
 	}
 
-	MAPOPP.ImportGraphFromXml(file_name.toAscii().data());
+	MAPOPP.ImportGraphFromXml(file_name.toUtf8().data());
 	documentName_ = "untitled";
 	saved_ = false;
 	this->setWindowTitle(appName_ + " - " + documentName_ + "*");
@@ -320,13 +333,13 @@ void VRPMapEditorQt::FindNode()
 	if(dlg.exec() == QDialog::Accepted) {
 		QString node = ui.lineNodeName->text();
 		//const char* name = node.toAscii().data();
-		int indx = atoi(node.toAscii().data());
+		int indx = atoi(node.toUtf8().data());
 		if(indx == 0) {
-			if(strcmp("0", node.toAscii().data()) != 0) {
+			if(strcmp("0", node.toUtf8().data()) != 0) {
 				indx = -1;
 			}
 		}
-		MAPOPP.FindNode(node.toAscii().data(), indx);
+		MAPOPP.FindNode(node.toUtf8().data(), indx);
 		((OAppMapEdit*)APPMNGR.GetState())->ReDraw();
 	}
 }
@@ -351,7 +364,7 @@ void VRPMapEditorQt::GenereazaConexiuni()
 	cw->StartTimer();
 
 	void *param = (void*)cw;
-	_beginthread(VRPMapEditorQt::StartThreadGenerateConnections, 0, param);
+	connection_thread_.Start(VRPMapEditorQt::StartThreadGenerateConnections, param);
 }
 
 void VRPMapEditorQt::StartThreadGenerateConnections(void* param)

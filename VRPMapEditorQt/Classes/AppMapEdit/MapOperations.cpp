@@ -3,7 +3,6 @@
 
 #include "MapOperations.h"
 #include "../Utils/OTextures.h"
-#include "../Network/curl/curl.h"
 #include <math.h>
 #include "../VariousObjects.h"
 #include "../xml/rapidxml.hpp"
@@ -14,13 +13,11 @@
 //#include "../../NodeDialogView.h"
 
 #include "GraphAlgorithms/GraphAlgorithm.h"
-#include "../Xml/rapidxml_print.hpp"
+#include "../xml/rapidxml_print.hpp"
 #include <fstream>
 
-#include <windows.h>
-#include <process.h>
 #include <QApplication>
-#include "..\..\ccentralwidget.h"
+#include "../../ccentralwidget.h"
 #include "OMapEvent.h"
 
 QDataStream& operator<<(QDataStream& ar, const OMapOperations& map_op)
@@ -55,7 +52,7 @@ OMapOperations::OMapOperations()
 
 OMapOperations::~OMapOperations()
 {
-	::TerminateThread((HANDLE)thread_importxml_, -1000);
+	thread_importxml_.Stop();
 }
 
 void OMapOperations::SetView(CGLWidget* glview) 
@@ -236,7 +233,7 @@ void OMapOperations::ImportGraphFromXml(char* filename)
 	int r = strlen(filename);
 	data->filename_ = new char[r + 1];
 	strcpy(data->filename_, filename);
-	thread_importxml_ = _beginthread(OMapOperations::ImportGraphFromXmlThread, 0, (void*)data);
+	thread_importxml_.Start(OMapOperations::ImportGraphFromXmlThread, data);
 	//ImportGraphFromXmlThread((void*)data);
 }
 

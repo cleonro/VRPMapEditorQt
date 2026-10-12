@@ -3,19 +3,20 @@
 
 #include "MapOperationsIAccess.h"
 
-#define _USE_INTEL_ 1
-
 class OMapOperationsGraphics : public OMapOperationsIAccess
 {
 	Q_OBJECT
 public:
 	struct tTextureData 
 	{
-		QImage* pixmap_;
+		QImage pixmap_;
 		GLuint* texid_;
 	};
 
 public:
+	void StopWorkers() { thread_google_.Stop(); StopImport(); }
+	void ReleaseTextures();
+	void ImagesReady() { translate_x_ = 0; translate_y_ = 0; }
 	void Draw(float transparency = 0.7);
 	void Init(void *data);
 	inline void SetDrawArcs(bool b) { draw_arcs_ = b; graph_.BlockArcDraw() = !b;}
@@ -25,10 +26,6 @@ protected:
 	OMapOperationsGraphics();
 	~OMapOperationsGraphics();
 
-	//for intel problems
-	QImage pixmaps_[9];
-	//
-
 	int line_width_;
 	bool drawline_;
 	float line_[4];//line drawn on map
@@ -36,7 +33,7 @@ protected:
 	float translate_x_;
 	float translate_y_;
 	bool draw_arcs_;
-	uintptr_t thread_google_;
+	WorkerThread thread_google_;
 
 	bool GetImageFromGoogle();
 	bool access_blocked_;//shows if access to resources is blocked
@@ -44,7 +41,6 @@ protected:
 
 	//thread
 	static void GetImageFromGoogleThread(void* data);
-	static void GetImageFromGoogleThread2(void* data);
 };
 
 #endif

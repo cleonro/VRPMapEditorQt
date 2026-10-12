@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QTimer>
 #include <QPixmap>
 
 class CCentralWidget;
 
-class CGLWidget : public QGLWidget
+class CGLWidget : public QOpenGLWidget
 {
 	Q_OBJECT
 public:
@@ -21,7 +21,6 @@ public:
 	void StopTimer();
 	bool event(QEvent* e);
 	
-	QGLWidget* hiddenWidget;
 	CCentralWidget* mParent;
 	float transparency_;
 	bool showGrid;
@@ -35,6 +34,9 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 	void wheelEvent(QWheelEvent *event);
 	void LoadTexture(void* data);
+    void CleanupGL();
+    struct PendingTexture { QImage image; GLuint* id; };
+    QList<PendingTexture> pendingTextures;
 
 	void DrawTimer();
 	void DrawGrid();

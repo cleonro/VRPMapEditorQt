@@ -1,10 +1,9 @@
 #pragma once
 
-#include <windows.h>
 //#include <afxwin.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <QtGui/qopengl.h>
 #include <vector>
+#include "../Utils/WorkerThread.h"
 #include "GraphMap/GraphMap.h"
 
 #include "../../GLWidget.h"
@@ -26,6 +25,7 @@ public:
 	void ImportGraphFromXml(char* filename);
 	static void ImportGraphFromXmlThread(void* data);
 
+	void StopImport() { thread_importxml_.Stop(); }
 	void SetView(CGLWidget* glview);
 	inline CGLWidget* View() {return view_;}
 
@@ -63,7 +63,7 @@ protected:
 	OGraphNode* node_[2];	
 	int index_[2];
 	int selected_;//shows how many nodes are selected on the map (two at most)
-	uintptr_t thread_importxml_;
+	WorkerThread thread_importxml_;
 	
 	//return the index of a graph node, close to the point (xworld, yworld) 
 	int SearchScreenCoordinatesInGraphNodes(double xscreen, double yscreen);

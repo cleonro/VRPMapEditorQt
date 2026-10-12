@@ -32,7 +32,7 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 	int r;
 	QString str_name;
 	ar>>r>>node.latitude_>>node.longitude_>>str_name;
-	strncpy(node.name_, str_name.toAscii().data(), 20);
+	qstrncpy(node.name_, str_name.toUtf8().data(), sizeof(node.name_));
 	switch(r) {
 		case 0:
 			node.type_ = OGraphNode::N_START;
@@ -56,7 +56,7 @@ QDataStream& operator>>(QDataStream& ar, OGraphNode& node)
 	if(node.type_ == OGraphNode::N_START || node.type_ == OGraphNode::N_INFO_NODE) {
 		QString str_special_info;
 		ar>>str_special_info;
-		node.special_info_ = str_special_info.toAscii().constData();
+		node.special_info_ = str_special_info.toUtf8().constData();
 		//str_vehicles = nb_vehtip1 name_tip1 cap_tip1 ... | [costs_veh1]...
 		//"|" separates vehicle types from vehicle costs
 		
@@ -87,13 +87,13 @@ OGraphNode::OGraphNode()
 {
 	selected_ = false;
 
-	strcpy_s(name_, "");
+	qstrncpy(name_, "", sizeof(name_));
 	waiting_time_ = 0.0;
 	quantity_ = 0.0;
 
 	//vehicles_.reserve(10);
-	//strcpy_s(vehicles_, "");
-	//strcpy_s(vehicles_cost_, "");
+	//qstrncpy(vehicles_, "", sizeof(vehicles_));
+	//qstrncpy(vehicles_cost_, "", sizeof(vehicles_cost_));
 	special_info_ = "";
 
 	accesib_index_ = 1.0;
@@ -122,7 +122,7 @@ void OGraphNode::SetCoordinates(double lat, double longit)
 
 void OGraphNode::SetNodeInf(tNodeInf node_info)
 {
-	//strcpy_s(name_, node_info.name_);
+	//qstrncpy(name_, node_info.name_, sizeof(name_));
 	waiting_time_ = node_info.waiting_time_;
 	quantity_ = node_info.quantity_;
 }
@@ -130,7 +130,7 @@ void OGraphNode::SetNodeInf(tNodeInf node_info)
 tNodeInf OGraphNode::GetNodeInf()
 {
 	tNodeInf node_info;
-	//strcpy_s(node_info.name_, name_);
+	//qstrncpy(node_info.name_, name_, sizeof(node_info.name_));
 	node_info.waiting_time_ = waiting_time_;
 	node_info.quantity_ = quantity_;
 	return node_info;

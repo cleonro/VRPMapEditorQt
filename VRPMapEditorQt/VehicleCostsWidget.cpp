@@ -43,7 +43,7 @@ void CVehicleCostsWidget::OnMem()
 	QString cost_stat = ui_.lineCostStat->text();
 	
 	tVehicleType t;
-	t.name_ = name.toAscii().constData();
+	t.name_ = name.toUtf8().constData();
 	t.capacity_ = capac.toInt();
 	t.number_ = nr_veh.toInt();
 	

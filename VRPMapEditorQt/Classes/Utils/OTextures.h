@@ -1,10 +1,8 @@
 #ifndef _O_TEXTURES_H_
 #define _O_TEXTURES_H_
 
-#include <windows.h>
 //#include <afxwin.h>
-#include <GL\GL.h>
-#include <GL\GLU.h>
+#include <QtGui/qopengl.h>
 
 class OTextures 
 {

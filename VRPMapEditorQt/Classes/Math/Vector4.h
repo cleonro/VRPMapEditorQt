@@ -2,6 +2,8 @@
 
 #include "Vector3.h"
 
+class OMatrix4x4;
+
 class OVector4
 {
 	friend class OMatrix4x4;
@@ -19,7 +21,7 @@ public:
 	inline float& Y(){return y_;}
 	inline float& Z(){return z_;}
 	inline float& W(){return w_;}
-	inline OVector3& V3(){return vec3_;}
+	inline OVector3 V3() const { return OVector3(x_, y_, z_); }
 	void Print();
 //math operators
 	OVector4 operator+(const OVector4&) const;
@@ -40,10 +42,6 @@ protected:
 			float x_, y_, z_, w_; 
 		};
 
-		struct {
-			OVector3 vec3_;
-			float w_;
-		};
 	};
 };
 

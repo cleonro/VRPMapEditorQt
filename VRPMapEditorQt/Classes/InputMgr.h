@@ -1,7 +1,7 @@
 #pragma once
 
 #include "InputBaseState.h"
-#include "AppMapEdit\InputMapEdit.h"
+#include "AppMapEdit/InputMapEdit.h"
 #include <QPoint>
 
 enum eInputStates 

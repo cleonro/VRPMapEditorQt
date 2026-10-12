@@ -1,9 +1,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#include <windows.h>
 //#include <afxwin.h>
-#include <GL\GL.h>
-#include <GL\GLU.h>
+#include <QtGui/qopengl.h>
 
 #define DRAW2D (ODraw2D::GetInstance())
 

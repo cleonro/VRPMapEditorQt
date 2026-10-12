@@ -10,10 +10,8 @@
 #ifndef _VARIOUSOBJECTS_H_
 #define _VARIOUSOBJECTS_H_
 
-#include <windows.h>
 //#include <afxwin.h>
-#include <GL\GL.h>
-#include <GL\GLU.h>
+#include <QtGui/qopengl.h>
 
 #define VDraws OVariousObjects::GetInstance()
 

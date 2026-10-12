@@ -6,8 +6,8 @@
 #include <QPixmap>
 #include <QItemSelectionModel>
 
-#include "Classes\AppMapEdit\GraphMap\GraphNode.h"
-#include "Classes\AppMapEdit\GraphMap\GraphRoute.h"
+#include "Classes/AppMapEdit/GraphMap/GraphNode.h"
+#include "Classes/AppMapEdit/GraphMap/GraphRoute.h"
 #include "Classes/AppMapEdit/MapOperationsInput.h"
 #include "Classes/AppMapEdit/AppMapEdit.h"
 
@@ -77,7 +77,7 @@ void CUiModels::AddItemToClistModel(OGraphNode* node)
 
 	QStandardItem* it_quant = new QStandardItem(QString("%1").arg(quant)); 
 	void *p = node;
-	QVariant dt = qVariantFromValue(p);;
+	QVariant dt = QVariant::fromValue(p);;
 	//dt.fromValue<void*>(p);
 	it->setData(dt);
 	QPixmap im;

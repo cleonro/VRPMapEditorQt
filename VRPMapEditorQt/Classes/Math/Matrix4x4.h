@@ -9,6 +9,7 @@ class OVector3;
 class OMatrix4x4
 {
 	friend class OVector4;
+    friend class OQuaternion;
 public:
 //constructors
 	OMatrix4x4();

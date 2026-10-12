@@ -3,7 +3,6 @@
 
 #include <fstream>
 #include <iostream>
-#include <strstream>
 #include <sstream>
 
 
@@ -739,7 +738,7 @@ void ORoutesGenerator::PrintRoutes(int sel)
 		p_routes = custom_routes_;
 		strcpy(flname, "RuteVehicule(2).txt");
 	}
-	char* daynames[5] = {
+	const char* daynames[5] = {
 		"LUNI",
 		"MARTI",
 		"MIERCURI",
@@ -869,11 +868,11 @@ void ORoutesGenerator::PrintRoutesXml(char* filepath, int sel)
 		QStandardItem* item_day_time = model->itemFromIndex(model->index(i, 3));
 		QStandardItem* item_day_cost = model->itemFromIndex(model->index(i, 4));
 		xml_node<>* row_day = doc.allocate_node(node_element, "Row");
-		row_day->append_node(AllocateCellNode(doc, item_day->text().toAscii().data()));
-		row_day->append_node(AllocateCellNode(doc, item_day_nodes->text().toAscii().data(), 3));
-		row_day->append_node(AllocateCellNode(doc, item_day_dist->text().toAscii().data(), 4));
-		row_day->append_node(AllocateCellNode(doc, item_day_time->text().toAscii().data(), 5));
-		row_day->append_node(AllocateCellNode(doc, item_day_cost->text().toAscii().data(), 6));
+		row_day->append_node(AllocateCellNode(doc, item_day->text().toUtf8().data()));
+		row_day->append_node(AllocateCellNode(doc, item_day_nodes->text().toUtf8().data(), 3));
+		row_day->append_node(AllocateCellNode(doc, item_day_dist->text().toUtf8().data(), 4));
+		row_day->append_node(AllocateCellNode(doc, item_day_time->text().toUtf8().data(), 5));
+		row_day->append_node(AllocateCellNode(doc, item_day_cost->text().toUtf8().data(), 6));
 		doc.append_node(row_day);
 
 		for(int j = 0; j < item_day->rowCount(); j++) {
@@ -884,11 +883,11 @@ void ORoutesGenerator::PrintRoutesXml(char* filepath, int sel)
 			QStandardItem* item_cost = item_day->child(j, 4);
 
 			xml_node<>* row_veh = doc.allocate_node(rapidxml::node_element, "Row");
-			row_veh->append_node(AllocateCellNode(doc, item_veh->text().toAscii().data(), 2));
-			row_veh->append_node(AllocateCellNode(doc, item_nodes->text().toAscii().data(), 3));
-			row_veh->append_node(AllocateCellNode(doc, item_dist->text().toAscii().data(), 4));
-			row_veh->append_node(AllocateCellNode(doc, item_time->text().toAscii().data(), 5));
-			row_veh->append_node(AllocateCellNode(doc, item_cost->text().toAscii().data(), 6));
+			row_veh->append_node(AllocateCellNode(doc, item_veh->text().toUtf8().data(), 2));
+			row_veh->append_node(AllocateCellNode(doc, item_nodes->text().toUtf8().data(), 3));
+			row_veh->append_node(AllocateCellNode(doc, item_dist->text().toUtf8().data(), 4));
+			row_veh->append_node(AllocateCellNode(doc, item_time->text().toUtf8().data(), 5));
+			row_veh->append_node(AllocateCellNode(doc, item_cost->text().toUtf8().data(), 6));
 			doc.append_node(row_veh);
 
 			for(int k = 0; k < item_veh->rowCount(); k++) {

@@ -287,16 +287,16 @@ void OMapOperationsInput::EditNodeInf()
 	OGraphNode::eNodeType ntype = node_[0]->GetType();
 	switch(ntype) {
 	case OGraphNode::N_CLIENT:
-		strcpy_s(nvtype, "Client");
+		qstrncpy(nvtype, "Client", sizeof(nvtype));
 		break;
 	case OGraphNode::N_START:
-		strcpy_s(nvtype, "Punct Pornire");
+		qstrncpy(nvtype, "Punct Pornire", sizeof(nvtype));
 		break;
 	case OGraphNode::N_DEPOT:
-		strcpy_s(nvtype, "Depozit");
+		qstrncpy(nvtype, "Depozit", sizeof(nvtype));
 		break;
 	case OGraphNode::N_TRANSIT:
-		strcpy_s(nvtype, "ST Transfer");
+		qstrncpy(nvtype, "ST Transfer", sizeof(nvtype));
 		break;
 	}
 
@@ -318,7 +318,7 @@ void OMapOperationsInput::EditNodeInf()
 
 	if(node_dialog.exec() == QDialog::Accepted) {
 		node_dialog.DataExchange(false);
-		strncpy(node_[0]->GetName(), node_dialog.mName.toAscii().data(), 19);
+		strncpy(node_[0]->GetName(), node_dialog.mName.toUtf8().data(), 19);
 
 		node_info.quantity_ = node_dialog.mQuantity;
 		node_info.waiting_time_ = node_dialog.mTime;
@@ -326,7 +326,7 @@ void OMapOperationsInput::EditNodeInf()
 		node_[0]->SetNodeInf(node_info);
 
 		//strncpy(node_[0]->Vehicles(), node_dialog.mVehicles.toAscii().data(), 200);
-		node_[0]->SpecialInfoString() = node_dialog.mVehicles.toAscii().data();
+		node_[0]->SpecialInfoString() = node_dialog.mVehicles.toUtf8().data();
 
 		node_[0]->Accesibility() = node_dialog.mAccessibility;
 		node_[0]->Locals() = node_dialog.mHabitants;
@@ -419,6 +419,7 @@ void OMapOperationsInput::GenerateRoutes()
 		}
 
 		for(int j = jst; j >=0; j--) {
+            if (QThread::currentThread()->isInterruptionRequested()) { return; }
 			printf("\n add route (%d, %d)", i, j);
 			route_ = new OGraphRoute;
 			path_ = route_->GetPathAddr();
@@ -446,7 +447,7 @@ void OMapOperationsInput::GenerateRoutes()
 				return;
 			}
 			//Sleep(25);
-			Sleep(250);
+			QThread::msleep(250);
 			graph_.GetNode(i)->Select(false);
 			graph_.GetNode(j)->Select(false);
 		}

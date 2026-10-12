@@ -1,5 +1,5 @@
 #include "ccentralwidget.h"
-#include "Classes\AppMapEdit\MapOperationsInput.h"
+#include "Classes/AppMapEdit/MapOperationsInput.h"
 #include "UiModels.h"
 
 CCentralWidget::CCentralWidget(QWidget *parent)
@@ -57,21 +57,21 @@ void CCentralWidget::ComboBoxIndexChanged(QString index)
 		f = false;
 		return;
 	}
-	MAPOPP.SetMapType(index.toAscii().data());
+	MAPOPP.SetMapType(index.toUtf8().data());
 }
 
 void CCentralWidget::ShowGridClicked()
 {
 	bool st = ui.glwidget->showGrid;
 	ui.glwidget->showGrid = !st;
-	ui.glwidget->updateGL();
+	ui.glwidget->update();
 }
 
 void CCentralWidget::ShowConnectionsClicked()
 {
 	bool st = ui.showConnections->isChecked();
 	MAPOPP.SetDrawArcs(st);
-	ui.glwidget->updateGL();
+	ui.glwidget->update();
 }
 
 void CCentralWidget::EnableThreadControls(bool enable)
@@ -88,13 +88,13 @@ void CCentralWidget::EnableThreadControls(bool enable)
 void CCentralWidget::SliderValueChanged(int value)
 {
 	ui.glwidget->transparency_ = value / 10.0f;
-	ui.glwidget->updateGL();
+	ui.glwidget->update();
 }
 
 void CCentralWidget::LineWidthChanged(int value)
 {
 	MAPOPP.LineWidth() = value;
-	ui.glwidget->updateGL();
+	ui.glwidget->update();
 }
 
 void CCentralWidget::StartTimer(bool show)

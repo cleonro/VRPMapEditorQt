@@ -21,7 +21,9 @@ OVector4::OVector4(float x, float y, float z, float w)
 
 OVector4::OVector4(const OVector3& v, float w)
 {
-	vec3_ = v;
+	x_ = v.vec_[0];
+    y_ = v.vec_[1];
+    z_ = v.vec_[2];
 	w_ = w;
 }
 

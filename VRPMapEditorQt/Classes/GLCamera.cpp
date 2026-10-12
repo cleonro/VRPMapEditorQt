@@ -1,9 +1,8 @@
 #include "GLCamera.h"
+#include <QMatrix4x4>
 
-#include <windows.h>
 //#include <afxwin.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include <QtGui/qopengl.h>
 
 OGL3DCamera::OGL3DCamera()
 {
@@ -64,7 +63,9 @@ void OGL3DCamera::SwitchToPerspectiveProjection()
 		glPopMatrix();
 	} else {
 		glLoadIdentity();
-		gluPerspective(fovy_, aspect_, zNear_, zFar_);
+		QMatrix4x4 projection;
+		projection.perspective(fovy_, aspect_, zNear_, zFar_);
+		glMultMatrixf(projection.constData());
 	}
 	
 	glMatrixMode(GL_MODELVIEW);
@@ -293,7 +294,9 @@ void OGL3DCamera::SetPerspective(OVector4 s)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(fovy_, aspect_, zNear_, zFar_);
+	QMatrix4x4 projection;
+		projection.perspective(fovy_, aspect_, zNear_, zFar_);
+		glMultMatrixf(projection.constData());
 	glMatrixMode(GL_MODELVIEW);
 }
 

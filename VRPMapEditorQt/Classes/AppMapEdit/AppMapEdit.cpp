@@ -1,7 +1,7 @@
 
 #include "AppMapEdit.h"
 
-#include "..\..\GLWidget.h"
+#include "../../GLWidget.h"
 
 OAppMapEdit::OAppMapEdit(void)
 {
@@ -46,7 +46,7 @@ void OAppMapEdit::Draw(float transparency)
 
 void OAppMapEdit::ReDraw()
 {
-	((CGLWidget*)view_)->updateGL();
+	((CGLWidget*)view_)->update();
 }
 
 void* OAppMapEdit::GetDataForInput()

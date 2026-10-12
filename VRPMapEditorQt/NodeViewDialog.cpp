@@ -65,7 +65,7 @@ void CNodeViewDialog::ShowVehiclesWidget()
 	//transform a xml string (mVehicles) in a vector of vehicle informations
 	vh.reserve(10);
 	xml_document<> doc;
-	std::string buffer =  mVehicles.toAscii().data();
+	std::string buffer =  mVehicles.toUtf8().data();
 	try {
 		doc.parse<0>((char*)buffer.c_str());
 		CVehicleCostsWidget::FromXml(doc, vh);

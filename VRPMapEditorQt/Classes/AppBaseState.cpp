@@ -1,6 +1,6 @@
 
 #include "AppBaseState.h"
-#include "AppMapEdit\AppMapEdit.h"
+#include "AppMapEdit/AppMapEdit.h"
 #include "Utils/draw_utils.h"
 
 //AppBaseState
@@ -53,7 +53,7 @@ void OAppBaseState::Draw()
 	VDraws->DrawHorizontalQuad(50, 50);
 		
 	char str[30];
-	sprintf_s(str, 30, "Camera Roll %.2f", camera_.GetRoll());
+	snprintf(str, sizeof(str), "Camera Roll %.2f", camera_.GetRoll());
 	show_fps(1, 15, 150, 150, str);
 
 	VDraws->DrawAxes(30.0f, 1.0f);
