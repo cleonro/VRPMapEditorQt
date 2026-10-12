@@ -140,13 +140,6 @@
       <FileName>Classes\Math\Vector4.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="OTextures" Collapsed="true">
-    <Position X="15.5" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAQAAAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Classes\Utils\OTextures.h</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="OVariousObjects" Collapsed="true">
     <Position X="17.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>

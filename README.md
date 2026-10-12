@@ -13,8 +13,9 @@ Visual Studio project targeted Qt 4.8.0.
 - Ninja for the supplied presets, or another CMake generator.
 - Qt Test when `BUILD_TESTING=ON` (the default).
 
-Networking and PNG decoding use Qt. The build does not use the old bundled
-curl, DevIL, GLUT, or OpenSSL binaries, or require GLU.
+Networking and PNG decoding use Qt. Legacy curl, DevIL, GLUT, and OpenSSL
+binaries and unused dependency headers are no longer bundled, and GLU is not
+required.
 
 ## Build on Linux
 
@@ -26,8 +27,11 @@ export QT_ROOT="$HOME/Qt/6.10.1/gcc_64"
 cmake --preset debug
 cmake --build --preset debug
 ctest --preset debug
-./build/debug/VRPMapEditorQt/VRPMapEditorQt
+../build_Debug/VRPMapEditorQt
 ```
+
+The Debug and Release presets build in `../build_Debug` and `../build_Release`,
+respectively, outside the project directory.
 
 Use `release` in place of `debug` for an optimized build. With a compatible Qt
 development package installed in a system location, `QT_ROOT` can be omitted.
@@ -35,10 +39,10 @@ development package installed in a system location, `QT_ROOT` can be omitted.
 The equivalent configure and build commands without presets are:
 
 ```sh
-cmake -S . -B build/custom -G Ninja \
+cmake -S . -B ../build_Debug -G Ninja \
   -DCMAKE_PREFIX_PATH=/path/to/Qt/6.10.1/gcc_64 \
   -DCMAKE_BUILD_TYPE=Debug
-cmake --build build/custom
+cmake --build ../build_Debug
 ```
 
 ## Build on Windows
@@ -51,7 +55,7 @@ $env:QT_ROOT = "C:/Qt/6.10.1/msvc2022_64"
 cmake --preset debug
 cmake --build --preset debug
 ctest --preset debug
-./build/debug/VRPMapEditorQt/VRPMapEditorQt.exe
+../build_Debug/VRPMapEditorQt.exe
 ```
 
 Open the root `CMakeLists.txt` in Qt Creator, or open the repository folder in
@@ -59,17 +63,17 @@ Visual Studio with CMake support. Generated Visual Studio solutions are also
 supported:
 
 ```powershell
-cmake -S . -B build/vs -G "Visual Studio 17 2022" -A x64 `
+cmake -S . -B ../build_VS -G "Visual Studio 17 2022" -A x64 `
   -DCMAKE_PREFIX_PATH=C:/Qt/6.10.1/msvc2022_64
-cmake --build build/vs --config Release
+cmake --build ../build_VS --config Release
 ```
 
 On Windows, run the application with the selected Qt kit's `bin` directory on
 `PATH`, or install a deployed copy:
 
 ```powershell
-cmake --install build/vs --config Release --prefix build/install
-./build/install/bin/VRPMapEditorQt.exe
+cmake --install ../build_VS --config Release --prefix ../install
+../install/bin/VRPMapEditorQt.exe
 ```
 
 The install step uses Qt's deployment script to copy required Qt runtime files

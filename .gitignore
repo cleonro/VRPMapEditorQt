@@ -9,4 +9,11 @@
 /build/
 /build-*/
 /CMakeUserPresets.json
-/VRPMapEditorQt/GeneratedFiles/
+/Debug/
+/GeneratedFiles/
+/Release/
+/debug-64/
+/x64/
+*.aps
+/temp_genroutes.txt
+/tst_model_print

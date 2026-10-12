@@ -32,19 +32,6 @@ OMapOperationsInput::OMapOperationsInput()
 	Jg_ = 0;
 	intrrt_ = false;
 
-// 	std::fstream tmpfile("temp_genroutes.txt", std::ios::in);
-// 	if(!tmpfile.is_open()) {
-// 		return;
-// 	}
-// 	int ig, jg;
-// 	tmpfile>>ig>>jg;
-// 	if( ig > 1 && jg > 0) {
-// 		Ig_ = ig;
-// 		Jg_ = jg;
-// 		intrrt_ = true;
-// 		//graph_.BlockArcDraw() = true;
-// 	}
-// 	tmpfile.close();
 
 }
 
@@ -60,19 +47,6 @@ void OMapOperationsInput::Clear()
 	Jg_ = 0;
 	intrrt_ = false;
 
-// 	std::fstream tmpfile("temp_genroutes.txt", std::ios::in);
-// 	if(!tmpfile.is_open()) {
-// 		return;
-// 	}
-// 	int ig, jg;
-// 	tmpfile>>ig>>jg;
-// 	if( ig > 1 && jg > 0) {
-// 		Ig_ = ig;
-// 		Jg_ = jg;
-// 		intrrt_ = true;
-// 		//graph_.BlockArcDraw() = true;
-// 	}
-// 	tmpfile.close();
 	//
 
 	graph_.Clear();
@@ -433,9 +407,6 @@ void OMapOperationsInput::GenerateRoutes()
 				Jg_ = j;
 				printf("\nGenerateRoutes() interrupted at (%d, %d). Try again later...\n", Ig_, Jg_);
 
-// 				std::fstream tmpfile("temp_genroutes.txt", std::ios::out);
-// 				tmpfile<<Ig_<<" "<<Jg_;
-// 				tmpfile.close();
 
 				graph_.SetInfoNode(Ig_, Jg_);
 				OMapEvent* event = new OMapEvent();

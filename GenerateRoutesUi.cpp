@@ -216,11 +216,6 @@ void CUiCustomRoutes::OnReadFileButton()
 
  void CUiCustomRoutes::OnSaveButton()
  {
-// 	 ORoutesGenerator& generator = MAPOPP.GetGenerator();
-// 	 std::fstream f("tst_model_print", std::ios::out);
-// 	 f<<generator.customRoutesUiModel_;
-// 	 f.close();
-// 	 generator.PrintRoutes(1);
 	QString app_path = QApplication::applicationDirPath();
 	QString file_name = QFileDialog::getSaveFileName(this, tr("Save File"), app_path, tr("Xml files (*.xml)"));
 	if(file_name == "") {

@@ -1,27 +1,9 @@
 #ifndef _DRAW_UTILS_H_
 #define _DRAW_UTILS_H_
 
-#include <cmath>
-#include <QDir>
 #include <QImage>
 #include <QPainter>
 #include <QtGui/qopengl.h>
-
-template <class T> void swp(T &a, T &b) { T tmp = a; a = b; b = tmp; }
-template <class T> T t_max(T a, T b) { return a > b ? a : b; }
-template <class T> T t_max(T a, T b, T c) { return t_max(t_max(a, b), c); }
-template <class T> T t_min(T a, T b) { return a < b ? a : b; }
-template <class T> T t_min(T a, T b, T c) { return t_min(t_min(a, b), c); }
-template <class T> int sgn(T a) { return (a > 0) - (a < 0); }
-
-inline void saveBmp24(int width, int height)
-{
-    static int imageCount = 0;
-    QDir().mkpath("AVI");
-    QImage image(width, height, QImage::Format_RGBA8888);
-    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, image.bits());
-    image.flipped(Qt::Vertical).save(QString("AVI/screen%1.bmp").arg(++imageCount, 3, 10, QChar('0')));
-}
 
 inline void show_fps(float x, float y, int width, int height, const char* text)
 {

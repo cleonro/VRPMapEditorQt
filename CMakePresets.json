@@ -6,7 +6,7 @@
       "name": "debug",
       "displayName": "Qt 6 Debug",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/debug",
+      "binaryDir": "${sourceDir}/../build_Debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_PREFIX_PATH": "$env{QT_ROOT}"
@@ -16,7 +16,7 @@
       "name": "release",
       "inherits": "debug",
       "displayName": "Qt 6 Release",
-      "binaryDir": "${sourceDir}/build/release",
+      "binaryDir": "${sourceDir}/../build_Release",
       "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
     }
   ],

@@ -1,7 +1,5 @@
 #include "MapOperationsGraphics.h"
 #include "../Draw2D.h"
-#include "../Utils/OTextures.h"
-#include "../Utils/draw_utils.h"
 
 #include <QApplication>
 #include "../../ccentralwidget.h"
@@ -111,7 +109,6 @@ void OMapOperationsGraphics::Draw(float transparency)
 		DRAW2D.DrawLine(line_[0], line_[1], line_[2], line_[3], line_width_);
 	}
 
-	//show_fps(10, 10, 10, 10, "MAP");
 }
 
 void OMapOperationsGraphics::DrawMap()

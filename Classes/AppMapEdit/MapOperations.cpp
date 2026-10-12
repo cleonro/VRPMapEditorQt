@@ -2,12 +2,10 @@
 //#include "../../Resource.h"
 
 #include "MapOperations.h"
-#include "../Utils/OTextures.h"
 #include <math.h>
 #include "../VariousObjects.h"
 #include "../xml/rapidxml.hpp"
 #include "../Draw2D.h"
-#include "../Utils/draw_utils.h"
 
 #include "../AppBaseState.h"
 //#include "../../NodeDialogView.h"
