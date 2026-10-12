@@ -84,7 +84,22 @@ in the build directory.
 
 Set `GOOGLE_MAPS_API_KEY` in the application's environment to enable background
 map downloads and Google's Directions requests. Without it, local editing and
-saved maps remain available, and Google requests are skipped. Requests use HTTPS.
+saved maps remain available, and Google requests are skipped. The status bar
+explains missing-key, HTTP, network, and image-decoding failures. Requests use HTTPS.
+
+To configure access, create or select a Google Cloud project, enable billing and
+**Maps Static API**, and create an API key with access to that API. Set it locally
+in the run environment (not as a CMake variable):
+
+```sh
+export GOOGLE_MAPS_API_KEY='YOUR_API_KEY'
+../build_Debug/VRPMapEditorQt
+```
+
+In Qt Creator, go to **Projects > Run Settings > Environment**, add
+`GOOGLE_MAPS_API_KEY` with your key as its value, and restart the application.
+Configure the environment for each run configuration you use. See
+[Qt Creator run environments](https://doc.qt.io/qtcreator/creator-how-set-project-environment.html).
 
 Google requires API access configured in the associated cloud project; see the
 [Maps Static API setup](https://developers.google.com/maps/documentation/maps-static/get-api-key)
@@ -96,7 +111,7 @@ of migration verification.
 ## Tests and file compatibility
 
 `ctest` runs regression tests for the existing sample map, the 32-bit route
-length field, UTF-8 node names, portable math, local HTTP responses, malformed
+length field, UTF-8 node names, portable math, local HTTP responses, missing API keys, malformed
 Directions responses, and cooperative worker shutdown. The HTTP tests need
 permission to listen on a loopback socket, but use no external services.
 
@@ -110,7 +125,8 @@ ctest --preset debug
 
 The renderer requests desktop OpenGL 2.1 to support the existing fixed-function
 drawing code. OpenGL ES and core-only contexts are not supported by this renderer.
-The smoke test checks rendering, grid toggling, texture upload, and window shutdown.
+The smoke test checks rendering, grid toggling, visible map tiles and their
+orientation, missing-key diagnostics, and window shutdown.
 Build with `-DBUILD_TESTING=OFF` if Qt Test is not installed.
 
 Map loading and saving explicitly use `QDataStream::Qt_4_8`. The existing

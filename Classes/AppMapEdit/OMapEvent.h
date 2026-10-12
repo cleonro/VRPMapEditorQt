@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QEvent>
+#include <QString>
 
 class OMapEvent : public QEvent
 {
@@ -18,8 +19,10 @@ public:
 	~OMapEvent();
 	inline eMapEvents&	Type() {return type_;}
 	inline void*&		Data() {return data_;}
+    QString& Message() { return message_; }
 	inline bool			EraseData() {return erase_data_;}
 protected:
+	QString message_;
 	eMapEvents	type_;
 	void*		data_;
 	bool*		erase_data_;//shows if received data must be deleted

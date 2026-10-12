@@ -10,12 +10,13 @@ public:
 	struct tTextureData 
 	{
 		QImage pixmap_;
-		GLuint* texid_;
+		int tile_index_;
 	};
 
 public:
 	void StopWorkers() { thread_google_.Stop(); StopImport(); }
 	void ReleaseTextures();
+	GLuint& TextureId(int tileIndex) { return texid_[tileIndex]; }
 	void ImagesReady() { translate_x_ = 0; translate_y_ = 0; }
 	void Draw(float transparency = 0.7);
 	void Init(void *data);

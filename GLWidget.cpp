@@ -63,7 +63,8 @@ void CGLWidget::LoadTexture(void* data)
     const auto* texture = static_cast<OMapOperationsGraphics::tTextureData*>(data);
     if (texture) {
         // Upload only in paintGL(), where the widget's context is current.
-        pendingTextures.append({texture->pixmap_, texture->texid_});
+        if (texture->tile_index_ < 0 || texture->tile_index_ >= 9) { return; }
+        pendingTextures.append({texture->pixmap_, texture->tile_index_});
         update();
     }
 }
@@ -72,12 +73,14 @@ bool CGLWidget::event(QEvent* e)
 {
 	if(e->type() == QEvent::User) {
 		OMapEvent* ev = (OMapEvent*)e;
+        if (!ev->Message().isEmpty()) { emit MapStatusChanged(ev->Message()); }
 		
 		if(ev->Type() == OMapEvent::E_MAP_START_TIMER) {
 			StartTimer();
 		}
 		if(ev->Type() == OMapEvent::E_MAP_IMAGES_READY) {
             MAPOPP.ImagesReady();
+            update();
         }
 		if(ev->Type() == OMapEvent::E_MAP_STOP_TIMER || ev->Type() == OMapEvent::E_MAP_IMAGES_READY) {
 			StopTimer();
@@ -196,7 +199,8 @@ void CGLWidget::paintGL()
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	
     for (const PendingTexture& texture : pendingTextures) {
-        *texture.id = UploadTexture(texture.image, *texture.id);
+        GLuint& id = MAPOPP.TextureId(texture.tileIndex);
+        id = UploadTexture(texture.image, id);
     }
     pendingTextures.clear();
     glViewport(0, 0, qRound(width() * devicePixelRatioF()), qRound(height() * devicePixelRatioF()));

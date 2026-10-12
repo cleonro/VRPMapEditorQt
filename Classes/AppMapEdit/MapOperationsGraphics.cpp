@@ -49,8 +49,11 @@ void OMapOperationsGraphics::GetImageFromGoogleThread(void* data)
 
 	OMapEvent* event = new OMapEvent();
 	event->Type() = OMapEvent::E_MAP_START_TIMER;
+    event->Message() = tr("Downloading Google Maps images...");
 	QApplication::postEvent(obj.view_, event);
 
+	int loaded = 0;
+    QString firstError;
 	double xs, ys;
 	double xw, yw;
 	double lat, longit;
@@ -61,35 +64,59 @@ void OMapOperationsGraphics::GetImageFromGoogleThread(void* data)
 		obj.FromScreenCoordToWorldCoord(xs, ys, xw, yw);
 		obj.FromWorldCoordToLatLong(xw, yw, lat, longit);
 
-		const QByteArray addr = QString("https://maps.googleapis.com/maps/api/staticmap?center=%1,%2&zoom=%3&size=%4x%4&maptype=%5&sensor=false")
+		const QByteArray addr = QString("https://maps.googleapis.com/maps/api/staticmap?center=%1,%2&zoom=%3&size=%4x%4&maptype=%5&format=png")
             .arg(lat, 0, 'f', 6).arg(longit, 0, 'f', 6).arg(obj.zoom_)
             .arg(SIZEMAP).arg(obj.maptype_).toUtf8();
 
-		const QByteArray response = obj.FetchUrl(addr.constData());
-        if(response.isEmpty()) {
-			continue;
-		}
+		QString error;
+        const QByteArray response = obj.FetchUrl(addr.constData(), &error);
+        if (response.isEmpty()) {
+            if (firstError.isEmpty()) { firstError = error; }
+            if (loaded == 0) { break; }
+            continue;
+        }
 
 		QImage image;
         if (!image.loadFromData(response, "png")) {
+            if (firstError.isEmpty()) {
+                firstError = tr("Google Maps returned data that is not a PNG map image. Check the API configuration.");
+            }
+            if (loaded == 0) { break; }
             continue;
         }
+        ++loaded;
 		event = new OMapEvent();
 		event->Type() = OMapEvent::E_MAP_TEXTURE_READY;
 		tTextureData* tdata = new tTextureData;
 		tdata->pixmap_ = image;
-		tdata->texid_ = &obj.texid_[i];
+		tdata->tile_index_ = i;
 		event->Data() = (void*)tdata;
 		QApplication::postEvent(obj.view_, event);
 	}
 
 	event = new OMapEvent();
 	event->Type() = OMapEvent::E_MAP_IMAGES_READY;
+    if (QThread::currentThread()->isInterruptionRequested()) {
+        event->Message() = tr("Map download cancelled.");
+    } else if (loaded == 0) {
+        event->Message() = firstError.isEmpty() ? tr("No Google Maps images were downloaded.") : firstError;
+    } else if (loaded < 9) {
+        event->Message() = tr("Loaded %1 of 9 map images. %2").arg(loaded).arg(firstError);
+    } else {
+        event->Message() = tr("Google Maps images loaded.");
+    }
 	QApplication::postEvent(obj.view_, event);
 }
 
 bool OMapOperationsGraphics::GetImageFromGoogle()
 {
+	if (qEnvironmentVariable("GOOGLE_MAPS_API_KEY").trimmed().isEmpty()) {
+        auto* event = new OMapEvent;
+        event->Type() = OMapEvent::E_MAP_IMAGES_READY;
+        event->Message() = tr("Google Maps is unavailable: set GOOGLE_MAPS_API_KEY in the application's run environment, then restart.");
+        QApplication::postEvent(view_, event);
+        return false;
+    }
 	view_->mParent->EnableThreadControls(false);
 	thread_google_.Start(OMapOperationsGraphics::GetImageFromGoogleThread, this);
 	return true;
@@ -115,6 +142,7 @@ void OMapOperationsGraphics::DrawMap()
 {
 	const float sz = 256.0;
 	glEnable(GL_TEXTURE_2D);
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	float xs, ys;
 	static float coord[] = {

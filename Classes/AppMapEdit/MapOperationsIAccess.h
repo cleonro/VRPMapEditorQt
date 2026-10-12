@@ -16,7 +16,7 @@ protected:
 	std::vector<double>* path_;
 	OGraphRoute* route_;
 
-	QByteArray FetchUrl(const char* address);
+	QByteArray FetchUrl(const char* address, QString* error = nullptr);
 	bool FindRoute(double latitude0, double longitude0, double latitude1, double longitude1);
 	bool FindRoute(int i, int j);
 	bool ParseDirectionsResponseXML(QByteArray response);

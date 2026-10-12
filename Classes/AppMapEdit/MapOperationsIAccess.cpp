@@ -18,31 +18,47 @@ OMapOperationsIAccess::~OMapOperationsIAccess()
 {
 }
 
-QByteArray OMapOperationsIAccess::FetchUrl(const char* address)
+QByteArray OMapOperationsIAccess::FetchUrl(const char* address, QString* error)
 {
-    // The manager and reply belong to the calling thread, including worker jobs.
-    QNetworkAccessManager manager;
+    if (error) { error->clear(); }
+    const auto fail = [error](const QString& message) -> QByteArray {
+        if (error) { *error = message; }
+        qWarning().noquote() << message;
+        return {};
+    };
     QUrl url(QString::fromUtf8(address));
+    QString key = QUrlQuery(url).queryItemValue("key");
     if (url.host() == "maps.googleapis.com") {
-        const QString key = qEnvironmentVariable("GOOGLE_MAPS_API_KEY");
-        if (key.isEmpty()) { return {}; }
+        key = qEnvironmentVariable("GOOGLE_MAPS_API_KEY").trimmed();
+        if (key.isEmpty()) {
+            return fail(tr("Google Maps is unavailable: set GOOGLE_MAPS_API_KEY in the application's run environment, then restart."));
+        }
         QUrlQuery query(url);
+        query.removeAllQueryItems("key");
         query.addQueryItem("key", key);
         url.setQuery(query);
     }
     if (QThread::currentThread()->isInterruptionRequested()) { return {}; }
+
+    // The manager and reply belong to the calling thread, including worker jobs.
+    QNetworkAccessManager manager;
     QNetworkRequest request{url};
     request.setTransferTimeout(30000);
     QNetworkReply* reply = manager.get(request);
     reply->setReadBufferSize(SIZEBUFF);
     QEventLoop loop;
+    bool timedOut = false;
     QTimer deadline;
     deadline.setSingleShot(true);
-    QObject::connect(&deadline, &QTimer::timeout, reply, &QNetworkReply::abort);
+    QObject::connect(&deadline, &QTimer::timeout, reply, [&] {
+        timedOut = true;
+        reply->abort();
+    });
     QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     QByteArray response;
     bool tooLarge = false;
     const auto read = [&] {
+        if (!reply->isOpen()) { return; }
         const QByteArray chunk = reply->readAll();
         if (chunk.size() > SIZEBUFF - 1 - response.size()) {
             tooLarge = true;
@@ -60,10 +76,45 @@ QByteArray OMapOperationsIAccess::FetchUrl(const char* address)
     deadline.start(30000);
     loop.exec();
     read();
-    const bool ok = !tooLarge && reply->error() == QNetworkReply::NoError;
-    if (!ok) { qWarning() << "Map request failed with network error" << reply->error(); }
+
+    const int httpStatus = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    const auto networkError = reply->error();
+    const QString contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
     delete reply;
-    return ok ? response : QByteArray{};
+    if (QThread::currentThread()->isInterruptionRequested()) { return {}; }
+    if (tooLarge) { return fail(tr("The map server response exceeded the download size limit.")); }
+    if (timedOut || networkError == QNetworkReply::TimeoutError) {
+        return fail(tr("The map download timed out. Check the network connection and try again."));
+    }
+    if (httpStatus >= 400) {
+        QString detail;
+        if (contentType.startsWith("text/") || contentType.contains("json") || contentType.contains("xml")) {
+            detail = QString::fromUtf8(response).simplified();
+            // Server diagnostics can echo the request; never display an API key.
+            if (!key.isEmpty()) {
+                detail.replace(key, "[redacted]");
+                detail.replace(QString::fromLatin1(QUrl::toPercentEncoding(key)), "[redacted]");
+            }
+            detail = detail.left(300);
+        }
+        QString message = tr("The map server returned HTTP %1.").arg(httpStatus);
+        if (httpStatus == 401 || httpStatus == 403) {
+            message += tr(" Check the API key, Maps Static API access, and Google Cloud billing.");
+        }
+        if (!detail.isEmpty()) { message += " " + detail; }
+        return fail(message);
+    }
+    if (networkError != QNetworkReply::NoError) {
+        if (networkError == QNetworkReply::SslHandshakeFailedError) {
+            return fail(tr("A secure connection to the map server could not be established."));
+        }
+        if (networkError == QNetworkReply::HostNotFoundError) {
+            return fail(tr("The map server could not be found. Check the network connection and DNS settings."));
+        }
+        return fail(tr("The map download failed (network error %1). Check the connection and try again.").arg(int(networkError)));
+    }
+    if (response.isEmpty()) { return fail(tr("The map server returned an empty response.")); }
+    return response;
 }
 
 bool OMapOperationsIAccess::FindRoute(double latitude0, double longitude0, double latitude1, double longitude1)

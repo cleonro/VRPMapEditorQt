@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStatusBar>
 #include "Classes/AppMapEdit/MapOperationsInput.h"
 #include "ui_FindNodeUi.h"
 #include "Classes/AppBaseState.h"
@@ -16,6 +17,10 @@ VRPMapEditorQt::VRPMapEditorQt(QWidget *parent, Qt::WindowFlags flags)
 {
 	this->setBaseSize(QSize(1024, 768));
 	ui.setupUi(this);
+    auto* renderer = findChild<CGLWidget*>();
+    connect(renderer, &CGLWidget::MapStatusChanged, this, [this](const QString& message) {
+        statusBar()->showMessage(message);
+    });
 	
 	ui.actionMoveMap->setChecked(true);
 	nChecked_ = 0;

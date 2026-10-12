@@ -24,6 +24,9 @@ public:
 	CCentralWidget* mParent;
 	float transparency_;
 	bool showGrid;
+signals:
+    void MapStatusChanged(const QString& message);
+
 protected:
 	void initializeGL();
 	void paintGL();
@@ -35,7 +38,7 @@ protected:
 	void wheelEvent(QWheelEvent *event);
 	void LoadTexture(void* data);
     void CleanupGL();
-    struct PendingTexture { QImage image; GLuint* id; };
+    struct PendingTexture { QImage image; int tileIndex; };
     QList<PendingTexture> pendingTextures;
 
 	void DrawTimer();

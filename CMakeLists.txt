@@ -90,7 +90,7 @@ if(BUILD_TESTING)
     target_compile_definitions(migration_tests PRIVATE TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
     add_test(NAME migration COMMAND migration_tests -platform offscreen
         legacyMapRoundTrip routeWireFormat unicodeNodeRoundTrip portableMath
-        networkResponses malformedDirections workerShutdown)
+        networkResponses missingMapKey malformedDirections workerShutdown)
     option(VRPMAPEDITOR_TEST_OPENGL "Run the OpenGL smoke test (requires a desktop display)" OFF)
     if(VRPMAPEDITOR_TEST_OPENGL)
         add_test(NAME opengl_smoke COMMAND migration_tests openGLSmoke)

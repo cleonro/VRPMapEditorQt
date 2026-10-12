@@ -4,6 +4,7 @@
 #include <QComboBox>
 #include <QFile>
 #include <QSurfaceFormat>
+#include <QStatusBar>
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <cmath>
@@ -109,11 +110,12 @@ private slots:
         QTcpServer server;
         QVERIFY(server.listen(QHostAddress::LocalHost, 0));
         QByteArray payload("response in chunks");
+        QByteArray status("200 OK");
         connect(&server, &QTcpServer::newConnection, &server, [&] {
             QTcpSocket* socket = server.nextPendingConnection();
             connect(socket, &QTcpSocket::readyRead, socket, [&, socket] {
                 socket->readAll();
-                socket->write("HTTP/1.1 200 OK\r\nContent-Length: " +
+                socket->write("HTTP/1.1 " + status + "\r\nContent-Type: text/plain\r\nContent-Length: " +
                               QByteArray::number(payload.size()) + "\r\nConnection: close\r\n\r\n");
                 socket->write(payload.left(3));
                 QTimer::singleShot(5, socket, [&, socket] {
@@ -125,9 +127,30 @@ private slots:
         });
         const QByteArray url = "http://127.0.0.1:" + QByteArray::number(server.serverPort()) + "/";
         NetworkProbe network;
-        QCOMPARE(network.FetchUrl(url.constData()), payload);
+        QString error("old error");
+        QCOMPARE(network.FetchUrl(url.constData(), &error), payload);
+        QVERIFY(error.isEmpty());
         payload = QByteArray(SIZEBUFF + 1, 'x');
-        QVERIFY(network.FetchUrl(url.constData()).isEmpty());
+        QVERIFY(network.FetchUrl(url.constData(), &error).isEmpty());
+        QVERIFY(error.contains("size limit"));
+        status = "403 Forbidden";
+        const QByteArray fakeKey("test-only-key");
+        payload = "Invalid API key: " + fakeKey;
+        const QByteArray rejectedUrl = url + "?key=" + fakeKey;
+        QVERIFY(network.FetchUrl(rejectedUrl.constData(), &error).isEmpty());
+        QVERIFY(error.contains("403"));
+        QVERIFY(error.contains("Invalid API key"));
+        QVERIFY(error.contains("[redacted]"));
+        QVERIFY(!error.contains(QString::fromLatin1(fakeKey)));
+    }
+
+    void missingMapKey()
+    {
+        NetworkProbe network;
+        QString error;
+        QVERIFY(network.FetchUrl("https://maps.googleapis.com/maps/api/staticmap?size=512x512", &error).isEmpty());
+        QVERIFY(error.contains("GOOGLE_MAPS_API_KEY"));
+        QVERIFY(error.contains("run environment"));
     }
 
     void malformedDirections()
@@ -164,6 +187,7 @@ private slots:
         QVERIFY(renderer);
         QTRY_VERIFY(renderer->isValid());
         QTRY_VERIFY(window.findChild<QComboBox*>("mapType")->isEnabled());
+        QTRY_VERIFY(window.statusBar()->currentMessage().contains("GOOGLE_MAPS_API_KEY"));
         const QImage initial = renderer->grabFramebuffer();
         QVERIFY(!initial.isNull());
         QVERIFY(initial.pixelColor(initial.width() / 2, initial.height() / 2).blue() > 100);
@@ -173,20 +197,31 @@ private slots:
         renderer->makeCurrent();
         QCOMPARE(glGetError(), GLenum(GL_NO_ERROR));
         renderer->doneCurrent();
-        // A texture event must upload safely even when no context is current in event().
-        GLuint id = 0;
+        window.findChild<QCheckBox*>("showGrid")->click();
+        // Render a center map tile, including its orientation, with inherited GL color state.
+        renderer->makeCurrent();
+        glColor4f(0, 0, 0, 1);
+        renderer->doneCurrent();
         auto* event = new OMapEvent;
         event->Type() = OMapEvent::E_MAP_TEXTURE_READY;
         auto* texture = new OMapOperationsGraphics::tTextureData;
         texture->pixmap_ = QImage(2, 2, QImage::Format_RGBA8888);
         texture->pixmap_.fill(Qt::red);
-        texture->texid_ = &id;
+        texture->pixmap_.setPixelColor(0, 1, Qt::blue);
+        texture->pixmap_.setPixelColor(1, 1, Qt::blue);
+        texture->tile_index_ = 4;
         event->Data() = texture;
         QApplication::postEvent(renderer, event);
-        QTRY_VERIFY(id != 0);
+        const auto tileIsVisible = [&] {
+            const QImage frame = renderer->grabFramebuffer();
+            const int offset = qRound(100 * renderer->devicePixelRatioF());
+            const QColor top = frame.pixelColor(frame.width() / 2, frame.height() / 2 - offset);
+            const QColor bottom = frame.pixelColor(frame.width() / 2, frame.height() / 2 + offset);
+            return top.red() > 180 && top.blue() < 80 && bottom.blue() > 180 && bottom.red() < 80;
+        };
+        QTRY_VERIFY(tileIsVisible());
         renderer->makeCurrent();
         QCOMPARE(glGetError(), GLenum(GL_NO_ERROR));
-        glDeleteTextures(1, &id);
         renderer->doneCurrent();
         window.close();
     }
